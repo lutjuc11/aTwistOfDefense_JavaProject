@@ -23,7 +23,7 @@ public class ConnectScreen extends javax.swing.JFrame {
      * Creates new form ConnectScreen
      */
     private int player;
-    
+
     public ConnectScreen(int player) {
         initComponents();
         this.player = player;
@@ -33,11 +33,15 @@ public class ConnectScreen extends javax.swing.JFrame {
     public void paint(Graphics g) {
         try {
             super.paint(g);
-
             g = lblChamp.getGraphics();
-            BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "morgana.png"));
-            g.drawImage(image, lblChamp.getWidth() * 10 / 100, lblChamp.getHeight() - image.getWidth() * lblChamp.getHeight() / lblChamp.getWidth() * 80 / 100, lblChamp.getWidth() * 80 / 100, image.getWidth() * lblChamp.getHeight() / lblChamp.getWidth() * 80 / 100, null);
+            if (player == 1) {
+                BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "thresh.png"));
+                g.drawImage(image, lblChamp.getWidth() * 10 / 100, lblChamp.getHeight() - image.getWidth() * lblChamp.getHeight() / lblChamp.getWidth() * 80 / 100 - 150, lblChamp.getWidth() * 80 / 100, image.getWidth() * lblChamp.getHeight() / lblChamp.getWidth() * 80 / 100 + 150, null);
+            } else {
+                BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "darius.png"));
+                g.drawImage(image, lblChamp.getWidth() - lblChamp.getWidth() * 10 / 100, lblChamp.getHeight() - image.getWidth() * lblChamp.getHeight() / lblChamp.getWidth() * 80 / 100 - 150, -lblChamp.getWidth() * 80 / 100, image.getWidth() * lblChamp.getHeight() / lblChamp.getWidth() * 80 / 100 + 150, null);
 
+            }
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }

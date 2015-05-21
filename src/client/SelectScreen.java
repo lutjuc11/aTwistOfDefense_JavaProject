@@ -18,6 +18,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -147,9 +148,8 @@ public class SelectScreen extends javax.swing.JFrame {
             System.out.println(ex.toString());
         }
     }
-    
-    public LinkedList<Unit> getChosenChampions()
-    {
+
+    public LinkedList<Unit> getChosenChampions() {
         return chosenUnits;
     }
 
@@ -169,6 +169,7 @@ public class SelectScreen extends javax.swing.JFrame {
         lblChamp3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblFocusedChampion = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -191,12 +192,25 @@ public class SelectScreen extends javax.swing.JFrame {
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         lblFocusedChampion.setPreferredSize(new java.awt.Dimension(0, 20));
-        jPanel1.add(lblFocusedChampion, java.awt.BorderLayout.SOUTH);
+        jPanel1.add(lblFocusedChampion, java.awt.BorderLayout.CENTER);
+
+        jButton1.setText("?");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onHelp(evt);
+            }
+        });
+        jPanel1.add(jButton1, java.awt.BorderLayout.EAST);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void onHelp(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onHelp
+        String text = String.format("%-5s - Health\n%-5s - Attack Damage\n%-5s - Ability Power\n%-5s - Armor\n%-5s - Magic Resistance\n%-5s - Attack Speed\n%-5s - Range\n%-5s - Movement Speed", "H", "AD", "AP", "A", "M", "AS", "R", "MS");
+        JOptionPane.showMessageDialog(this, text, "Championinformation", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_onHelp
 
 //    /**
     //     * @param args the command line arguments
@@ -234,6 +248,7 @@ public class SelectScreen extends javax.swing.JFrame {
     //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblChamp1;
     private javax.swing.JLabel lblChamp2;

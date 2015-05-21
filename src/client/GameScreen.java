@@ -13,7 +13,11 @@ import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.Thread.interrupted;
+import java.net.SocketTimeoutException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
@@ -23,16 +27,22 @@ import javax.swing.BorderFactory;
  */
 public class GameScreen extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GameScreen
-     */
+    private LinkedList<Unit> champList = new LinkedList<>();
+    private Graphics g;
+    private LinkedList<UnitThread> unitsThreadList = new LinkedList<>();
+
     public GameScreen(String nickname, LinkedList<Unit> champions) {
         initComponents();
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        drawPanel.setDoubleBuffered(true);
         menPlayer.setText(nickname);
         menChampion1.setText(champions.get(0).getDisplayname());
         menChampion2.setText(champions.get(1).getDisplayname());
         menChampion3.setText(champions.get(2).getDisplayname());
+        champList = champions;
+        unitsThreadList.add(new UnitThread(champList.get(0)));
+        unitsThreadList.add(new UnitThread(champList.get(1)));
+        unitsThreadList.add(new UnitThread(champList.get(2)));
         repaint();
     }
 
@@ -51,6 +61,7 @@ public class GameScreen extends javax.swing.JFrame {
         try {
             g = drawPanel.getGraphics();
             BufferedImage image;
+            this.g = g;
 
 // NEXUS THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusBlue.png"));
@@ -71,6 +82,21 @@ public class GameScreen extends javax.swing.JFrame {
 // TOWER THREAD 4
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
             g.drawImage(image, drawPanel.getWidth() - 100 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+
+            if (unitsThreadList.get(0).isAlive()) {
+                image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(0).getDisplayname() + ".png"));
+                g.drawImage(image,  unitsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            }
+            
+            if (unitsThreadList.get(1).isAlive()) {
+                image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(1).getDisplayname() + ".png"));
+                g.drawImage(image,  unitsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            }
+            
+            if (unitsThreadList.get(2).isAlive()) {
+                image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(2).getDisplayname() + ".png"));
+                g.drawImage(image,  unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            }
 
         } catch (IOException ex) {
             System.out.println(ex.toString());
@@ -126,12 +152,27 @@ public class GameScreen extends javax.swing.JFrame {
         menTroops.setText("Troops");
 
         menChampion1.setText("Champion1");
+        menChampion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCreateChamp1(evt);
+            }
+        });
         menTroops.add(menChampion1);
 
         menChampion2.setText("Champion2");
+        menChampion2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCreaterChamp2(evt);
+            }
+        });
         menTroops.add(menChampion2);
 
         menChampion3.setText("Champion3");
+        menChampion3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCreaterChamp3(evt);
+            }
+        });
         menTroops.add(menChampion3);
         menTroops.add(jSeparator1);
 
@@ -153,6 +194,55 @@ public class GameScreen extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void onCreateChamp1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChamp1
+        if (unitsThreadList.get(0) == null || !unitsThreadList.get(0).isAlive()) {
+            unitsThreadList.get(0).start();
+        }
+    }//GEN-LAST:event_onCreateChamp1
+
+    private void onCreaterChamp2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp2
+        if (unitsThreadList.get(1) == null || !unitsThreadList.get(1).isAlive()) {
+            unitsThreadList.get(1).start();
+        }
+    }//GEN-LAST:event_onCreaterChamp2
+
+    private void onCreaterChamp3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp3
+        if (unitsThreadList.get(2) == null || !unitsThreadList.get(2).isAlive()) {
+            unitsThreadList.get(2).start();
+        }
+    }//GEN-LAST:event_onCreaterChamp3
+
+    class UnitThread extends Thread {
+
+        private Unit unit;
+        private int x = 1;
+
+        private UnitThread(Unit unit) {
+            this.unit = unit;
+        }
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+                repaint();
+                x+=30;
+                try {
+                    System.out.println(unit.getMovespeed());
+                    Thread.sleep(unit.getMovespeed());
+                } catch (InterruptedException ex) {
+                    System.out.println(ex.toString());
+                }
+            }
+        }
+
+        public int getX() {
+            return x;
+        }
+        
+        
+        
+    }
 
     /**
      * @param args the command line arguments

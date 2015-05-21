@@ -21,13 +21,12 @@ public class StartScreen extends javax.swing.JFrame {
      * Creates new form StartScreen
      */
     private int player;
-    
+
     public StartScreen(int player) {
         initComponents();
         this.player = player;
         repaint();
     }
-
 
     @Override
     public void paint(Graphics g) {
@@ -421,6 +420,10 @@ public class StartScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void onQuit(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onQuit
+        dispose();
+    }//GEN-LAST:event_onQuit
+
     private void onStart(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onStart
         ConnectScreen con = new ConnectScreen(player);
         con.setSize(this.getWidth(), this.getHeight());
@@ -429,9 +432,6 @@ public class StartScreen extends javax.swing.JFrame {
         con.setVisible(true);
     }//GEN-LAST:event_onStart
 
-    private void onQuit(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onQuit
-        dispose();
-    }//GEN-LAST:event_onQuit
 
 //    /**
 //     * @param args the command line arguments

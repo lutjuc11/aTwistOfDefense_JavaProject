@@ -63,9 +63,9 @@ public class GameClient {
         public void run() {
             while (!interrupted()) {
                 try {
-                    Object inputFromClient = ois.readObject();
-                    if (inputFromClient instanceof LinkedList) {
-                        SelectScreen select = new SelectScreen((LinkedList<Unit>) inputFromClient);
+                    Object serverResponse = ois.readObject();
+                    if (serverResponse instanceof LinkedList) {
+                        SelectScreen select = new SelectScreen((LinkedList<Unit>) serverResponse);
                         select.setSize(connectScreen.getWidth(), connectScreen.getHeight());
                         select.setLocation(connectScreen.getX(), connectScreen.getY());
                         connectScreen.setVisible(false);
@@ -80,8 +80,8 @@ public class GameClient {
                         }
                         LinkedList<Unit> chosenChampions = select.getChosenChampions();
                         oos.writeObject(chosenChampions);
-                        inputFromClient = ois.readObject();
-                        if (inputFromClient.equals("###GO###")) {
+                        serverResponse = ois.readObject();
+                        if (serverResponse.equals("###GO###")) {
                             oos.writeObject("###READY###");
                             GameScreen gs = new GameScreen(nickname, chosenChampions);
                             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();

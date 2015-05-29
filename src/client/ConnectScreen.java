@@ -119,8 +119,12 @@ public class ConnectScreen extends javax.swing.JFrame {
             try {
                 InetAddress inet = InetAddress.getByName(txtServerAddress.getText());
                 int portnr = Integer.parseInt(txtServerPort.getText());
-                new GameClient().connectToServer(txtNickname.getText(), inet, portnr, this, player);
-                // <-- da is irgendein fail bei mir
+                String nickname = txtNickname.getText();
+                if(nickname.length() > 15)
+                {
+                    nickname = nickname.substring(0, 15);
+                }
+                new GameClient().connectToServer(nickname, inet, portnr, this, player);
                 btnConnect.setEnabled(false);
                 btnConnect.setText("Waiting for other player to connect ...");
             } catch (UnknownHostException ex) {

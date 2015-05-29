@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.Thread.interrupted;
-import java.net.SocketTimeoutException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +32,8 @@ public class GameScreen extends javax.swing.JFrame {
     private LinkedList<UnitThread> unitsThreadList = new LinkedList<>();
     private LinkedList<TurretThread> turretsThreadList = new LinkedList<>();
 
+    private Unit enemyUnit = null;
+
     public GameScreen(String nickname, LinkedList<Unit> champions) {
         initComponents();
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -43,7 +44,7 @@ public class GameScreen extends javax.swing.JFrame {
         menChampion3.setText(champions.get(2).getDisplayname());
         champList = champions;
         turretList.add(new Unit(24, "OuterTurret", 3500, 150, 0, 150, 150, 1.00, 300, 0, "Turret", 0));
-        
+
         turretList.add(new Unit(25, "InnerTurret", 5000, 250, 0, 200, 200, 1.00, 250, 0, "Turret", 0));
         unitsThreadList.add(new UnitThread(champList.get(0)));
         unitsThreadList.add(new UnitThread(champList.get(1)));
@@ -56,9 +57,9 @@ public class GameScreen extends javax.swing.JFrame {
             Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        turretsThreadList.add(new TurretThread(turretList.get(0), 1200+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
+        turretsThreadList.add(new TurretThread(turretList.get(0), 1200 + (drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
         //System.out.println("Turret X: "+(1200+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
-        turretsThreadList.add(new TurretThread(turretList.get(1), 1200+(drawPanel.getWidth() - 100 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
+        turretsThreadList.add(new TurretThread(turretList.get(1), 1200 + (drawPanel.getWidth() - 100 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
 
         if (turretsThreadList.get(0) == null || !turretsThreadList.get(0).isAlive()) {
             turretsThreadList.get(0).start();
@@ -102,9 +103,8 @@ public class GameScreen extends javax.swing.JFrame {
 // TOWER THREAD 3
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
             g.drawImage(image, drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
-            
+
             //System.out.println("Tower 3 X: "+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()));
-            
 // TOWER THREAD 4
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
             g.drawImage(image, drawPanel.getWidth() - 100 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
@@ -116,7 +116,6 @@ public class GameScreen extends javax.swing.JFrame {
                 g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
                 g.setColor(Color.BLACK);
                 g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
             }
 
             if (unitsThreadList.get(1).isAlive()) {
@@ -140,6 +139,20 @@ public class GameScreen extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
+    }
+
+    public Unit getEnemyUnit() {
+        return enemyUnit;
+    }
+
+    public void startEnemyUnitThread(Unit unit) {
+        System.out.println(unit.getDisplayname() + " spawned by Enemy [" + menPlayer.getText() + "]");
+        enemyUnit = null;
+    }
+    
+    public void setEnemyUnitNull()
+    {
+        enemyUnit = null;
     }
 
     /**
@@ -237,18 +250,21 @@ public class GameScreen extends javax.swing.JFrame {
     private void onCreateChamp1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChamp1
         if (unitsThreadList.get(0) == null || !unitsThreadList.get(0).isAlive()) {
             unitsThreadList.get(0).start();
+            enemyUnit = unitsThreadList.get(0).getUnit();
         }
     }//GEN-LAST:event_onCreateChamp1
 
     private void onCreaterChamp2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp2
         if (unitsThreadList.get(1) == null || !unitsThreadList.get(1).isAlive()) {
             unitsThreadList.get(1).start();
+            enemyUnit = unitsThreadList.get(1).getUnit();
         }
     }//GEN-LAST:event_onCreaterChamp2
 
     private void onCreaterChamp3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp3
         if (unitsThreadList.get(2) == null || !unitsThreadList.get(2).isAlive()) {
             unitsThreadList.get(2).start();
+            enemyUnit = unitsThreadList.get(2).getUnit();
         }
     }//GEN-LAST:event_onCreaterChamp3
 
@@ -266,7 +282,7 @@ public class GameScreen extends javax.swing.JFrame {
         public void run() {
             while (!interrupted()) {
                 try {
-                    Thread.sleep( 2000 - (int) (turret.getAttackspeed() * 1000));
+                    Thread.sleep(2000 - (int) (turret.getAttackspeed() * 1000));
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
@@ -275,7 +291,7 @@ public class GameScreen extends javax.swing.JFrame {
                         System.out.println("TOWER deals damage to CHAMPION");
                     }
                 }
-                System.out.println("Tower X: "+x);
+                //System.out.println("Tower X: " + x);
             }
         }
 
@@ -287,8 +303,6 @@ public class GameScreen extends javax.swing.JFrame {
             return x;
         }
 
-        
-        
     }
 
     class UnitThread extends Thread {
@@ -326,7 +340,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                     while (tT.getX() == this.x + 50) {
                         try {
-                            Thread.sleep(2000 - (int)(unit.getAttackspeed() * 1000));
+                            Thread.sleep(2000 - (int) (unit.getAttackspeed() * 1000));
                         } catch (InterruptedException ex) {
                             System.out.println(ex.toString());
                         }
@@ -337,7 +351,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                 repaint();
                 x += 50;
-                System.out.println("Champ X: "+x);
+                //System.out.println("Champ X: " + x);
             }
         }
 

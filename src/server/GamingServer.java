@@ -211,9 +211,16 @@ public class GamingServer {
                 oos.writeObject("###GO###");
                 inputFromClient = ois.readObject();
                 if (inputFromClient.equals("###READY###")) {
-
                     while (true) {
                         inputFromClient = ois.readObject();
+                        if (inputFromClient instanceof Unit) {
+                            for (ObjectOutputStream coos : clientMap.values()) {
+                                if (!coos.equals(oos)) {
+                                    coos.writeObject(inputFromClient);
+                                }
+                            }
+                        }
+
                         if (inputFromClient.equals("###EXIT###")) {
                             clientMap.remove(nickname);
                             oos.writeObject("###GOOD#BYE###");

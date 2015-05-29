@@ -85,16 +85,26 @@ public class GameClient {
                             oos.writeObject("###READY###");
                             GameScreen gs = new GameScreen(nickname, chosenChampions);
                             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-                            gs.setSize(gd.getDisplayMode().getWidth()-20, select.getHeight() / 2);
+                            gs.setSize(gd.getDisplayMode().getWidth() - 20, select.getHeight() / 2);
                             gs.setLocation(10, select.getY() + (player == 2 ? select.getY() / 2 + 50 : 0));
                             select.setVisible(false);
                             gs.setVisible(true);
+
+                            EnemySpawnThread est = new EnemySpawnThread(oos, ois, gs);
+                            est.start();
+
                             while (true) {
+                                if (gs.getEnemyUnit() != null) {
+                                    oos.writeObject(gs.getEnemyUnit());
+                                    gs.setEnemyUnitNull();
+                                }
+
                                 try {
                                     Thread.sleep(500);
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
+
                             }
                         }
 
@@ -102,6 +112,35 @@ public class GameClient {
 
                 } catch (SocketTimeoutException ex) {
                     //System.out.println(ex.toString());
+                } catch (IOException ex) {
+                    System.out.println(ex.toString());
+                } catch (ClassNotFoundException ex) {
+                    System.out.println(ex.toString());
+                }
+            }
+        }
+    }
+
+    class EnemySpawnThread extends Thread {
+
+        private ObjectOutputStream oos;
+        private ObjectInputStream ois;
+        private GameScreen gs;
+
+        public EnemySpawnThread(ObjectOutputStream oos, ObjectInputStream ois, GameScreen gs) {
+            this.oos = oos;
+            this.ois = ois;
+            this.gs = gs;
+        }
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+                try {
+                    Object serverResponse = ois.readObject();
+                    if (serverResponse instanceof Unit) {
+                        gs.startEnemyUnitThread((Unit) serverResponse);
+                    }
                 } catch (IOException ex) {
                     System.out.println(ex.toString());
                 } catch (ClassNotFoundException ex) {

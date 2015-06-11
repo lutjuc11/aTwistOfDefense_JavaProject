@@ -93,25 +93,25 @@ public class GameScreen extends javax.swing.JFrame {
 // NEXUS THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusBlue.png"));
 
-            g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, drawPanel);
+            g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*10), drawPanel.getHeight() / 3, drawPanel);
 // NEXUS THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusRed.png"));
-            g.drawImage(image, (int) (fieldWidth * amountOfFields - (drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * (amountOfFields-2) - (int) (fieldWidth*10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*10), drawPanel.getHeight() / 3, null);
 
 // TOWER THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
 // TOWER THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
 // TOWER THREAD 3
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((fieldWidth * amountOfFields) - (fieldWidth * 50)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields-2)) - (fieldWidth * 20)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
 
             //System.out.println("Tower 3 X: "+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()));
 // TOWER THREAD 4
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((fieldWidth * amountOfFields) - (fieldWidth * 20)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields-2)) - (fieldWidth * 50)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
 
 // CHAMP THREAD 1
             int unitWidth;

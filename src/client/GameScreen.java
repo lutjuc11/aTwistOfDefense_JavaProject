@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import static java.lang.Thread.interrupted;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -38,6 +39,7 @@ public class GameScreen extends javax.swing.JFrame {
 
     public GameScreen(String nickname, LinkedList<Unit> champions) {
         initComponents();
+
         //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
@@ -56,10 +58,10 @@ public class GameScreen extends javax.swing.JFrame {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         fieldWidth = (gd.getDisplayMode().getWidth() - 20) / 200;
         fieldWidth = Math.round(fieldWidth);
-        System.out.println("FIELD WIDTH: "+fieldWidth);
-        System.out.println("DRAWPANEL.getWidth(): "+drawPanel.getWidth());
+        System.out.println("FIELD WIDTH: " + fieldWidth);
+        System.out.println("DRAWPANEL.getWidth(): " + drawPanel.getWidth());
         amountOfFields = (int) (gd.getDisplayMode().getWidth() / fieldWidth);
-        System.out.println("AMOUNT OF FIELDS: "+amountOfFields);
+        System.out.println("AMOUNT OF FIELDS: " + amountOfFields);
 
         turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) (fieldWidth * 75)));
         //System.out.println("Turret X: "+(1200+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
@@ -69,6 +71,9 @@ public class GameScreen extends javax.swing.JFrame {
             turretsThreadList.get(0).start();
             turretsThreadList.get(1).start();
         }
+        
+        MoneyThread mt = new MoneyThread();
+        mt.start();
 
         repaint();
     }
@@ -125,7 +130,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                     for (int i = 1; i < 10; i++) {
                         //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                       // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                        // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
                         if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
                             unitWidth = (int) (fieldWidth * i);
                             //System.out.println("went in");
@@ -146,7 +151,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                 //Healthbar
                 g.setColor(Color.GREEN);
-               // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
                 g.setColor(Color.BLACK);
                 //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
 
@@ -164,7 +169,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                     for (int i = 1; i < 10; i++) {
                         //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                       // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                        // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
                         if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
                             unitWidth = (int) (fieldWidth * i);
                             //System.out.println("went in");
@@ -203,7 +208,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                     for (int i = 1; i < 10; i++) {
                         //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                       // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                        // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
                         if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
                             unitWidth = (int) (fieldWidth * i);
                             //System.out.println("went in");
@@ -234,11 +239,9 @@ public class GameScreen extends javax.swing.JFrame {
 //            System.out.println("fieldwidth rounded: "+Math.round(fieldWidth));
 //            System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
 //            System.out.println("Anzahl an Felder (drawPanel / fieldwidth): "+drawPanel.getWidth()/fieldWidth);
-            
-
             for (int i = 0; i < (int) (drawPanel.getWidth() / fieldWidth); i++) {
-                
-                System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
+
+                System.out.println("drawPanel.getWidth(): " + drawPanel.getWidth());
                 g.drawLine((int) fieldWidth * i, 0, (int) fieldWidth * i, drawPanel.getHeight());
 
             }
@@ -256,9 +259,8 @@ public class GameScreen extends javax.swing.JFrame {
         System.out.println(unit.getDisplayname() + " spawned by Enemy [" + menPlayer.getText() + "]");
         enemyUnit = null;
     }
-    
-    public void setEnemyUnitNull()
-    {
+
+    public void setEnemyUnitNull() {
         enemyUnit = null;
     }
 
@@ -282,8 +284,8 @@ public class GameScreen extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         menMeleeMinion = new javax.swing.JMenuItem();
         menCasterMinion = new javax.swing.JMenuItem();
-        menItems = new javax.swing.JMenu();
         menSpells = new javax.swing.JMenu();
+        MoneyBar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -343,11 +345,14 @@ public class GameScreen extends javax.swing.JFrame {
 
         jMenuBar1.add(menTroops);
 
-        menItems.setText("Items");
-        jMenuBar1.add(menItems);
-
         menSpells.setText("Spells");
         jMenuBar1.add(menSpells);
+
+        MoneyBar.setText("jMenu1");
+        MoneyBar.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        MoneyBar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MoneyBar.setPreferredSize(new java.awt.Dimension(100, 19));
+        jMenuBar1.add(MoneyBar);
 
         setJMenuBar(jMenuBar1);
 
@@ -473,6 +478,35 @@ public class GameScreen extends javax.swing.JFrame {
 
     }
 
+    class MoneyThread extends Thread {
+
+        private int money = 0;
+        private Random rand = new Random();
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+                MoneyBar.setText("Gold: " + money);
+                money += (20 + rand.nextInt(5));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                }
+            }
+        }
+
+        public void ChampionKilledMoney() {
+            money += 200;
+            MoneyBar.setText("" + money);
+        }
+
+        public void MinionKilledMoney() {
+            money += 100;
+            MoneyBar.setText("" + money);
+        }
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -509,6 +543,7 @@ public class GameScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MoneyBar;
     private javax.swing.JPanel drawPanel;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -516,7 +551,6 @@ public class GameScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem menChampion1;
     private javax.swing.JMenuItem menChampion2;
     private javax.swing.JMenuItem menChampion3;
-    private javax.swing.JMenu menItems;
     private javax.swing.JMenuItem menMeleeMinion;
     private javax.swing.JMenu menPlayer;
     private javax.swing.JMenu menSpells;

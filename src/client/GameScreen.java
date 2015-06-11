@@ -29,13 +29,16 @@ public class GameScreen extends javax.swing.JFrame {
     private LinkedList<Unit> champList = new LinkedList<>();
     private LinkedList<Unit> turretList = new LinkedList<>();
     private Graphics g;
-    private LinkedList<UnitThread> unitsThreadList = new LinkedList<>();
-    private LinkedList<TurretThread> turretsThreadList = new LinkedList<>();
+    private LinkedList<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
+    private LinkedList<GameScreen.TurretThread> turretsThreadList = new LinkedList<>();
+    private double fieldWidth;
+    private int amountOfFields;
 
     private Unit enemyUnit = null;
 
     public GameScreen(String nickname, LinkedList<Unit> champions) {
         initComponents();
+        //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
         menPlayer.setText(nickname);
@@ -46,20 +49,21 @@ public class GameScreen extends javax.swing.JFrame {
         turretList.add(new Unit(24, "OuterTurret", 3500, 150, 0, 150, 150, 1.00, 300, 0, "Turret", 0));
 
         turretList.add(new Unit(25, "InnerTurret", 5000, 250, 0, 200, 200, 1.00, 250, 0, "Turret", 0));
-        unitsThreadList.add(new UnitThread(champList.get(0)));
-        unitsThreadList.add(new UnitThread(champList.get(1)));
-        unitsThreadList.add(new UnitThread(champList.get(2)));
+        unitsThreadList.add(new GameScreen.UnitThread(champList.get(0)));
+        unitsThreadList.add(new GameScreen.UnitThread(champList.get(1)));
+        unitsThreadList.add(new GameScreen.UnitThread(champList.get(2)));
 
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        fieldWidth = (gd.getDisplayMode().getWidth() - 20) / 200;
+        fieldWidth = Math.round(fieldWidth);
+        System.out.println("FIELD WIDTH: "+fieldWidth);
+        System.out.println("DRAWPANEL.getWidth(): "+drawPanel.getWidth());
+        amountOfFields = (int) (gd.getDisplayMode().getWidth() / fieldWidth);
+        System.out.println("AMOUNT OF FIELDS: "+amountOfFields);
 
-        turretsThreadList.add(new TurretThread(turretList.get(0), 1200 + (drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) (fieldWidth * 75)));
         //System.out.println("Turret X: "+(1200+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
-        turretsThreadList.add(new TurretThread(turretList.get(1), 1200 + (drawPanel.getWidth() - 100 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) (fieldWidth * 90)));
 
         if (turretsThreadList.get(0) == null || !turretsThreadList.get(0).isAlive()) {
             turretsThreadList.get(0).start();
@@ -92,48 +96,151 @@ public class GameScreen extends javax.swing.JFrame {
             g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, drawPanel);
 // NEXUS THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusRed.png"));
-            g.drawImage(image, drawPanel.getWidth() - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * amountOfFields - (drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
 
 // TOWER THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, 100, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
 // TOWER THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, 250, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
 // TOWER THREAD 3
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) ((fieldWidth * amountOfFields) - (fieldWidth * 50)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
 
             //System.out.println("Tower 3 X: "+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()));
 // TOWER THREAD 4
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, drawPanel.getWidth() - 100 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) ((fieldWidth * amountOfFields) - (fieldWidth * 20)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
 
+// CHAMP THREAD 1
+            int unitWidth;
             if (unitsThreadList.get(0).isAlive()) {
+                //CHAMP
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(0).getDisplayname() + ".png"));
-                g.drawImage(image, unitsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+                unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                if (unitWidth < fieldWidth * 1) {
+                    unitWidth = (int) fieldWidth;
+                } else {
+
+                    for (int i = 1; i < 10; i++) {
+                        //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
+                       // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                        if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                            unitWidth = (int) (fieldWidth * i);
+                            //System.out.println("went in");
+                            break;
+                        } else {
+                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                unitWidth = (int) (fieldWidth * (i + 1));
+                                //System.out.println("went in else");
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                g.drawImage(image, unitsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+                g.setColor(Color.magenta);
+                g.drawRect(unitsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+
+                //Healthbar
                 g.setColor(Color.GREEN);
-                g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+               // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
                 g.setColor(Color.BLACK);
-                g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+
             }
 
+// CHAMP THREAD 2
             if (unitsThreadList.get(1).isAlive()) {
+                //CHAMP
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(1).getDisplayname() + ".png"));
-                g.drawImage(image, unitsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+                unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+
+                if (unitWidth < fieldWidth * 1) {
+                    unitWidth = (int) fieldWidth;
+                } else {
+
+                    for (int i = 1; i < 10; i++) {
+                        //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
+                       // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                        if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                            unitWidth = (int) (fieldWidth * i);
+                            //System.out.println("went in");
+                            break;
+                        } else {
+                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                unitWidth = (int) (fieldWidth * (i + 1));
+                                //System.out.println("went in else");
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                g.drawImage(image, unitsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+                g.setColor(Color.magenta);
+                g.drawRect(unitsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+
+                //Healthbar
                 g.setColor(Color.GREEN);
-                g.fillRect(unitsThreadList.get(1).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                //g.fillRect(unitsThreadList.get(1).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
                 g.setColor(Color.BLACK);
-                g.drawRect(unitsThreadList.get(1).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                //g.drawRect(unitsThreadList.get(1).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
             }
 
+// CHAMP THREAD 3
             if (unitsThreadList.get(2).isAlive()) {
+                //CHAMP
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(2).getDisplayname() + ".png"));
-                g.drawImage(image, unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight(), drawPanel.getHeight() / 3, null);
+                unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                System.out.println("UnitWidth Champ3: " + unitWidth);
+                System.out.println("FieldWidth: " + fieldWidth);
+                if (unitWidth < fieldWidth * 1) {
+                    unitWidth = (int) fieldWidth;
+                } else {
+
+                    for (int i = 1; i < 10; i++) {
+                        //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
+                       // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                        if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                            unitWidth = (int) (fieldWidth * i);
+                            //System.out.println("went in");
+                            break;
+                        } else {
+                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                unitWidth = (int) (fieldWidth * (i + 1));
+                                //System.out.println("went in else");
+                                break;
+                            }
+                        }
+                    }
+                }
+                System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
+
+                g.drawImage(image, unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+                g.setColor(Color.magenta);
+                g.drawRect(unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+
+                //Healthbar
                 g.setColor(Color.GREEN);
-                g.fillRect(unitsThreadList.get(2).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                //g.fillRect(unitsThreadList.get(2).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
                 g.setColor(Color.BLACK);
-                g.drawRect(unitsThreadList.get(2).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                // g.drawRect(unitsThreadList.get(2).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+            }
+
+//            System.out.println("fieldwidth: "+fieldWidth);
+//            System.out.println("fieldwidth rounded: "+Math.round(fieldWidth));
+//            System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
+//            System.out.println("Anzahl an Felder (drawPanel / fieldwidth): "+drawPanel.getWidth()/fieldWidth);
+            
+
+            for (int i = 0; i < (int) (drawPanel.getWidth() / fieldWidth); i++) {
+                
+                System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
+                g.drawLine((int) fieldWidth * i, 0, (int) fieldWidth * i, drawPanel.getHeight());
+
             }
 
         } catch (IOException ex) {
@@ -287,7 +394,7 @@ public class GameScreen extends javax.swing.JFrame {
                     System.out.println(ex.toString());
                 }
                 for (UnitThread uT : unitsThreadList) {
-                    if (x == uT.getX() - 50) {
+                    if (x == uT.getX() - fieldWidth) {
                         System.out.println("TOWER deals damage to CHAMPION");
                     }
                 }
@@ -320,13 +427,14 @@ public class GameScreen extends javax.swing.JFrame {
 
                 try {
                     //System.out.println(unit.getMovespeed());
-                    Thread.sleep(unit.getMovespeed());
+                    //unit.getMovespeed()
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
                 for (UnitThread uT : unitsThreadList) {
                     if (uT != this) {
-                        while (uT.getX() == this.x + 50) {
+                        while (uT.getX() == this.x + fieldWidth) {
                             try {
                                 Thread.sleep(10);
                             } catch (InterruptedException ex) {
@@ -338,7 +446,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                 for (TurretThread tT : turretsThreadList) {
 
-                    while (tT.getX() == this.x + 50) {
+                    while (tT.getX() == this.x + fieldWidth) {
                         try {
                             Thread.sleep(2000 - (int) (unit.getAttackspeed() * 1000));
                         } catch (InterruptedException ex) {
@@ -350,7 +458,7 @@ public class GameScreen extends javax.swing.JFrame {
                 }
 
                 repaint();
-                x += 50;
+                x += fieldWidth;
                 //System.out.println("Champ X: " + x);
             }
         }

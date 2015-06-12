@@ -191,6 +191,7 @@ public class SelectScreen extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        lblFocusedChampion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblFocusedChampion.setPreferredSize(new java.awt.Dimension(0, 20));
         jPanel1.add(lblFocusedChampion, java.awt.BorderLayout.CENTER);
 

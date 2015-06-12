@@ -136,7 +136,7 @@ public class Unit implements Serializable {
     
     public String toShowString()
     {
-        return String.format("%20s - H: %4d | AD: %3d | AP: %3d | A: %3d | M: %3d | AS: %3.2f | R: %3d | MS: %3d", displayname, Health, ad, ap, armor, magicres, attackspeed, range, movespeed);
+        return String.format("%10s - H: %4d | AD: %3d | AP: %3d | A: %3d | M: %3d | AS: %3.2f | R: %3d | MS: %3d", displayname, Health, ad, ap, armor, magicres, attackspeed, range, movespeed);
     }
 
     @Override

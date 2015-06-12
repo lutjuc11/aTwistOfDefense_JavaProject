@@ -35,6 +35,8 @@ public class GameScreen extends javax.swing.JFrame {
     private double fieldWidth;
     private int amountOfFields;
 
+    private MoneyThread mt;
+
     private Unit enemyUnit = null;
 
     public GameScreen(String nickname, LinkedList<Unit> champions) {
@@ -71,8 +73,8 @@ public class GameScreen extends javax.swing.JFrame {
             turretsThreadList.get(0).start();
             turretsThreadList.get(1).start();
         }
-        
-        MoneyThread mt = new MoneyThread();
+
+        mt = new MoneyThread();
         mt.start();
 
         repaint();
@@ -98,25 +100,23 @@ public class GameScreen extends javax.swing.JFrame {
 // NEXUS THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusBlue.png"));
 
-            g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*10), drawPanel.getHeight() / 3, drawPanel);
+            g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, drawPanel);
 // NEXUS THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusRed.png"));
-            g.drawImage(image, (int) (fieldWidth * (amountOfFields-2) - (int) (fieldWidth*10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*10), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * (amountOfFields - 2) - (int) (fieldWidth * 10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, null);
 
 // TOWER THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (-fieldWidth * 8), drawPanel.getHeight() / 2, null);
 // TOWER THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (-fieldWidth * 8), drawPanel.getHeight() / 2, null);
 // TOWER THREAD 3
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields-2)) - (fieldWidth * 20)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
-
-            //System.out.println("Tower 3 X: "+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()));
+            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields - 2)) - (fieldWidth * 20)), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
 // TOWER THREAD 4
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields-2)) - (fieldWidth * 50)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth*6), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields - 2)) - (fieldWidth * 50)), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
 
 // CHAMP THREAD 1
             int unitWidth;
@@ -338,9 +338,19 @@ public class GameScreen extends javax.swing.JFrame {
         menTroops.add(jSeparator1);
 
         menMeleeMinion.setText("Melee Minion");
+        menMeleeMinion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCreaterMeleeMinion(evt);
+            }
+        });
         menTroops.add(menMeleeMinion);
 
         menCasterMinion.setText("Caster Minion");
+        menCasterMinion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCreaterCasterMinion(evt);
+            }
+        });
         menTroops.add(menCasterMinion);
 
         jMenuBar1.add(menTroops);
@@ -348,9 +358,7 @@ public class GameScreen extends javax.swing.JFrame {
         menSpells.setText("Spells");
         jMenuBar1.add(menSpells);
 
-        MoneyBar.setText("jMenu1");
-        MoneyBar.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        MoneyBar.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MoneyBar.setText("xxxxx");
         MoneyBar.setPreferredSize(new java.awt.Dimension(100, 19));
         jMenuBar1.add(MoneyBar);
 
@@ -360,25 +368,46 @@ public class GameScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onCreateChamp1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChamp1
-        if (unitsThreadList.get(0) == null || !unitsThreadList.get(0).isAlive()) {
-            unitsThreadList.get(0).start();
-            enemyUnit = unitsThreadList.get(0).getUnit();
+        if (mt.getBalance() >= 500) {
+            if (unitsThreadList.get(0) == null || !unitsThreadList.get(0).isAlive()) {
+                unitsThreadList.get(0).start();
+                enemyUnit = unitsThreadList.get(0).getUnit();
+            }
+            mt.spawnChampion();
         }
     }//GEN-LAST:event_onCreateChamp1
 
     private void onCreaterChamp2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp2
-        if (unitsThreadList.get(1) == null || !unitsThreadList.get(1).isAlive()) {
-            unitsThreadList.get(1).start();
-            enemyUnit = unitsThreadList.get(1).getUnit();
+        if (mt.getBalance() >= 500) {
+            if (unitsThreadList.get(1) == null || !unitsThreadList.get(1).isAlive()) {
+                unitsThreadList.get(1).start();
+                enemyUnit = unitsThreadList.get(1).getUnit();
+            }
+            mt.spawnChampion();
         }
     }//GEN-LAST:event_onCreaterChamp2
 
     private void onCreaterChamp3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp3
-        if (unitsThreadList.get(2) == null || !unitsThreadList.get(2).isAlive()) {
-            unitsThreadList.get(2).start();
-            enemyUnit = unitsThreadList.get(2).getUnit();
+        if (mt.getBalance() >= 500) {
+            if (unitsThreadList.get(2) == null || !unitsThreadList.get(2).isAlive()) {
+                unitsThreadList.get(2).start();
+                enemyUnit = unitsThreadList.get(2).getUnit();
+            }
+            mt.spawnChampion();
         }
     }//GEN-LAST:event_onCreaterChamp3
+
+    private void onCreaterMeleeMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterMeleeMinion
+        if (mt.getBalance() >= 150) {
+            mt.spawnMeleeMinion();
+        }
+    }//GEN-LAST:event_onCreaterMeleeMinion
+
+    private void onCreaterCasterMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterCasterMinion
+        if (mt.getBalance() >= 200) {
+            mt.spawnCasterMinion();
+        }
+    }//GEN-LAST:event_onCreaterCasterMinion
 
     class TurretThread extends Thread {
 
@@ -487,12 +516,27 @@ public class GameScreen extends javax.swing.JFrame {
         public void run() {
             while (!interrupted()) {
                 MoneyBar.setText("Gold: " + money);
-                money += (20 + rand.nextInt(5));
+                money += (10 + rand.nextInt(5));
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                 }
             }
+        }
+
+        public void spawnChampion() {
+            money -= 500;
+            MoneyBar.setText("" + money);
+        }
+
+        public void spawnMeleeMinion() {
+            money -= 150;
+            MoneyBar.setText("" + money);
+        }
+
+        public void spawnCasterMinion() {
+            money -= 200;
+            MoneyBar.setText("" + money);
         }
 
         public void ChampionKilledMoney() {
@@ -503,6 +547,10 @@ public class GameScreen extends javax.swing.JFrame {
         public void MinionKilledMoney() {
             money += 100;
             MoneyBar.setText("" + money);
+        }
+
+        public int getBalance() {
+            return money;
         }
 
     }

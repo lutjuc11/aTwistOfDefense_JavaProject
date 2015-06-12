@@ -35,6 +35,13 @@ public class SelectScreen extends javax.swing.JFrame {
      */
     public SelectScreen(LinkedList<Unit> units) {
         initComponents();
+        
+        lblExhaust.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblHeal.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblGhost.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblIgnite.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblSmite.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        
         this.units = units;
         JLabel lblChamp;
         for (Unit unit : units) {
@@ -141,9 +148,27 @@ public class SelectScreen extends javax.swing.JFrame {
                     g = lblChamp3.getGraphics();
                     BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + chosenUnits.get(2).getDisplayname().toLowerCase() + ".png"));
                     g.drawImage(image, lblChamp3.getWidth() / 2 - lblChamp3.getHeight() * image.getWidth() / image.getHeight() / 2, 0, lblChamp3.getHeight() * image.getWidth() / image.getHeight(), lblChamp3.getHeight(), null);
-
                 }
             }
+            g = lblExhaust.getGraphics();
+            BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Exhaust.png"));
+            g.drawImage(image, 0, 0, lblExhaust.getWidth(), lblExhaust.getHeight(), null);
+
+            g = lblHeal.getGraphics();
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Heal.png"));
+            g.drawImage(image, 0, 0, lblHeal.getWidth(), lblHeal.getHeight(), null);
+
+            g = lblGhost.getGraphics();
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Ghost.png"));
+            g.drawImage(image, 0, 0, lblGhost.getWidth(), lblGhost.getHeight(), null);
+
+            g = lblIgnite.getGraphics();
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Ignite.png"));
+            g.drawImage(image, 0, 0, lblIgnite.getWidth(), lblIgnite.getHeight(), null);
+
+            g = lblSmite.getGraphics();
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Smite.png"));
+            g.drawImage(image, 0, 0, lblSmite.getWidth(), lblSmite.getHeight(), null);
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
@@ -170,6 +195,12 @@ public class SelectScreen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lblFocusedChampion = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        pnSpells = new javax.swing.JPanel();
+        lblIgnite = new javax.swing.JLabel();
+        lblSmite = new javax.swing.JLabel();
+        lblHeal = new javax.swing.JLabel();
+        lblExhaust = new javax.swing.JLabel();
+        lblGhost = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -204,6 +235,27 @@ public class SelectScreen extends javax.swing.JFrame {
         jPanel1.add(jButton1, java.awt.BorderLayout.EAST);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
+
+        pnSpells.setBorder(javax.swing.BorderFactory.createTitledBorder("Spells"));
+        pnSpells.setPreferredSize(new java.awt.Dimension(64, 100));
+        pnSpells.setLayout(new java.awt.GridLayout(5, 1));
+
+        lblIgnite.setPreferredSize(new java.awt.Dimension(32, 32));
+        pnSpells.add(lblIgnite);
+
+        lblSmite.setPreferredSize(new java.awt.Dimension(32, 32));
+        pnSpells.add(lblSmite);
+
+        lblHeal.setPreferredSize(new java.awt.Dimension(32, 32));
+        pnSpells.add(lblHeal);
+
+        lblExhaust.setPreferredSize(new java.awt.Dimension(32, 32));
+        pnSpells.add(lblExhaust);
+
+        lblGhost.setPreferredSize(new java.awt.Dimension(32, 32));
+        pnSpells.add(lblGhost);
+
+        getContentPane().add(pnSpells, java.awt.BorderLayout.EAST);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -254,9 +306,15 @@ public class SelectScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblChamp1;
     private javax.swing.JLabel lblChamp2;
     private javax.swing.JLabel lblChamp3;
+    private javax.swing.JLabel lblExhaust;
     private javax.swing.JLabel lblFocusedChampion;
+    private javax.swing.JLabel lblGhost;
+    private javax.swing.JLabel lblHeal;
+    private javax.swing.JLabel lblIgnite;
+    private javax.swing.JLabel lblSmite;
     private javax.swing.JPanel pnChampions;
     private javax.swing.JPanel pnChosenChamps;
+    private javax.swing.JPanel pnSpells;
     // End of variables declaration//GEN-END:variables
 
 }

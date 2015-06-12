@@ -16,10 +16,12 @@ import java.io.IOException;
 import static java.lang.Thread.interrupted;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+
+
+
+// ghost, heal, ignite, exhaust, smite
 
 /**
  *
@@ -509,7 +511,7 @@ public class GameScreen extends javax.swing.JFrame {
 
     class MoneyThread extends Thread {
 
-        private int money = 0;
+        private int money = 250;
         private Random rand = new Random();
 
         @Override

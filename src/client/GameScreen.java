@@ -524,9 +524,11 @@ public class GameScreen extends javax.swing.JFrame {
 
     public void startEnemyUnitThread(Unit unit) {
 
+        
         if (!enemyUnitsTheardList.contains(unit)) {
             enemyUnitsTheardList.add(new GameScreen.UnitThread(unit, true));
         }
+        
 
         for (UnitThread ut : enemyUnitsTheardList) {
             if (ut.getUnit() == unit) {
@@ -846,15 +848,14 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                }
-
-                for (UnitThread uT : unitsThreadList) {
-                    if (uT != this) {
-                        while (uT.getX() == this.x + fieldWidth + unitWidth) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (InterruptedException ex) {
-                                System.out.println(ex.toString());
+                    for (MinionThread mT : minionsThreadList) {
+                        if (mT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
                             }
                         }
                     }

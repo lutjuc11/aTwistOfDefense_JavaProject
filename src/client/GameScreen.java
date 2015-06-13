@@ -19,8 +19,6 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
-
-
 /**
  *
  * @author Juergen
@@ -104,11 +102,11 @@ public class GameScreen extends javax.swing.JFrame {
 
 // NEXUS THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusBlue.png"));
-
             g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, drawPanel);
+
 // NEXUS THREAD 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusRed.png"));
-            g.drawImage(image, (int) (fieldWidth * (amountOfFields - 2) - (int) (fieldWidth * 10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, null);
+            g.drawImage(image, ((int) (fieldWidth)) * (amountOfFields - 3) - ((int) (fieldWidth * 10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, null);
 
 // TOWER THREAD 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
@@ -118,10 +116,10 @@ public class GameScreen extends javax.swing.JFrame {
             g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (-fieldWidth * 8), drawPanel.getHeight() / 2, null);
 // TOWER THREAD 3
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields - 2)) - (fieldWidth * 20)), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
+            g.drawImage(image, (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 20), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
 // TOWER THREAD 4
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((int) (fieldWidth * (amountOfFields - 2)) - (fieldWidth * 50)), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
+            g.drawImage(image, (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 50), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
 
 // CHAMP THREAD 1
             int unitWidth;
@@ -129,20 +127,21 @@ public class GameScreen extends javax.swing.JFrame {
                 //CHAMP
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(0).getDisplayname() + ".png"));
                 unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                if (unitWidth < fieldWidth * 1) {
-                    unitWidth = (int) fieldWidth;
+                unitsThreadList.get(0).setUnitWidth(unitWidth);
+                if (unitWidth < ((int) (fieldWidth)) * 1) {
+                    unitWidth = ((int) (fieldWidth));
                 } else {
 
                     for (int i = 1; i < 10; i++) {
                         //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
                         // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                        if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                            unitWidth = (int) (fieldWidth * i);
+                        if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * i + 1) - (((int) (fieldWidth)) / 2))) {
+                            unitWidth = (((int) (fieldWidth)) * i);
                             //System.out.println("went in");
                             break;
                         } else {
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                unitWidth = (int) (fieldWidth * (i + 1));
+                            if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * (i + 1)))) {
+                                unitWidth = (((int) (fieldWidth)) * (i + 1));
                                 //System.out.println("went in else");
                                 break;
                             }
@@ -167,21 +166,21 @@ public class GameScreen extends javax.swing.JFrame {
                 //CHAMP
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(1).getDisplayname() + ".png"));
                 unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-
-                if (unitWidth < fieldWidth * 1) {
-                    unitWidth = (int) fieldWidth;
+                unitsThreadList.get(1).setUnitWidth(unitWidth);
+                if (unitWidth < ((int) (fieldWidth)) * 1) {
+                    unitWidth = ((int) (fieldWidth));
                 } else {
 
                     for (int i = 1; i < 10; i++) {
                         //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
                         // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                        if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                            unitWidth = (int) (fieldWidth * i);
+                        if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * i + 1) - (((int) (fieldWidth)) / 2))) {
+                            unitWidth = (((int) (fieldWidth)) * i);
                             //System.out.println("went in");
                             break;
                         } else {
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                unitWidth = (int) (fieldWidth * (i + 1));
+                            if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * (i + 1)))) {
+                                unitWidth = (((int) (fieldWidth)) * (i + 1));
                                 //System.out.println("went in else");
                                 break;
                             }
@@ -205,22 +204,23 @@ public class GameScreen extends javax.swing.JFrame {
                 //CHAMP
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(2).getDisplayname() + ".png"));
                 unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                unitsThreadList.get(2).setUnitWidth(unitWidth);
                 System.out.println("UnitWidth Champ3: " + unitWidth);
-                System.out.println("FieldWidth: " + fieldWidth);
-                if (unitWidth < fieldWidth * 1) {
-                    unitWidth = (int) fieldWidth;
+                System.out.println("FieldWidth: " + ((int) (fieldWidth)));
+                if (unitWidth < ((int) (fieldWidth)) * 1) {
+                    unitWidth = ((int) (fieldWidth));
                 } else {
 
                     for (int i = 1; i < 10; i++) {
                         //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
                         // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                        if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                            unitWidth = (int) (fieldWidth * i);
+                        if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * i + 1) - (((int) (fieldWidth)) / 2))) {
+                            unitWidth = (((int) (fieldWidth)) * i);
                             //System.out.println("went in");
                             break;
                         } else {
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                unitWidth = (int) (fieldWidth * (i + 1));
+                            if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * (i + 1)))) {
+                                unitWidth = (((int) (fieldWidth)) * (i + 1));
                                 //System.out.println("went in else");
                                 break;
                             }
@@ -246,6 +246,7 @@ public class GameScreen extends javax.swing.JFrame {
                     //CHAMP
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(0).getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    enemyUnitsTheardList.get(0).setUnitWidth(unitWidth);
                     System.out.println("UnitWidth Champ3: " + unitWidth);
                     System.out.println("FieldWidth: " + fieldWidth);
                     if (unitWidth < fieldWidth * 1) {
@@ -272,7 +273,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                     g.drawImage(image, enemyUnitsTheardList.get(0).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                     g.setColor(Color.magenta);
-                    g.drawRect(enemyUnitsTheardList.get(0).getX() , drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+                    g.drawRect(enemyUnitsTheardList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
                     //Healthbar
                     g.setColor(Color.RED);
@@ -288,6 +289,7 @@ public class GameScreen extends javax.swing.JFrame {
                     //CHAMP
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(1).getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    enemyUnitsTheardList.get(1).setUnitWidth(unitWidth);
                     System.out.println("UnitWidth Champ3: " + unitWidth);
                     System.out.println("FieldWidth: " + fieldWidth);
                     if (unitWidth < fieldWidth * 1) {
@@ -329,6 +331,7 @@ public class GameScreen extends javax.swing.JFrame {
                     //CHAMP
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(2).getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    enemyUnitsTheardList.get(2).setUnitWidth(unitWidth);
                     System.out.println("UnitWidth Champ3: " + unitWidth);
                     System.out.println("FieldWidth: " + fieldWidth);
                     if (unitWidth < fieldWidth * 1) {
@@ -598,6 +601,8 @@ public class GameScreen extends javax.swing.JFrame {
         private int x = 0;
         private boolean enemy = false;
 
+        private int unitWidth = 1;
+
         public UnitThread(Unit unit) {
             this.unit = unit;
         }
@@ -605,7 +610,7 @@ public class GameScreen extends javax.swing.JFrame {
         public UnitThread(Unit unit, boolean enemy) {
             this.unit = unit;
             this.enemy = enemy;
-            x = (int) (fieldWidth * (amountOfFields - 2) - (int) (fieldWidth * 10));
+            x = (((int) (fieldWidth)) * (amountOfFields - 2) - (((int) (fieldWidth)) * 10));
         }
 
         @Override
@@ -619,9 +624,37 @@ public class GameScreen extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
+
+                if (enemy) {
+                    for (UnitThread uT : enemyUnitsTheardList) {
+                        if (uT != this && uT.getX() < this.getX()) {
+                            System.out.println(uT.getUnitWidth());
+                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (UnitThread uT : unitsThreadList) {
+                        if (uT != this && uT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+
                 for (UnitThread uT : unitsThreadList) {
                     if (uT != this) {
-                        while (uT.getX() == this.x + fieldWidth) {
+                        while (uT.getX() == this.x + fieldWidth + unitWidth) {
                             try {
                                 Thread.sleep(10);
                             } catch (InterruptedException ex) {
@@ -639,7 +672,7 @@ public class GameScreen extends javax.swing.JFrame {
                         } catch (InterruptedException ex) {
                             System.out.println(ex.toString());
                         }
-                        System.out.println("CHAMPION deals damage to TOWER");
+                        //System.out.println("CHAMPION deals damage to TOWER");
                     }
 
                 }
@@ -652,6 +685,14 @@ public class GameScreen extends javax.swing.JFrame {
                 }
                 //System.out.println("Champ X: " + x);
             }
+        }
+
+        public void setUnitWidth(int unitWidth) {
+            this.unitWidth = unitWidth;
+        }
+
+        public int getUnitWidth() {
+            return unitWidth;
         }
 
         public int getX() {
@@ -710,41 +751,6 @@ public class GameScreen extends javax.swing.JFrame {
             return money;
         }
 
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GameScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GameScreen().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

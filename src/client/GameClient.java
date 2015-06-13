@@ -83,7 +83,7 @@ public class GameClient {
                         serverResponse = ois.readObject();
                         if (serverResponse.equals("###GO###")) {
                             oos.writeObject("###READY###");
-                            GameScreen gs = new GameScreen(nickname, chosenChampions, select.getChosenSpells());
+                            GameScreen gs = new GameScreen(nickname, chosenChampions, select.getChosenSpells(), select.getMinions());
                             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
                             gs.setSize(gd.getDisplayMode().getWidth() - 20, select.getHeight() / 2);
                             gs.setLocation(10, select.getY() + (player == 2 ? select.getY() / 2 + 50 : 0));

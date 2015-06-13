@@ -28,6 +28,7 @@ public class GameScreen extends javax.swing.JFrame {
     private LinkedList<Unit> champList = new LinkedList<>();
     private LinkedList<String> spellList = new LinkedList<>();
     private LinkedList<Unit> turretList = new LinkedList<>();
+    private LinkedList<Unit> minionList = new LinkedList<>();
     private Graphics g;
     private LinkedList<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
     private LinkedList<GameScreen.UnitThread> enemyUnitsTheardList = new LinkedList<>();
@@ -41,7 +42,7 @@ public class GameScreen extends javax.swing.JFrame {
 
     private Unit enemyUnit = null;
 
-    public GameScreen(String nickname, LinkedList<Unit> champions, LinkedList<String> spells) {
+    public GameScreen(String nickname, LinkedList<Unit> champions, LinkedList<String> spells, LinkedList<Unit> minions) {
         initComponents();
 
         //this.setLayout(null);
@@ -55,6 +56,7 @@ public class GameScreen extends javax.swing.JFrame {
         menSpell2.setText(spells.get(1));
         champList = champions;
         spellList = spells;
+        minionList = minions;
         turretList.add(new Unit(24, "OuterTurret", 3500, 150, 0, 150, 150, 1.00, 300, 0, "Turret", 0));
 
         turretList.add(new Unit(25, "InnerTurret", 5000, 250, 0, 200, 200, 1.00, 250, 0, "Turret", 0));

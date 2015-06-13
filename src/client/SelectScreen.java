@@ -29,19 +29,35 @@ public class SelectScreen extends javax.swing.JFrame {
     private LinkedList<Unit> units;
     private LinkedList<JLabel> champions = new LinkedList<>();
     private LinkedList<Unit> chosenUnits = new LinkedList<>();
+    private LinkedList<String> chosenSpells = new LinkedList<>();
 
     /**
      * Creates new form SelectScreen
      */
     public SelectScreen(LinkedList<Unit> units) {
         initComponents();
-        
+
         lblExhaust.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblExhaust.setBorder(BorderFactory.createLineBorder(Color.black));
+        lblExhaust.setName("lblExhaust");
         lblHeal.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblHeal.setBorder(BorderFactory.createLineBorder(Color.black));
+        lblHeal.setName("lblHeal");
         lblGhost.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblGhost.setBorder(BorderFactory.createLineBorder(Color.black));
+        lblGhost.setName("lblGhost");
         lblIgnite.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
+        lblIgnite.setBorder(BorderFactory.createLineBorder(Color.black));
+        lblIgnite.setName("lblIgnite");
         lblSmite.setSize(pnSpells.getHeight() / 5, pnSpells.getHeight() / 5);
-        
+        lblSmite.setBorder(BorderFactory.createLineBorder(Color.black));
+        lblSmite.setName("lblSmite");
+
+        lblSpell1.setSize(pnChosenSpells.getHeight() / 2, pnChosenSpells.getHeight() / 2);
+        lblSpell1.setBorder(BorderFactory.createLineBorder(Color.black));
+        lblSpell2.setSize(pnChosenSpells.getHeight() / 2, pnChosenSpells.getHeight() / 2);
+        lblSpell2.setBorder(BorderFactory.createLineBorder(Color.black));
+
         this.units = units;
         JLabel lblChamp;
         for (Unit unit : units) {
@@ -150,25 +166,39 @@ public class SelectScreen extends javax.swing.JFrame {
                     g.drawImage(image, lblChamp3.getWidth() / 2 - lblChamp3.getHeight() * image.getWidth() / image.getHeight() / 2, 0, lblChamp3.getHeight() * image.getWidth() / image.getHeight(), lblChamp3.getHeight(), null);
                 }
             }
+            
+            if (!chosenSpells.isEmpty()) {
+                if (chosenSpells.size() >= 1) {
+                    g = lblSpell1.getGraphics();
+                    BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + chosenSpells.get(0) + ".png"));
+                    g.drawImage(image, 3, 3, lblSpell1.getWidth() - 6, lblSpell1.getHeight() - 6, null);
+                }
+                if (chosenSpells.size() >= 2) {
+                    g = lblSpell2.getGraphics();
+                    BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + chosenSpells.get(1) + ".png"));
+                    g.drawImage(image, 3, 3, lblSpell2.getWidth() - 6, lblSpell2.getHeight() - 6, null);
+                }
+            }
+            
             g = lblExhaust.getGraphics();
             BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Exhaust.png"));
-            g.drawImage(image, 0, 0, lblExhaust.getWidth(), lblExhaust.getHeight(), null);
+            g.drawImage(image, 3, 3, lblExhaust.getWidth() - 6, lblExhaust.getHeight() - 6, null);
 
             g = lblHeal.getGraphics();
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Heal.png"));
-            g.drawImage(image, 0, 0, lblHeal.getWidth(), lblHeal.getHeight(), null);
+            g.drawImage(image, 3, 3, lblHeal.getWidth() - 6, lblHeal.getHeight() - 6, null);
 
             g = lblGhost.getGraphics();
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Ghost.png"));
-            g.drawImage(image, 0, 0, lblGhost.getWidth(), lblGhost.getHeight(), null);
+            g.drawImage(image, 3, 3, lblGhost.getWidth() - 6, lblGhost.getHeight() - 6, null);
 
             g = lblIgnite.getGraphics();
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Ignite.png"));
-            g.drawImage(image, 0, 0, lblIgnite.getWidth(), lblIgnite.getHeight(), null);
+            g.drawImage(image, 3, 3, lblIgnite.getWidth() - 6, lblIgnite.getHeight() - 6, null);
 
             g = lblSmite.getGraphics();
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Smite.png"));
-            g.drawImage(image, 0, 0, lblSmite.getWidth(), lblSmite.getHeight(), null);
+            g.drawImage(image, 3, 3, lblSmite.getWidth() - 6, lblSmite.getHeight() - 6, null);
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
@@ -176,6 +206,11 @@ public class SelectScreen extends javax.swing.JFrame {
 
     public LinkedList<Unit> getChosenChampions() {
         return chosenUnits;
+    }
+    
+    public LinkedList<String> getChosenSpells()
+    {
+        return chosenSpells;
     }
 
     /**
@@ -188,10 +223,6 @@ public class SelectScreen extends javax.swing.JFrame {
     private void initComponents() {
 
         pnChampions = new javax.swing.JPanel();
-        pnChosenChamps = new javax.swing.JPanel();
-        lblChamp1 = new javax.swing.JLabel();
-        lblChamp2 = new javax.swing.JLabel();
-        lblChamp3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblFocusedChampion = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -201,23 +232,21 @@ public class SelectScreen extends javax.swing.JFrame {
         lblHeal = new javax.swing.JLabel();
         lblExhaust = new javax.swing.JLabel();
         lblGhost = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        pnChosenChamps = new javax.swing.JPanel();
+        lblChamp1 = new javax.swing.JLabel();
+        lblChamp2 = new javax.swing.JLabel();
+        lblChamp3 = new javax.swing.JLabel();
+        pnChosenSpells = new javax.swing.JPanel();
+        lblSpell1 = new javax.swing.JLabel();
+        lblSpell2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        pnChampions.setBorder(javax.swing.BorderFactory.createTitledBorder("Select your Champions"));
+        pnChampions.setBorder(javax.swing.BorderFactory.createTitledBorder("Choose wisely"));
         pnChampions.setLayout(new java.awt.GridLayout(6, 4, 5, 5));
         getContentPane().add(pnChampions, java.awt.BorderLayout.CENTER);
-
-        pnChosenChamps.setBorder(javax.swing.BorderFactory.createTitledBorder("Your Champions"));
-        pnChosenChamps.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
-
-        lblChamp1.setPreferredSize(new java.awt.Dimension(80, 80));
-        pnChosenChamps.add(lblChamp1);
-        pnChosenChamps.add(lblChamp2);
-        pnChosenChamps.add(lblChamp3);
-
-        getContentPane().add(pnChosenChamps, java.awt.BorderLayout.NORTH);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -236,26 +265,73 @@ public class SelectScreen extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.SOUTH);
 
-        pnSpells.setBorder(javax.swing.BorderFactory.createTitledBorder("Spells"));
+        pnSpells.setBorder(javax.swing.BorderFactory.createTitledBorder("-"));
         pnSpells.setPreferredSize(new java.awt.Dimension(64, 100));
         pnSpells.setLayout(new java.awt.GridLayout(5, 1));
 
         lblIgnite.setPreferredSize(new java.awt.Dimension(32, 32));
+        lblIgnite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onChooseSpells(evt);
+            }
+        });
         pnSpells.add(lblIgnite);
 
         lblSmite.setPreferredSize(new java.awt.Dimension(32, 32));
+        lblSmite.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onChooseSpells(evt);
+            }
+        });
         pnSpells.add(lblSmite);
 
         lblHeal.setPreferredSize(new java.awt.Dimension(32, 32));
+        lblHeal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onChooseSpells(evt);
+            }
+        });
         pnSpells.add(lblHeal);
 
         lblExhaust.setPreferredSize(new java.awt.Dimension(32, 32));
+        lblExhaust.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onChooseSpells(evt);
+            }
+        });
         pnSpells.add(lblExhaust);
 
         lblGhost.setPreferredSize(new java.awt.Dimension(32, 32));
+        lblGhost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onChooseSpells(evt);
+            }
+        });
         pnSpells.add(lblGhost);
 
         getContentPane().add(pnSpells, java.awt.BorderLayout.EAST);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        pnChosenChamps.setBorder(javax.swing.BorderFactory.createTitledBorder("Champions"));
+        pnChosenChamps.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
+
+        lblChamp1.setPreferredSize(new java.awt.Dimension(80, 80));
+        pnChosenChamps.add(lblChamp1);
+        pnChosenChamps.add(lblChamp2);
+        pnChosenChamps.add(lblChamp3);
+
+        jPanel2.add(pnChosenChamps, java.awt.BorderLayout.CENTER);
+
+        pnChosenSpells.setBorder(javax.swing.BorderFactory.createTitledBorder("Spells"));
+        pnChosenSpells.setPreferredSize(new java.awt.Dimension(64, 100));
+        pnChosenSpells.setLayout(new java.awt.GridLayout(2, 1));
+        pnChosenSpells.add(lblSpell1);
+        pnChosenSpells.add(lblSpell2);
+
+        jPanel2.add(pnChosenSpells, java.awt.BorderLayout.EAST);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.NORTH);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -264,6 +340,32 @@ public class SelectScreen extends javax.swing.JFrame {
         String text = String.format("%-5s - Health\n%-5s - Attack Damage\n%-5s - Ability Power\n%-5s - Armor\n%-5s - Magic Resistance\n%-5s - Attack Speed\n%-5s - Range\n%-5s - Movement Speed", "H", "AD", "AP", "A", "M", "AS", "R", "MS");
         JOptionPane.showMessageDialog(this, text, "Championinformation", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_onHelp
+
+    private void onChooseSpells(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onChooseSpells
+        if (chosenSpells.size() < 2) {
+            String selectedSpell = ((JLabel) evt.getSource()).getName().substring(3);
+            switch (selectedSpell) {
+                case "Heal":
+                    lblFocusedChampion.setText("  Heal:    Heals the first champion or minion closest to the enemy");break;
+                case "Smite":
+                    lblFocusedChampion.setText("  Smite:   Kills the closest enemy minion");break;
+                case "Ignite":
+                    lblFocusedChampion.setText("  Ignite:  Kills the closest enemy champion");break;
+                case "Ghost":
+                    lblFocusedChampion.setText("  Ghost:   Boosts your troops' speed");break;
+                case "Exhaust":
+                    lblFocusedChampion.setText("  Exhaust: Reduces the closest enemy troop's speed");break;
+                default:
+                    System.out.println(selectedSpell);
+            }
+            if (evt.getClickCount() == 2) {
+                if (!chosenSpells.contains(selectedSpell)) {
+                    chosenSpells.add(selectedSpell);
+                }
+                repaint();
+            }
+        }
+    }//GEN-LAST:event_onChooseSpells
 
 //    /**
     //     * @param args the command line arguments
@@ -303,6 +405,7 @@ public class SelectScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblChamp1;
     private javax.swing.JLabel lblChamp2;
     private javax.swing.JLabel lblChamp3;
@@ -312,8 +415,11 @@ public class SelectScreen extends javax.swing.JFrame {
     private javax.swing.JLabel lblHeal;
     private javax.swing.JLabel lblIgnite;
     private javax.swing.JLabel lblSmite;
+    private javax.swing.JLabel lblSpell1;
+    private javax.swing.JLabel lblSpell2;
     private javax.swing.JPanel pnChampions;
     private javax.swing.JPanel pnChosenChamps;
+    private javax.swing.JPanel pnChosenSpells;
     private javax.swing.JPanel pnSpells;
     // End of variables declaration//GEN-END:variables
 

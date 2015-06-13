@@ -71,7 +71,7 @@ public class GameClient {
                         connectScreen.setVisible(false);
                         select.setVisible(true);
 
-                        while (select.getChosenChampions().size() < 3) {
+                        while (select.getChosenChampions().size() < 3 || select.getChosenSpells().size() < 2) {
                             try {
                                 Thread.sleep(500);
                             } catch (InterruptedException ex) {
@@ -83,7 +83,7 @@ public class GameClient {
                         serverResponse = ois.readObject();
                         if (serverResponse.equals("###GO###")) {
                             oos.writeObject("###READY###");
-                            GameScreen gs = new GameScreen(nickname, chosenChampions);
+                            GameScreen gs = new GameScreen(nickname, chosenChampions, select.getChosenSpells());
                             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
                             gs.setSize(gd.getDisplayMode().getWidth() - 20, select.getHeight() / 2);
                             gs.setLocation(10, select.getY() + (player == 2 ? select.getY() / 2 + 50 : 0));

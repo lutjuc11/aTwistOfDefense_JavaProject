@@ -21,8 +21,6 @@ import javax.swing.BorderFactory;
 
 
 
-// ghost, heal, ignite, exhaust, smite
-
 /**
  *
  * @author Juergen
@@ -30,6 +28,7 @@ import javax.swing.BorderFactory;
 public class GameScreen extends javax.swing.JFrame {
 
     private LinkedList<Unit> champList = new LinkedList<>();
+    private LinkedList<String> spellList = new LinkedList<>();
     private LinkedList<Unit> turretList = new LinkedList<>();
     private Graphics g;
     private LinkedList<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
@@ -41,7 +40,7 @@ public class GameScreen extends javax.swing.JFrame {
 
     private Unit enemyUnit = null;
 
-    public GameScreen(String nickname, LinkedList<Unit> champions) {
+    public GameScreen(String nickname, LinkedList<Unit> champions, LinkedList<String> spells) {
         initComponents();
 
         //this.setLayout(null);
@@ -51,7 +50,10 @@ public class GameScreen extends javax.swing.JFrame {
         menChampion1.setText(champions.get(0).getDisplayname());
         menChampion2.setText(champions.get(1).getDisplayname());
         menChampion3.setText(champions.get(2).getDisplayname());
+        menSpell1.setText(spells.get(0));
+        menSpell2.setText(spells.get(1));
         champList = champions;
+        spellList = spells;
         turretList.add(new Unit(24, "OuterTurret", 3500, 150, 0, 150, 150, 1.00, 300, 0, "Turret", 0));
 
         turretList.add(new Unit(25, "InnerTurret", 5000, 250, 0, 200, 200, 1.00, 250, 0, "Turret", 0));
@@ -243,7 +245,7 @@ public class GameScreen extends javax.swing.JFrame {
 //            System.out.println("Anzahl an Felder (drawPanel / fieldwidth): "+drawPanel.getWidth()/fieldWidth);
             for (int i = 0; i < (int) (drawPanel.getWidth() / fieldWidth); i++) {
 
-                System.out.println("drawPanel.getWidth(): " + drawPanel.getWidth());
+                //System.out.println("drawPanel.getWidth(): " + drawPanel.getWidth());
                 g.drawLine((int) fieldWidth * i, 0, (int) fieldWidth * i, drawPanel.getHeight());
 
             }
@@ -287,6 +289,8 @@ public class GameScreen extends javax.swing.JFrame {
         menMeleeMinion = new javax.swing.JMenuItem();
         menCasterMinion = new javax.swing.JMenuItem();
         menSpells = new javax.swing.JMenu();
+        menSpell1 = new javax.swing.JMenuItem();
+        menSpell2 = new javax.swing.JMenuItem();
         MoneyBar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -358,6 +362,13 @@ public class GameScreen extends javax.swing.JFrame {
         jMenuBar1.add(menTroops);
 
         menSpells.setText("Spells");
+
+        menSpell1.setText("Spell1");
+        menSpells.add(menSpell1);
+
+        menSpell2.setText("Spell2");
+        menSpells.add(menSpell2);
+
         jMenuBar1.add(menSpells);
 
         MoneyBar.setText("xxxxx");
@@ -603,6 +614,8 @@ public class GameScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem menChampion3;
     private javax.swing.JMenuItem menMeleeMinion;
     private javax.swing.JMenu menPlayer;
+    private javax.swing.JMenuItem menSpell1;
+    private javax.swing.JMenuItem menSpell2;
     private javax.swing.JMenu menSpells;
     private javax.swing.JMenuItem menSurrender;
     private javax.swing.JMenu menTroops;

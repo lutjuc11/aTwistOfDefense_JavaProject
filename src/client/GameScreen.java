@@ -72,27 +72,21 @@ public class GameScreen extends javax.swing.JFrame {
         amountOfFields = (int) (gd.getDisplayMode().getWidth() / fieldWidth);
         System.out.println("AMOUNT OF FIELDS: " + amountOfFields);
 
-        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) (fieldWidth * 75)));
-        //System.out.println("Turret X: "+(1200+(drawPanel.getWidth() - 250 - drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight())));
-        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) (fieldWidth * 90)));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) (fieldWidth * 20)));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) (fieldWidth * 50)));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 20)));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 50)));
 
-        if (turretsThreadList.get(0) == null || !turretsThreadList.get(0).isAlive()) {
+        if (turretsThreadList.size() == 0 || !turretsThreadList.get(0).isAlive()) {
             turretsThreadList.get(0).start();
             turretsThreadList.get(1).start();
+            turretsThreadList.get(2).start();
+            turretsThreadList.get(3).start();
         }
 
         mt = new MoneyThread();
         mt.start();
 
-        repaint();
-    }
-
-    public GameScreen() {
-        initComponents();
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        this.setSize(gd.getDisplayMode().getWidth() - 20, gd.getDisplayMode().getHeight() / 4);
-        this.setLocationRelativeTo(null);
-        drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         repaint();
     }
 
@@ -530,9 +524,9 @@ public class GameScreen extends javax.swing.JFrame {
             if (!enemyUnitsTheardList.contains(unit)) {
                 enemyUnitsTheardList.add(new GameScreen.UnitThread(unit, true));
             }
-        }else{
-            if(unit.getTyp().equals("Minion")){
-                
+        } else {
+            if (unit.getTyp().equals("Minion")) {
+
             }
         }
 
@@ -832,8 +826,31 @@ public class GameScreen extends javax.swing.JFrame {
                 if (enemy) {
                     for (UnitThread uT : enemyUnitsTheardList) {
                         if (uT != this && uT.getX() < this.getX()) {
-                            System.out.println(uT.getUnitWidth());
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(1).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(1);
+                        if (tT.getX() < this.getX()) {
+                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(0).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(0);
+                        if (tT.getX() < this.getX()) {
+                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -854,6 +871,30 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
+                    if (turretsThreadList.get(2).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(2);
+                        if (tT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(3).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(3);
+                        if (tT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
                     for (MinionThread mT : minionsThreadList) {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
@@ -865,19 +906,6 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                }
-
-                for (TurretThread tT : turretsThreadList) {
-
-                    while (tT.getX() == this.x + fieldWidth) {
-                        try {
-                            Thread.sleep(2000 - (int) (unit.getAttackspeed() * 1000));
-                        } catch (InterruptedException ex) {
-                            System.out.println(ex.toString());
-                        }
-                        //System.out.println("CHAMPION deals damage to TOWER");
-                    }
-
                 }
 
                 repaint();

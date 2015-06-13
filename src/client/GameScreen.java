@@ -375,9 +375,9 @@ public class GameScreen extends javax.swing.JFrame {
                 if (minionsThreadList.get(0).isAlive()) {
                     //CHAMP
                     if (minionsThreadList.get(0).isCaster()) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator  + "CasterMinion.png"));
-                    }else{
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator  + "MeeleMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
+                    } else {
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                     if (unitWidth < fieldWidth * 1) {
@@ -404,6 +404,94 @@ public class GameScreen extends javax.swing.JFrame {
                     g.drawImage(image, minionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
                     g.setColor(Color.magenta);
                     g.drawRect(minionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+
+                    //Healthbar
+                    g.setColor(Color.GREEN);
+                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.setColor(Color.BLACK);
+                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+
+                }
+            }
+
+//MINION THREAD 2
+            if (minionsThreadList.size() > 1) {
+                if (minionsThreadList.get(1).isAlive()) {
+                    //CHAMP
+                    if (minionsThreadList.get(1).isCaster()) {
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
+                    } else {
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
+                    }
+                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    if (unitWidth < fieldWidth * 1) {
+                        unitWidth = (int) fieldWidth;
+                    } else {
+
+                        for (int i = 1; i < 10; i++) {
+                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
+                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                                unitWidth = (int) (fieldWidth * i);
+                                //System.out.println("went in");
+                                break;
+                            } else {
+                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                    unitWidth = (int) (fieldWidth * (i + 1));
+                                    //System.out.println("went in else");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    g.drawImage(image, minionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+                    g.setColor(Color.magenta);
+                    g.drawRect(minionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+
+                    //Healthbar
+                    g.setColor(Color.GREEN);
+                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.setColor(Color.BLACK);
+                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+
+                }
+            }
+
+//MINION THREAD 3
+            if (minionsThreadList.size() > 2) {
+                if (minionsThreadList.get(2).isAlive()) {
+                    //CHAMP
+                    if (minionsThreadList.get(2).isCaster()) {
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
+                    } else {
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
+                    }
+                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    if (unitWidth < fieldWidth * 1) {
+                        unitWidth = (int) fieldWidth;
+                    } else {
+
+                        for (int i = 1; i < 10; i++) {
+                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
+                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                                unitWidth = (int) (fieldWidth * i);
+                                //System.out.println("went in");
+                                break;
+                            } else {
+                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                    unitWidth = (int) (fieldWidth * (i + 1));
+                                    //System.out.println("went in else");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    g.drawImage(image, minionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+                    g.setColor(Color.magenta);
+                    g.drawRect(minionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
                     //Healthbar
                     g.setColor(Color.GREEN);

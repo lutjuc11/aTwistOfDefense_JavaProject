@@ -69,6 +69,26 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Spells"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="menSpell1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Spell1"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menSpell2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Spell2"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="MoneyBar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="xxxxx"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[100, 19]"/>
+            </Property>
+          </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="MoneyBar">
           <Properties>

@@ -376,7 +376,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (minionsThreadList.size() > 0) {
                 if (minionsThreadList.get(0).isAlive()) {
                     //Minion
-                    if (minionsThreadList.get(0).getUnit().getDisplayname().contains("Caster")) {
+                    if (minionsThreadList.get(0).getUnit().getDisplayname().equals("CasterMinion")) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
                     } else {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
@@ -420,7 +420,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (minionsThreadList.size() > 1) {
                 if (minionsThreadList.get(1).isAlive()) {
                     //Minion
-                    if (minionsThreadList.get(0).getUnit().getDisplayname().contains("Caster")) {
+                    if (minionsThreadList.get(1).getUnit().getDisplayname().equals("CasterMinion")) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
                     } else {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
@@ -464,7 +464,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (minionsThreadList.size() > 2) {
                 if (minionsThreadList.get(2).isAlive()) {
                     //Minion
-                    if (minionsThreadList.get(0).getUnit().getDisplayname().contains("Caster")) {
+                    if (minionsThreadList.get(2).getUnit().getDisplayname().equals("CasterMinion")) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
                     } else {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
@@ -508,7 +508,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (enemyMinionsThreadList.size() > 0) {
                 if (enemyMinionsThreadList.get(0).isAlive()) {
                     //Minion
-                    if (enemyMinionsThreadList.get(0).getUnit().getDisplayname().contains("Caster")) {
+                    if (enemyMinionsThreadList.get(0).getUnit().getDisplayname().equals("CasterMinion")) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
                     } else {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
@@ -535,7 +535,7 @@ public class GameScreen extends javax.swing.JFrame {
                         }
                     }
 
-                    g.drawImage(image, enemyMinionsThreadList.get(0).getX()+unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
+                    g.drawImage(image, enemyMinionsThreadList.get(0).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                     g.setColor(Color.magenta);
                     g.drawRect(enemyMinionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
@@ -552,7 +552,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (enemyMinionsThreadList.size() > 1) {
                 if (enemyMinionsThreadList.get(1).isAlive()) {
                     //Minion
-                    if (enemyMinionsThreadList.get(0).getUnit().getDisplayname().contains("Caster")) {
+                    if (enemyMinionsThreadList.get(1).getUnit().getDisplayname().equals("CasterMinion")) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
                     } else {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
@@ -579,7 +579,7 @@ public class GameScreen extends javax.swing.JFrame {
                         }
                     }
 
-                    g.drawImage(image, enemyMinionsThreadList.get(1).getX()+unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
+                    g.drawImage(image, enemyMinionsThreadList.get(1).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                     g.setColor(Color.magenta);
                     g.drawRect(enemyMinionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
@@ -596,7 +596,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (enemyMinionsThreadList.size() > 2) {
                 if (enemyMinionsThreadList.get(2).isAlive()) {
                     //Minion
-                    if (enemyMinionsThreadList.get(0).getUnit().getDisplayname().contains("Caster")) {
+                    if (enemyMinionsThreadList.get(2).getUnit().getDisplayname().equals("CasterMinion")) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
                     } else {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
@@ -623,7 +623,7 @@ public class GameScreen extends javax.swing.JFrame {
                         }
                     }
 
-                    g.drawImage(image, enemyMinionsThreadList.get(2).getX()+unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
+                    g.drawImage(image, enemyMinionsThreadList.get(2).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                     g.setColor(Color.magenta);
                     g.drawRect(enemyMinionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
@@ -635,7 +635,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                 }
             }
-            
+
 //            System.out.println("fieldwidth: "+fieldWidth);
 //            System.out.println("fieldwidth rounded: "+Math.round(fieldWidth));
 //            System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
@@ -665,7 +665,7 @@ public class GameScreen extends javax.swing.JFrame {
         } else {
             if (unit.getTyp().equals("Minion")) {
                 int index = 1;
-                if(unit.getDisplayname().equals("MeeleMinion")){
+                if (unit.getDisplayname().equals("MeeleMinion")) {
                     index = 0;
                 }
                 if (enemyMinionsThreadList.size() < 3) {
@@ -805,7 +805,7 @@ public class GameScreen extends javax.swing.JFrame {
                 enemyUnit = unitsThreadList.get(0).getUnit();
                 mt.spawnChampion();
             }
-            
+
         }
     }//GEN-LAST:event_onCreateChamp1
 
@@ -816,7 +816,7 @@ public class GameScreen extends javax.swing.JFrame {
                 enemyUnit = unitsThreadList.get(1).getUnit();
                 mt.spawnChampion();
             }
-            
+
         }
     }//GEN-LAST:event_onCreaterChamp2
 
@@ -827,7 +827,7 @@ public class GameScreen extends javax.swing.JFrame {
                 enemyUnit = unitsThreadList.get(2).getUnit();
                 mt.spawnChampion();
             }
-            
+
         }
     }//GEN-LAST:event_onCreaterChamp3
 
@@ -848,6 +848,7 @@ public class GameScreen extends javax.swing.JFrame {
             if (minionsThreadList.size() < 3) {
                 minionsThreadList.add(new GameScreen.MinionThread(minionList.get(1)));
                 minionsThreadList.get(minionsThreadList.size() - 1).start();
+                enemyUnit = minionsThreadList.get(minionsThreadList.size() - 1).getUnit();
                 mt.spawnCasterMinion();
             }
 
@@ -935,7 +936,6 @@ public class GameScreen extends javax.swing.JFrame {
         public Unit getUnit() {
             return unit;
         }
-        
 
         public boolean isEnemy() {
             return enemy;

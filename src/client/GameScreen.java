@@ -70,7 +70,7 @@ public class GameScreen extends javax.swing.JFrame {
 
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         fieldWidth = (gd.getDisplayMode().getWidth() - 20) / 200;
-        fieldWidth = Math.round(fieldWidth);
+        fieldWidth = (int) fieldWidth;
         System.out.println("FIELD WIDTH: " + fieldWidth);
         System.out.println("DRAWPANEL.getWidth(): " + drawPanel.getWidth());
         amountOfFields = (int) (gd.getDisplayMode().getWidth() / fieldWidth);
@@ -383,6 +383,7 @@ public class GameScreen extends javax.swing.JFrame {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    minionsThreadList.get(0).setUnitWidth(unitWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -427,6 +428,7 @@ public class GameScreen extends javax.swing.JFrame {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    minionsThreadList.get(1).setUnitWidth(unitWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -471,6 +473,7 @@ public class GameScreen extends javax.swing.JFrame {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    minionsThreadList.get(2).setUnitWidth(unitWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -515,6 +518,7 @@ public class GameScreen extends javax.swing.JFrame {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    enemyMinionsThreadList.get(0).setUnitWidth(unitWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -559,6 +563,7 @@ public class GameScreen extends javax.swing.JFrame {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    enemyMinionsThreadList.get(1).setUnitWidth(unitWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -603,6 +608,7 @@ public class GameScreen extends javax.swing.JFrame {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    enemyMinionsThreadList.get(2).setUnitWidth(unitWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -904,6 +910,8 @@ public class GameScreen extends javax.swing.JFrame {
         private int x = 0;
         private boolean enemy = false;
         private Unit unit;
+        
+        private int unitWidth = 1;
 
         public MinionThread(Unit unit) {
             this.unit = unit;
@@ -918,12 +926,155 @@ public class GameScreen extends javax.swing.JFrame {
         @Override
         public void run() {
             while (!interrupted()) {
+                
                 try {
                     //System.out.println(unit.getMovespeed());
                     //unit.getMovespeed()
-                    Thread.sleep(300);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
+                }
+                
+                if (enemy) {
+                    for (UnitThread uT : enemyUnitsTheardList) {
+                        if (uT.getX() < this.getX()) {
+                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for (UnitThread uT : unitsThreadList) {
+                        if (uT.getX() < this.getX()) {
+                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for (MinionThread mT : enemyMinionsThreadList) {
+                        if (mT.getX() < this.getX()) {
+                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(1).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(1);
+                        if (tT.getX() < this.getX()) {
+                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(0).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(0);
+                        if (tT.getX() < this.getX()) {
+                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for (MinionThread mT : enemyMinionsThreadList) {
+                        if (mT != this && mT.getX() < this.getX()) {
+                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (UnitThread uT : unitsThreadList) {
+                        if (uT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for(UnitThread uT : enemyUnitsTheardList)
+                    {
+                        if (uT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for(MinionThread mT : enemyMinionsThreadList)
+                    {
+                        if (mT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(2).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(2);
+                        if (tT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    if (turretsThreadList.get(3).isAlive()) {
+                        TurretThread tT = turretsThreadList.get(3);
+                        if (tT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for (MinionThread mT : minionsThreadList) {
+                        if (mT != this && mT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
                 }
 
                 //repaint();
@@ -934,6 +1085,14 @@ public class GameScreen extends javax.swing.JFrame {
                 }
                 //System.out.println("Champ X: " + x);
             }
+        }
+        
+        public void setUnitWidth(int unitWidth) {
+            this.unitWidth = unitWidth;
+        }
+
+        public int getUnitWidth() {
+            return unitWidth;
         }
 
         public int getX() {
@@ -992,6 +1151,28 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
+                    for (UnitThread uT : unitsThreadList) {
+                        if (uT.getX() < this.getX()) {
+                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for (MinionThread mT : enemyMinionsThreadList) {
+                        if (mT.getX() < this.getX()) {
+                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
                     if (turretsThreadList.get(1).isAlive()) {
                         TurretThread tT = turretsThreadList.get(1);
                         if (tT.getX() < this.getX()) {
@@ -1016,10 +1197,45 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
+                    for (MinionThread mT : enemyMinionsThreadList) {
+                        if (mT.getX() < this.getX()) {
+                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
                 } else {
                     for (UnitThread uT : unitsThreadList) {
                         if (uT != this && uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for(UnitThread uT : enemyUnitsTheardList)
+                    {
+                        if (uT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException ex) {
+                                    System.out.println(ex.toString());
+                                }
+                            }
+                        }
+                    }
+                    for(MinionThread mT : enemyMinionsThreadList)
+                    {
+                        if (mT.getX() > this.getX()) {
+                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {

@@ -16,6 +16,8 @@ import java.io.IOException;
 import static java.lang.Thread.interrupted;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
@@ -39,6 +41,8 @@ public class GameScreen extends javax.swing.JFrame {
     private int amountOfFields;
 
     private MoneyThread mt;
+    private TimerThread timt;
+    int spawnTime = 0;
 
     private Unit enemyUnit = null;
 
@@ -86,6 +90,9 @@ public class GameScreen extends javax.swing.JFrame {
 
         mt = new MoneyThread();
         mt.start();
+
+        timt = new TimerThread();
+        timt.start();
 
         repaint();
     }
@@ -630,17 +637,12 @@ public class GameScreen extends javax.swing.JFrame {
                 }
             }
 
-//            System.out.println("fieldwidth: "+fieldWidth);
-//            System.out.println("fieldwidth rounded: "+Math.round(fieldWidth));
-//            System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
-//            System.out.println("Anzahl an Felder (drawPanel / fieldwidth): "+drawPanel.getWidth()/fieldWidth);
-            for (int i = 0; i < (int) (drawPanel.getWidth() / fieldWidth); i++) {
-
-                //System.out.println("drawPanel.getWidth(): " + drawPanel.getWidth());
-                g.drawLine((int) fieldWidth * i, 0, (int) fieldWidth * i, drawPanel.getHeight());
-
-            }
-
+//            for (int i = 0; i < (int) (drawPanel.getWidth() / fieldWidth); i++) {
+//
+//                //System.out.println("drawPanel.getWidth(): " + drawPanel.getWidth());
+//                g.drawLine((int) fieldWidth * i, 0, (int) fieldWidth * i, drawPanel.getHeight());
+//
+//            }
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
@@ -795,11 +797,22 @@ public class GameScreen extends javax.swing.JFrame {
     private void onCreateChamp1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChamp1
         if (mt.getBalance() >= 500) {
             if (unitsThreadList.get(0) == null || !unitsThreadList.get(0).isAlive()) {
+//                while (spawnTime > 0) {
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException ex) {
+//                    }
+//                }
                 unitsThreadList.get(0).start();
                 enemyUnit = unitsThreadList.get(0).getUnit();
                 mt.spawnChampion();
+//                spawnTime = 3;
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException ex) {
+//                }
+//                spawnTime = 0;
             }
-
         }
     }//GEN-LAST:event_onCreateChamp1
 
@@ -913,7 +926,7 @@ public class GameScreen extends javax.swing.JFrame {
                     System.out.println(ex.toString());
                 }
 
-                repaint();
+                //repaint();
                 if (enemy) {
                     x -= fieldWidth;
                 } else {
@@ -1052,7 +1065,7 @@ public class GameScreen extends javax.swing.JFrame {
                     }
                 }
 
-                repaint();
+                //repaint();
                 if (enemy) {
                     x -= fieldWidth;
                 } else {
@@ -1127,6 +1140,21 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
     }
+
+    class TimerThread extends Thread {
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                }
+                repaint();
+            }
+        }
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MoneyBar;

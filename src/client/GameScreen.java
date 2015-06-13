@@ -19,8 +19,6 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
-
-
 /**
  *
  * @author Juergen
@@ -33,6 +31,8 @@ public class GameScreen extends javax.swing.JFrame {
     private Graphics g;
     private LinkedList<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
     private LinkedList<GameScreen.UnitThread> enemyUnitsTheardList = new LinkedList<>();
+    private LinkedList<GameScreen.MinionThread> minionsThreadList = new LinkedList<>();
+    private LinkedList<GameScreen.MinionThread> enemyMinionsThreadList = new LinkedList<>();
     private LinkedList<GameScreen.TurretThread> turretsThreadList = new LinkedList<>();
     private double fieldWidth;
     private int amountOfFields;
@@ -272,7 +272,7 @@ public class GameScreen extends javax.swing.JFrame {
 
                     g.drawImage(image, enemyUnitsTheardList.get(0).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                     g.setColor(Color.magenta);
-                    g.drawRect(enemyUnitsTheardList.get(0).getX() , drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+                    g.drawRect(enemyUnitsTheardList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
                     //Healthbar
                     g.setColor(Color.RED);
@@ -364,6 +364,51 @@ public class GameScreen extends javax.swing.JFrame {
                     // g.drawRect(unitsThreadList.get(2).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
                 }
             }
+
+//MINION THREAD 1
+            if (minionsThreadList.size() > 0) {
+                if (minionsThreadList.get(0).isAlive()) {
+                    //CHAMP
+                    if (minionsThreadList.get(0).isCaster()) {
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator  + "CasterMinion.png"));
+                    }else{
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator  + "MeeleMinion.png"));
+                    }
+                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                    if (unitWidth < fieldWidth * 1) {
+                        unitWidth = (int) fieldWidth;
+                    } else {
+
+                        for (int i = 1; i < 10; i++) {
+                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
+                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
+                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                                unitWidth = (int) (fieldWidth * i);
+                                //System.out.println("went in");
+                                break;
+                            } else {
+                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                    unitWidth = (int) (fieldWidth * (i + 1));
+                                    //System.out.println("went in else");
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    g.drawImage(image, minionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+                    g.setColor(Color.magenta);
+                    g.drawRect(minionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
+
+                    //Healthbar
+                    g.setColor(Color.GREEN);
+                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.setColor(Color.BLACK);
+                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+
+                }
+            }
+
 //            System.out.println("fieldwidth: "+fieldWidth);
 //            System.out.println("fieldwidth rounded: "+Math.round(fieldWidth));
 //            System.out.println("drawPanel.getWidth(): "+drawPanel.getWidth());
@@ -545,13 +590,23 @@ public class GameScreen extends javax.swing.JFrame {
 
     private void onCreaterMeleeMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterMeleeMinion
         if (mt.getBalance() >= 150) {
-            mt.spawnMeleeMinion();
+            if (minionsThreadList.size() < 3) {
+                minionsThreadList.add(new GameScreen.MinionThread(false));
+                minionsThreadList.get(minionsThreadList.size() - 1).start();
+                mt.spawnMeleeMinion();
+            }
+
         }
     }//GEN-LAST:event_onCreaterMeleeMinion
 
     private void onCreaterCasterMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterCasterMinion
         if (mt.getBalance() >= 200) {
-            mt.spawnCasterMinion();
+            if (minionsThreadList.size() < 3) {
+                minionsThreadList.add(new GameScreen.MinionThread(true));
+                minionsThreadList.get(minionsThreadList.size() - 1).start();
+                mt.spawnCasterMinion();
+            }
+
         }
     }//GEN-LAST:event_onCreaterCasterMinion
 
@@ -588,6 +643,57 @@ public class GameScreen extends javax.swing.JFrame {
 
         public int getX() {
             return x;
+        }
+
+    }
+
+    class MinionThread extends Thread {
+
+        private int x = 0;
+        private boolean caster = false;
+        private boolean enemy = false;
+
+        public MinionThread(boolean caster) {
+            this.caster = caster;
+        }
+
+        public MinionThread(boolean caster, boolean enemy) {
+            this.caster = caster;
+            this.enemy = enemy;
+            x = (int) (fieldWidth * (amountOfFields - 2) - (int) (fieldWidth * 10));
+        }
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+                try {
+                    //System.out.println(unit.getMovespeed());
+                    //unit.getMovespeed()
+                    Thread.sleep(300);
+                } catch (InterruptedException ex) {
+                    System.out.println(ex.toString());
+                }
+
+                repaint();
+                if (enemy) {
+                    x -= fieldWidth;
+                } else {
+                    x += fieldWidth;
+                }
+                //System.out.println("Champ X: " + x);
+            }
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public boolean isCaster() {
+            return caster;
+        }
+
+        public boolean isEnemy() {
+            return enemy;
         }
 
     }

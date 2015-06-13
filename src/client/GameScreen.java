@@ -526,11 +526,15 @@ public class GameScreen extends javax.swing.JFrame {
 
     public void startEnemyUnitThread(Unit unit) {
 
-        
-        if (!enemyUnitsTheardList.contains(unit)) {
-            enemyUnitsTheardList.add(new GameScreen.UnitThread(unit, true));
+        if (unit.getTyp().equals("Champ")) {
+            if (!enemyUnitsTheardList.contains(unit)) {
+                enemyUnitsTheardList.add(new GameScreen.UnitThread(unit, true));
+            }
+        }else{
+            if(unit.getTyp().equals("Minion")){
+                
+            }
         }
-        
 
         for (UnitThread ut : enemyUnitsTheardList) {
             if (ut.getUnit() == unit) {

@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 public class SelectScreen extends javax.swing.JFrame {
 
     private LinkedList<Unit> units;
+    private LinkedList<Unit> minions = new LinkedList<>();
     private LinkedList<JLabel> champions = new LinkedList<>();
     private LinkedList<Unit> chosenUnits = new LinkedList<>();
     private LinkedList<String> chosenSpells = new LinkedList<>();
@@ -59,6 +60,13 @@ public class SelectScreen extends javax.swing.JFrame {
         lblSpell2.setBorder(BorderFactory.createLineBorder(Color.black));
 
         this.units = units;
+        for (Unit unit : units) {
+            if(unit.getTyp().equalsIgnoreCase("minion"))
+            {
+                minions.add(unit);
+            }
+        }
+        
         JLabel lblChamp;
         for (Unit unit : units) {
             if (unit.getTyp().equals("Champ")) {
@@ -211,6 +219,11 @@ public class SelectScreen extends javax.swing.JFrame {
     public LinkedList<String> getChosenSpells()
     {
         return chosenSpells;
+    }
+    
+    public LinkedList<Unit> getMinions()
+    {
+        return minions;
     }
 
     /**

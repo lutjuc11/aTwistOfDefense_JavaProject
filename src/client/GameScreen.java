@@ -409,10 +409,9 @@ public class GameScreen extends javax.swing.JFrame {
 
                     //Healthbar
                     g.setColor(Color.GREEN);
-                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.fillRect(minionsThreadList.get(0).getX()+ ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     g.setColor(Color.BLACK);
-                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
+                    g.drawRect(minionsThreadList.get(0).getX()+ ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                 }
             }
 
@@ -454,10 +453,10 @@ public class GameScreen extends javax.swing.JFrame {
 
                     //Healthbar
                     g.setColor(Color.GREEN);
-                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.fillRect(minionsThreadList.get(1).getX()+ ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     g.setColor(Color.BLACK);
-                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
+                    g.drawRect(minionsThreadList.get(1).getX()+ ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
+                
                 }
             }
 
@@ -499,10 +498,10 @@ public class GameScreen extends javax.swing.JFrame {
 
                     //Healthbar
                     g.setColor(Color.GREEN);
-                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.fillRect(minionsThreadList.get(2).getX()+ ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     g.setColor(Color.BLACK);
-                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
+                    g.drawRect(minionsThreadList.get(2).getX()+ ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
+                
                 }
             }
 
@@ -543,11 +542,10 @@ public class GameScreen extends javax.swing.JFrame {
                     //g.drawRect(enemyMinionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
                     //Healthbar
-                    g.setColor(Color.GREEN);
-                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.setColor(Color.RED);
+                    g.fillRect((enemyMinionsThreadList.get(0).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     g.setColor(Color.BLACK);
-                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
+                    g.drawRect((enemyMinionsThreadList.get(0).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                 }
             }
 
@@ -588,11 +586,10 @@ public class GameScreen extends javax.swing.JFrame {
                     //g.drawRect(enemyMinionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
                     //Healthbar
-                    g.setColor(Color.GREEN);
-                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.setColor(Color.RED);
+                    g.fillRect((enemyMinionsThreadList.get(1).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     g.setColor(Color.BLACK);
-                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
+                    g.drawRect((enemyMinionsThreadList.get(1).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                 }
             }
 
@@ -633,11 +630,10 @@ public class GameScreen extends javax.swing.JFrame {
                     //g.drawRect(enemyMinionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
                     //Healthbar
-                    g.setColor(Color.GREEN);
-                    // g.fillRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
+                    g.setColor(Color.RED);
+                    g.fillRect((enemyMinionsThreadList.get(2).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     g.setColor(Color.BLACK);
-                    //g.drawRect(unitsThreadList.get(0).getX() + ((drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight()) / 2) - 20, (drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1) - 10, 40, 10);
-
+                    g.drawRect((enemyMinionsThreadList.get(2).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                 }
             }
 
@@ -908,7 +904,7 @@ public class GameScreen extends javax.swing.JFrame {
         private int x = 0;
         private boolean enemy = false;
         private Unit unit;
-        
+
         private int unitWidth = 1;
 
         public MinionThread(Unit unit) {
@@ -924,7 +920,7 @@ public class GameScreen extends javax.swing.JFrame {
         @Override
         public void run() {
             while (!interrupted()) {
-                
+
                 try {
                     //System.out.println(unit.getMovespeed());
                     //unit.getMovespeed()
@@ -932,7 +928,7 @@ public class GameScreen extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
-                
+
                 if (enemy) {
                     for (UnitThread uT : enemyUnitsTheardList) {
                         if (uT.getX() < this.getX()) {
@@ -1014,8 +1010,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for(UnitThread uT : enemyUnitsTheardList)
-                    {
+                    for (UnitThread uT : enemyUnitsTheardList) {
                         if (uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
                                 try {
@@ -1026,8 +1021,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for(MinionThread mT : enemyMinionsThreadList)
-                    {
+                    for (MinionThread mT : enemyMinionsThreadList) {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
                                 try {
@@ -1084,7 +1078,7 @@ public class GameScreen extends javax.swing.JFrame {
                 //System.out.println("Champ X: " + x);
             }
         }
-        
+
         public void setUnitWidth(int unitWidth) {
             this.unitWidth = unitWidth;
         }
@@ -1218,8 +1212,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for(UnitThread uT : enemyUnitsTheardList)
-                    {
+                    for (UnitThread uT : enemyUnitsTheardList) {
                         if (uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
                                 try {
@@ -1230,8 +1223,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for(MinionThread mT : enemyMinionsThreadList)
-                    {
+                    for (MinionThread mT : enemyMinionsThreadList) {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
                                 try {

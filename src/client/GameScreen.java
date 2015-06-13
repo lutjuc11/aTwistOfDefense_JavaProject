@@ -376,9 +376,9 @@ public class GameScreen extends javax.swing.JFrame {
                 if (minionsThreadList.get(0).isAlive()) {
                     //Minion
                     if (minionsThreadList.get(0).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
                     } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                     minionsThreadList.get(0).setUnitWidth(unitWidth);
@@ -420,9 +420,9 @@ public class GameScreen extends javax.swing.JFrame {
                 if (minionsThreadList.get(1).isAlive()) {
                     //Minion
                     if (minionsThreadList.get(1).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
                     } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                     minionsThreadList.get(1).setUnitWidth(unitWidth);
@@ -465,9 +465,9 @@ public class GameScreen extends javax.swing.JFrame {
                 if (minionsThreadList.get(2).isAlive()) {
                     //Minion
                     if (minionsThreadList.get(2).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "CasterMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
                     } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "MeeleMinion.png"));
+                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                     }
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                     minionsThreadList.get(2).setUnitWidth(unitWidth);
@@ -943,7 +943,8 @@ public class GameScreen extends javax.swing.JFrame {
                     }
                     for (UnitThread uT : unitsThreadList) {
                         if (uT.getX() < this.getX()) {
-                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {                                
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -987,9 +988,10 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for (MinionThread mT : enemyMinionsThreadList) {
+                    for (MinionThread mT : minionsThreadList) {
                         if (mT != this && mT.getX() < this.getX()) {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -1013,6 +1015,7 @@ public class GameScreen extends javax.swing.JFrame {
                     for (UnitThread uT : enemyUnitsTheardList) {
                         if (uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -1021,7 +1024,9 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for (MinionThread mT : enemyMinionsThreadList) {
+
+                    for(MinionThread mT : minionsThreadList)
+                    {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
                                 try {
@@ -1056,9 +1061,10 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for (MinionThread mT : minionsThreadList) {
+                    for (MinionThread mT : enemyMinionsThreadList) {
                         if (mT != this && mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -1146,6 +1152,7 @@ public class GameScreen extends javax.swing.JFrame {
                     for (UnitThread uT : unitsThreadList) {
                         if (uT.getX() < this.getX()) {
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -1189,9 +1196,10 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    for (MinionThread mT : enemyMinionsThreadList) {
+                    for (MinionThread mT : minionsThreadList) {
                         if (mT.getX() < this.getX()) {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -1215,6 +1223,7 @@ public class GameScreen extends javax.swing.JFrame {
                     for (UnitThread uT : enemyUnitsTheardList) {
                         if (uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {
@@ -1226,6 +1235,7 @@ public class GameScreen extends javax.swing.JFrame {
                     for (MinionThread mT : enemyMinionsThreadList) {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
+                                // DAMAGE
                                 try {
                                     Thread.sleep(100);
                                 } catch (InterruptedException ex) {

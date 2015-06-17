@@ -1112,7 +1112,7 @@ public class GameScreen extends javax.swing.JFrame {
         private Unit unit;
         private int x = 0;
         private boolean enemy = false;
-
+        
         private int unitWidth = 1;
 
         public UnitThread(Unit unit) {

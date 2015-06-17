@@ -163,6 +163,8 @@ public class GameScreen extends javax.swing.JFrame {
                 HealthBarX = (unitsThreadList.get(0).getCurrentHealth() * 100) / unitsThreadList.get(0).getMaxHealth();
                 g.setColor(Color.GREEN);
                 g.fillRect(unitsThreadList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
+                System.out.println("HealthBarX: "+HealthBarX);
+                System.out.println("FinalHealthBarWert: "+(40*HealthBarX/100));
                 g.setColor(Color.BLACK);
                 g.drawRect(unitsThreadList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
             }
@@ -240,7 +242,7 @@ public class GameScreen extends javax.swing.JFrame {
                 //g.setColor(Color.magenta);
                 //g.drawRect(unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
 
-                HealthBarX = (unitsThreadList.get(2).getCurrentHealth() * 100) / unitsThreadList.get(0).getMaxHealth();
+                HealthBarX = (unitsThreadList.get(2).getCurrentHealth() * 100) / unitsThreadList.get(2).getMaxHealth();
                 g.setColor(Color.GREEN);
                 g.fillRect(unitsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
                 g.setColor(Color.BLACK);

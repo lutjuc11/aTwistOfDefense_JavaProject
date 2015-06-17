@@ -955,7 +955,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
                                 doDamage(this, uT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1002,7 +1002,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
                                 doDamage(this, mT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1026,7 +1026,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
                                 doDamage(this, uT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1126,12 +1126,12 @@ public class GameScreen extends javax.swing.JFrame {
         }
         
         public void doDamage(MinionThread damageDealingUnit, UnitThread damageGettingUnit) {
-            int damage = (int) (100 / (100 + damageGettingUnit.getUnit().getArmor())) * damageDealingUnit.getUnit().getAd() + (int) (100 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp();
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
         public void doDamage(MinionThread damageDealingUnit, MinionThread damageGettingUnit) {
-            int damage = (int) (100 / (100 + damageGettingUnit.getUnit().getArmor())) * damageDealingUnit.getUnit().getAd() + (int) (100 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp();
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
@@ -1188,7 +1188,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
                                 doDamage(this, uT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1235,7 +1235,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
                                 doDamage(this, mT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1259,7 +1259,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
                                 doDamage(this, uT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1271,7 +1271,7 @@ public class GameScreen extends javax.swing.JFrame {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
                                 doDamage(this, mT);
                                 try {
-                                    Thread.sleep(100);
+                                    Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }
@@ -1354,12 +1354,13 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {
-            int damage = (int) (100 / (100 + damageGettingUnit.getUnit().getArmor())) * damageDealingUnit.getUnit().getAd() + (int) (100 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp();
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
+            //Thread.sleep((int) damageDealingUnit.getUnit().getAttackspeed());
         }
 
         public void doDamage(UnitThread damageDealingUnit, MinionThread damageGettingUnit) {
-            int damage = (int) (100 / (100 + damageGettingUnit.getUnit().getArmor())) * damageDealingUnit.getUnit().getAd() + (int) (100 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp();
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 

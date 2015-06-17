@@ -72,10 +72,10 @@ public class GameScreen extends javax.swing.JFrame {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         fieldWidth = (gd.getDisplayMode().getWidth() - 20) / 200;
         fieldWidth = (int) fieldWidth;
-        System.out.println("FIELD WIDTH: " + fieldWidth);
-        System.out.println("DRAWPANEL.getWidth(): " + drawPanel.getWidth());
+        //System.out.println("FIELD WIDTH: " + fieldWidth);
+        //System.out.println("DRAWPANEL.getWidth(): " + drawPanel.getWidth());
         amountOfFields = (int) (gd.getDisplayMode().getWidth() / fieldWidth);
-        System.out.println("AMOUNT OF FIELDS: " + amountOfFields);
+        //System.out.println("AMOUNT OF FIELDS: " + amountOfFields);
 
         turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) (fieldWidth * 20)));
         turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) (fieldWidth * 50)));
@@ -212,8 +212,8 @@ public class GameScreen extends javax.swing.JFrame {
                 image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(2).getDisplayname() + ".png"));
                 unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                 unitsThreadList.get(2).setUnitWidth(unitWidth);
-                System.out.println("UnitWidth Champ3: " + unitWidth);
-                System.out.println("FieldWidth: " + ((int) (fieldWidth)));
+                //System.out.println("UnitWidth Champ3: " + unitWidth);
+                //System.out.println("FieldWidth: " + ((int) (fieldWidth)));
                 if (unitWidth < ((int) (fieldWidth)) * 1) {
                     unitWidth = ((int) (fieldWidth));
                 } else {
@@ -234,7 +234,7 @@ public class GameScreen extends javax.swing.JFrame {
                         }
                     }
                 }
-                System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
+                //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
 
                 g.drawImage(image, unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
                 //g.setColor(Color.magenta);
@@ -254,8 +254,8 @@ public class GameScreen extends javax.swing.JFrame {
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(0).getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                     enemyUnitsTheardList.get(0).setUnitWidth(unitWidth);
-                    System.out.println("UnitWidth Champ3: " + unitWidth);
-                    System.out.println("FieldWidth: " + fieldWidth);
+                    //System.out.println("UnitWidth Champ3: " + unitWidth);
+                    //System.out.println("FieldWidth: " + fieldWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -276,7 +276,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
+                    //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
 
                     g.drawImage(image, enemyUnitsTheardList.get(0).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                    // g.setColor(Color.magenta);
@@ -298,8 +298,8 @@ public class GameScreen extends javax.swing.JFrame {
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(1).getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
                     enemyUnitsTheardList.get(1).setUnitWidth(unitWidth);
-                    System.out.println("UnitWidth Champ3: " + unitWidth);
-                    System.out.println("FieldWidth: " + fieldWidth);
+                    //System.out.println("UnitWidth Champ3: " + unitWidth);
+                    //System.out.println("FieldWidth: " + fieldWidth);
                     if (unitWidth < fieldWidth * 1) {
                         unitWidth = (int) fieldWidth;
                     } else {
@@ -320,7 +320,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
-                    System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
+                    //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
 
                     g.drawImage(image, enemyUnitsTheardList.get(1).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
                    // g.setColor(Color.magenta);
@@ -1121,10 +1121,10 @@ public class GameScreen extends javax.swing.JFrame {
             this.currentHealth = health;
         }
 
-        public int getMaxHealth(){
+        public int getMaxHealth() {
             return unit.getHealth();
         }
-        
+
         public void doDamage(MinionThread damageDealingUnit, UnitThread damageGettingUnit) {
             int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
@@ -1348,8 +1348,8 @@ public class GameScreen extends javax.swing.JFrame {
         public void setCurrentHealth(int health) {
             this.currentHealth = health;
         }
-        
-        public int getMaxHealth(){
+
+        public int getMaxHealth() {
             return unit.getHealth();
         }
 

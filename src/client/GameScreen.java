@@ -1113,14 +1113,20 @@ public class GameScreen extends javax.swing.JFrame {
         private int x = 0;
         private boolean enemy = false;
         
+        private int currentHealth;
+
         private int unitWidth = 1;
 
         public UnitThread(Unit unit) {
             this.unit = unit;
+            this.currentHealth = unit.getHealth();
         }
 
+        //100/(100+Armor) * AD + 100/(100+MagicResist) * AP
+        
         public UnitThread(Unit unit, boolean enemy) {
             this.unit = unit;
+            this.currentHealth = unit.getHealth();
             this.enemy = enemy;
             x = (((int) (fieldWidth)) * (amountOfFields - 2) - (((int) (fieldWidth)) * 10));
         }
@@ -1305,6 +1311,11 @@ public class GameScreen extends javax.swing.JFrame {
 
         public Unit getUnit() {
             return unit;
+        }
+        
+        public int getCurrentHealth()
+        {
+            return currentHealth;
         }
 
     }

@@ -106,11 +106,11 @@ public class GameScreen extends javax.swing.JFrame {
             BufferedImage image;
             this.g = g;
 
-// NEXUS THREAD 1
+// NEXUS 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusBlue.png"));
             g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, drawPanel);
 
-// NEXUS THREAD 2
+// NEXUS 2
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusRed.png"));
             g.drawImage(image, ((int) (fieldWidth)) * (amountOfFields - 3) - ((int) (fieldWidth * 10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, null);
 
@@ -151,7 +151,7 @@ public class GameScreen extends javax.swing.JFrame {
                         }
                     }
                     g.drawImage(image, uT.getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-                    
+
                     //Healthbar
                     HealthBarX = (uT.getCurrentHealth() * 100) / uT.getMaxHealth();
                     g.setColor(Color.GREEN);
@@ -280,7 +280,6 @@ public class GameScreen extends javax.swing.JFrame {
 //                g.setColor(Color.BLACK);
 //                g.drawRect(unitsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
 //            }
-
 //ENEMY THREAD 1
             if (enemyUnitsTheardList.size() > 0) {
                 if (enemyUnitsTheardList.get(0).isAlive()) {
@@ -1164,12 +1163,12 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         public void doDamage(MinionThread damageDealingUnit, UnitThread damageGettingUnit) {
-            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
         public void doDamage(MinionThread damageDealingUnit, MinionThread damageGettingUnit) {
-            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
@@ -1199,7 +1198,7 @@ public class GameScreen extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            while (!interrupted()) {
+            while (currentHealth > 0) {
 
                 try {
                     //System.out.println(unit.getMovespeed());
@@ -1225,6 +1224,12 @@ public class GameScreen extends javax.swing.JFrame {
                         if (uT.getX() < this.getX()) {
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
                                 doDamage(this, uT);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                if (!uT.checkUnitAlive()) {
+                                    break;
+                                }
                                 try {
                                     Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
@@ -1272,6 +1277,10 @@ public class GameScreen extends javax.swing.JFrame {
                         if (mT.getX() < this.getX()) {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
                                 doDamage(this, mT);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                //mT.checkalive
                                 try {
                                     Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
@@ -1296,6 +1305,12 @@ public class GameScreen extends javax.swing.JFrame {
                         if (uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
                                 doDamage(this, uT);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                if (!uT.checkUnitAlive()) {
+                                    break;
+                                }
                                 try {
                                     Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
@@ -1308,6 +1323,9 @@ public class GameScreen extends javax.swing.JFrame {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
                                 doDamage(this, mT);
+                                if (currentHealth <= 10) {
+                                    break;
+                                }
                                 try {
                                     Thread.sleep((int) this.getUnit().getAttackspeed());
                                 } catch (InterruptedException ex) {
@@ -1361,6 +1379,11 @@ public class GameScreen extends javax.swing.JFrame {
                 }
                 //System.out.println("Champ X: " + x);
             }
+            if (unitsThreadList.contains(this)) {
+                unitsThreadList.remove(this);
+            } else {
+                enemyUnitsTheardList.remove(this);
+            }
         }
 
         public void setUnitWidth(int unitWidth) {
@@ -1392,13 +1415,17 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {
-            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
         public void doDamage(UnitThread damageDealingUnit, MinionThread damageGettingUnit) {
-            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
+        }
+
+        public boolean checkUnitAlive() {
+            return currentHealth > 0;
         }
 
     }

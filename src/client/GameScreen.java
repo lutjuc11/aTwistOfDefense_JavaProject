@@ -1360,7 +1360,6 @@ public class GameScreen extends javax.swing.JFrame {
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {
             int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) (100.0 / (100 + damageGettingUnit.getUnit().getMagicres()) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-            //Thread.sleep((int) damageDealingUnit.getUnit().getAttackspeed());
         }
 
         public void doDamage(UnitThread damageDealingUnit, MinionThread damageGettingUnit) {

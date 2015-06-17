@@ -1121,6 +1121,10 @@ public class GameScreen extends javax.swing.JFrame {
             this.currentHealth = health;
         }
 
+        public int getMaxHealth(){
+            return unit.getHealth();
+        }
+        
         public void doDamage(MinionThread damageDealingUnit, UnitThread damageGettingUnit) {
             int damage = (int) (100 / (100 + damageGettingUnit.getUnit().getArmor())) * damageDealingUnit.getUnit().getAd() + (int) (100 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp();
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
@@ -1343,6 +1347,10 @@ public class GameScreen extends javax.swing.JFrame {
 
         public void setCurrentHealth(int health) {
             this.currentHealth = health;
+        }
+        
+        public int getMaxHealth(){
+            return unit.getHealth();
         }
 
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {

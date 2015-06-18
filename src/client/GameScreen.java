@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,10 +37,10 @@ public class GameScreen extends javax.swing.JFrame {
     private LinkedList<Unit> turretList = new LinkedList<>();
     private LinkedList<Unit> minionList = new LinkedList<>();
     private Graphics g;
-    private LinkedList<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
-    private LinkedList<GameScreen.UnitThread> enemyUnitsThreadList = new LinkedList<>();
-    private LinkedList<GameScreen.UnitThread> minionsThreadList = new LinkedList<>();
-    private LinkedList<GameScreen.UnitThread> enemyMinionsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> enemyUnitsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> minionsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> enemyMinionsThreadList = new LinkedList<>();
     private LinkedList<GameScreen.TurretThread> turretsThreadList = new LinkedList<>();
     private double fieldWidth;
     private int amountOfFields;
@@ -54,7 +55,11 @@ public class GameScreen extends javax.swing.JFrame {
     public GameScreen(String nickname, LinkedList<Unit> champions, LinkedList<String> spells, LinkedList<Unit> minions) {
         initComponents();
 
-        // List liste = Collections.synchronizedList(liste); XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        unitsThreadList = Collections.synchronizedList(unitsThreadList);
+        enemyUnitsThreadList = Collections.synchronizedList(enemyUnitsThreadList);
+        minionsThreadList = Collections.synchronizedList(minionsThreadList);
+        enemyMinionsThreadList = Collections.synchronizedList(enemyMinionsThreadList);        
+        
         //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
@@ -561,6 +566,7 @@ public class GameScreen extends javax.swing.JFrame {
                 }
 
                 if (enemy) {
+                    //synchronized (enemyUnitsThreadList) {
                     for (UnitThread uT : enemyUnitsThreadList) {
                         if (uT != this && uT.getX() < this.getX()) {
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
@@ -571,7 +577,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        // }
                     }
+                    //synchronized (unitsThreadList) {
                     for (UnitThread uT : unitsThreadList) {
                         if (uT.getX() < this.getX()) {
                             while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
@@ -589,7 +597,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        // }
                     }
+                    //synchronized (enemyMinionsThreadList) {
                     for (UnitThread mT : enemyMinionsThreadList) {
                         if (mT.getX() < this.getX()) {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
@@ -600,7 +610,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        //  }
                     }
+                    //synchronized (turretsThreadList) {
                     if (turretsThreadList.get(1).isAlive()) {
                         TurretThread tT = turretsThreadList.get(1);
                         if (tT.getX() < this.getX()) {
@@ -612,7 +624,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        // }
                     }
+                    //synchronized (turretsThreadList) {
                     if (turretsThreadList.get(0).isAlive()) {
                         TurretThread tT = turretsThreadList.get(0);
                         if (tT.getX() < this.getX()) {
@@ -624,7 +638,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        // }
                     }
+                    //synchronized (minionsThreadList) {
                     for (UnitThread mT : minionsThreadList) {
                         if (mT.getX() < this.getX()) {
                             while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
@@ -642,8 +658,10 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        //}
                     }
                 } else {
+                    //synchronized (unitsThreadList) {
                     for (UnitThread uT : unitsThreadList) {
                         if (uT != this && uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
@@ -654,7 +672,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        //}
                     }
+                    //synchronized (enemyUnitsThreadList) {
                     for (UnitThread uT : enemyUnitsThreadList) {
                         if (uT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
@@ -672,7 +692,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        //  }
                     }
+                    //synchronized (enemyMinionsThreadList) {
                     for (UnitThread mT : enemyMinionsThreadList) {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
@@ -694,6 +716,8 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
+                    //}
+                    // synchronized (turretsThreadList) {
                     if (turretsThreadList.get(2).isAlive()) {
                         TurretThread tT = turretsThreadList.get(2);
                         if (tT.getX() > this.getX()) {
@@ -705,7 +729,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        //      }
                     }
+                    // synchronized (turretsThreadList) {
                     if (turretsThreadList.get(3).isAlive()) {
                         TurretThread tT = turretsThreadList.get(3);
                         if (tT.getX() > this.getX()) {
@@ -717,7 +743,9 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        //       }
                     }
+                    //   synchronized (minionsThreadList) {
                     for (UnitThread mT : minionsThreadList) {
                         if (mT.getX() > this.getX()) {
                             while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
@@ -729,6 +757,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
+                    //   }
                 }
 
                 //repaint();
@@ -792,10 +821,6 @@ public class GameScreen extends javax.swing.JFrame {
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
-//        public void doDamage(UnitThread damageDealingUnit, MinionThread damageGettingUnit) {
-//            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-//            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-//        }
         public boolean checkUnitAlive() {
             return currentHealth > 0;
         }

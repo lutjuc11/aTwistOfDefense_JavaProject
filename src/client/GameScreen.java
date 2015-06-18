@@ -55,8 +55,6 @@ public class GameScreen extends javax.swing.JFrame {
         initComponents();
 
         // List liste = Collections.synchronizedList(liste); XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        
-        
         //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
@@ -142,7 +140,7 @@ public class GameScreen extends javax.swing.JFrame {
                 if (uT.isAlive()) {
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + uT.getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    uT.setUnitWidth(unitWidth);
+                    
                     if (unitWidth < ((int) (fieldWidth)) * 1) {
                         unitWidth = ((int) (fieldWidth));
                     } else {
@@ -159,6 +157,7 @@ public class GameScreen extends javax.swing.JFrame {
                             }
                         }
                     }
+                    uT.setUnitWidth(unitWidth);
                     g.drawImage(image, uT.getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
 
                     //Healthbar
@@ -167,135 +166,17 @@ public class GameScreen extends javax.swing.JFrame {
                     g.fillRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
                     g.setColor(Color.BLACK);
                     g.drawRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
+                    g.drawString(uT.getCurrentHealth()+"",(uT.getX() + ((unitWidth / 2) - 20)) , drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 5);
                 }
             }
 
-//            if (unitsThreadList.get(0).isAlive()) {
-//                //CHAMP
-//                image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(0).getDisplayname() + ".png"));
-//                unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-//                unitsThreadList.get(0).setUnitWidth(unitWidth);
-//                if (unitWidth < ((int) (fieldWidth)) * 1) {
-//                    unitWidth = ((int) (fieldWidth));
-//                } else {
-//
-//                    for (int i = 1; i < 10; i++) {
-//                        //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-//                        // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-//                        if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * i + 1) - (((int) (fieldWidth)) / 2))) {
-//                            unitWidth = (((int) (fieldWidth)) * i);
-//                            //System.out.println("went in");
-//                            break;
-//                        } else {
-//                            if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * (i + 1)))) {
-//                                unitWidth = (((int) (fieldWidth)) * (i + 1));
-//                                //System.out.println("went in else");
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                g.drawImage(image, unitsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-//                //g.setColor(Color.magenta);
-//                //g.drawRect(unitsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-//
-//                //Healthbar
-//                HealthBarX = (unitsThreadList.get(0).getCurrentHealth() * 100) / unitsThreadList.get(0).getMaxHealth();
-//                g.setColor(Color.GREEN);
-//                g.fillRect(unitsThreadList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-//                System.out.println("HealthBarX: " + HealthBarX);
-//                System.out.println("FinalHealthBarWert: " + (40 * HealthBarX / 100));
-//                g.setColor(Color.BLACK);
-//                g.drawRect(unitsThreadList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-//            }
-//
-//// CHAMP THREAD 2
-//            if (unitsThreadList.get(1).isAlive()) {
-//                //CHAMP
-//                image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(1).getDisplayname() + ".png"));
-//                unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-//                unitsThreadList.get(1).setUnitWidth(unitWidth);
-//                if (unitWidth < ((int) (fieldWidth)) * 1) {
-//                    unitWidth = ((int) (fieldWidth));
-//                } else {
-//
-//                    for (int i = 1; i < 10; i++) {
-//                        //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-//                        // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-//                        if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * i + 1) - (((int) (fieldWidth)) / 2))) {
-//                            unitWidth = (((int) (fieldWidth)) * i);
-//                            //System.out.println("went in");
-//                            break;
-//                        } else {
-//                            if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * (i + 1)))) {
-//                                unitWidth = (((int) (fieldWidth)) * (i + 1));
-//                                //System.out.println("went in else");
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                g.drawImage(image, unitsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-//                //g.setColor(Color.magenta);
-//                //g.drawRect(unitsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-//
-//                //Healthbar
-//                HealthBarX = (unitsThreadList.get(1).getCurrentHealth() * 100) / unitsThreadList.get(1).getMaxHealth();
-//                g.setColor(Color.GREEN);
-//                g.fillRect(unitsThreadList.get(1).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-//                g.setColor(Color.BLACK);
-//                g.drawRect(unitsThreadList.get(1).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-//            }
-//
-//// CHAMP THREAD 3
-//            if (unitsThreadList.get(2).isAlive()) {
-//                //CHAMP
-//                image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + champList.get(2).getDisplayname() + ".png"));
-//                unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-//                unitsThreadList.get(2).setUnitWidth(unitWidth);
-//                //System.out.println("UnitWidth Champ3: " + unitWidth);
-//                //System.out.println("FieldWidth: " + ((int) (fieldWidth)));
-//                if (unitWidth < ((int) (fieldWidth)) * 1) {
-//                    unitWidth = ((int) (fieldWidth));
-//                } else {
-//
-//                    for (int i = 1; i < 10; i++) {
-//                        //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-//                        // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-//                        if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * i + 1) - (((int) (fieldWidth)) / 2))) {
-//                            unitWidth = (((int) (fieldWidth)) * i);
-//                            //System.out.println("went in");
-//                            break;
-//                        } else {
-//                            if ((unitWidth > ((int) (fieldWidth)) * i) && (unitWidth < (((int) (fieldWidth)) * (i + 1)))) {
-//                                unitWidth = (((int) (fieldWidth)) * (i + 1));
-//                                //System.out.println("went in else");
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//                //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
-//
-//                g.drawImage(image, unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-//                //g.setColor(Color.magenta);
-//                //g.drawRect(unitsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-//
-//                HealthBarX = (unitsThreadList.get(2).getCurrentHealth() * 100) / unitsThreadList.get(2).getMaxHealth();
-//                g.setColor(Color.GREEN);
-//                g.fillRect(unitsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-//                g.setColor(Color.BLACK);
-//                g.drawRect(unitsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-//            }
 //ENEMY THREADS
             if (enemyUnitsThreadList.size() > 0) {
                 for (UnitThread uT : enemyUnitsThreadList) {
                     if (uT.isAlive()) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + uT.getUnit().getDisplayname() + ".png"));
                         unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                        uT.setUnitWidth(unitWidth);
+                        
                         if (unitWidth < fieldWidth * 1) {
                             unitWidth = (int) fieldWidth;
                         } else {
@@ -312,6 +193,7 @@ public class GameScreen extends javax.swing.JFrame {
                                 }
                             }
                         }
+                        uT.setUnitWidth(unitWidth);
                         g.drawImage(image, uT.getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
 
                         //Healthbar
@@ -320,416 +202,90 @@ public class GameScreen extends javax.swing.JFrame {
                         g.fillRect((uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
                         g.setColor(Color.BLACK);
                         g.drawRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
+                        g.drawString(uT.getCurrentHealth()+"",(uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 5);
                     }
                 }
             }
 
-//            if (enemyUnitsTheardList.size() > 0) {
-//                if (enemyUnitsTheardList.get(0).isAlive()) {
-//                    //CHAMP
-//                    image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(0).getUnit().getDisplayname() + ".png"));
-//                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-//                    enemyUnitsTheardList.get(0).setUnitWidth(unitWidth);
-//                    //System.out.println("UnitWidth Champ3: " + unitWidth);
-//                    //System.out.println("FieldWidth: " + fieldWidth);
-//                    if (unitWidth < fieldWidth * 1) {
-//                        unitWidth = (int) fieldWidth;
-//                    } else {
-//
-//                        for (int i = 1; i < 10; i++) {
-//                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-//                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-//                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-//                                unitWidth = (int) (fieldWidth * i);
-//                                //System.out.println("went in");
-//                                break;
-//                            } else {
-//                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-//                                    unitWidth = (int) (fieldWidth * (i + 1));
-//                                    //System.out.println("went in else");
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
-//
-//                    g.drawImage(image, enemyUnitsTheardList.get(0).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
-//                   // g.setColor(Color.magenta);
-//                    //g.drawRect(enemyUnitsTheardList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-//
-//                    //Healthbar
-//                    HealthBarX = (enemyUnitsTheardList.get(0).getCurrentHealth() * 100) / enemyUnitsTheardList.get(0).getMaxHealth();
-//                    g.setColor(Color.RED);
-//                    g.fillRect((enemyUnitsTheardList.get(0).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-//                    g.setColor(Color.BLACK);
-//                    g.drawRect(enemyUnitsTheardList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-//                }
-//            }
-//
-////ENEMY THREAD 2
-//            if (enemyUnitsTheardList.size() > 1) {
-//                if (enemyUnitsTheardList.get(1).isAlive()) {
-//                    //CHAMP
-//                    image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(1).getUnit().getDisplayname() + ".png"));
-//                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-//                    enemyUnitsTheardList.get(1).setUnitWidth(unitWidth);
-//                    //System.out.println("UnitWidth Champ3: " + unitWidth);
-//                    //System.out.println("FieldWidth: " + fieldWidth);
-//                    if (unitWidth < fieldWidth * 1) {
-//                        unitWidth = (int) fieldWidth;
-//                    } else {
-//
-//                        for (int i = 1; i < 10; i++) {
-//                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-//                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-//                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-//                                unitWidth = (int) (fieldWidth * i);
-//                                //System.out.println("went in");
-//                                break;
-//                            } else {
-//                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-//                                    unitWidth = (int) (fieldWidth * (i + 1));
-//                                    //System.out.println("went in else");
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
-//
-//                    g.drawImage(image, enemyUnitsTheardList.get(1).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
-//                   // g.setColor(Color.magenta);
-//                    //g.drawRect(enemyUnitsTheardList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-//
-//                    //Healthbar
-//                    HealthBarX = (enemyUnitsTheardList.get(1).getCurrentHealth() * 100) / enemyUnitsTheardList.get(1).getMaxHealth();
-//                    g.setColor(Color.RED);
-//                    g.fillRect((enemyUnitsTheardList.get(1).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-//                    g.setColor(Color.BLACK);
-//                    g.drawRect(enemyUnitsTheardList.get(1).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-//                }
-//            }
-////ENEMY THREAD 3
-//            if (enemyUnitsTheardList.size() > 2) {
-//                if (enemyUnitsTheardList.get(2).isAlive()) {
-//                    //CHAMP
-//                    image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + enemyUnitsTheardList.get(2).getUnit().getDisplayname() + ".png"));
-//                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-//                    enemyUnitsTheardList.get(2).setUnitWidth(unitWidth);
-//                    //System.out.println("UnitWidth Champ3: " + unitWidth);
-//                    //System.out.println("FieldWidth: " + fieldWidth);
-//                    if (unitWidth < fieldWidth * 1) {
-//                        unitWidth = (int) fieldWidth;
-//                    } else {
-//
-//                        for (int i = 1; i < 10; i++) {
-//                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-//                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-//                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-//                                unitWidth = (int) (fieldWidth * i);
-//                                //System.out.println("went in");
-//                                break;
-//                            } else {
-//                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-//                                    unitWidth = (int) (fieldWidth * (i + 1));
-//                                    //System.out.println("went in else");
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    //System.out.println("UnitWidth Champ3 AFTER: " + unitWidth);
-//
-//                    g.drawImage(image, enemyUnitsTheardList.get(2).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
-//                    //g.setColor(Color.magenta);
-//                    //g.drawRect(enemyUnitsTheardList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-//
-//                    //Healthbar
-//                    HealthBarX = (enemyUnitsTheardList.get(2).getCurrentHealth() * 100) / enemyUnitsTheardList.get(2).getMaxHealth();
-//                    g.setColor(Color.RED);
-//                    g.fillRect((enemyUnitsTheardList.get(2).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-//                    g.setColor(Color.BLACK);
-//                    g.drawRect(enemyUnitsTheardList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-//                }
-//            }
-
-//MINION THREAD 1
+//MINION THREADS
             if (minionsThreadList.size() > 0) {
-                if (minionsThreadList.get(0).isAlive()) {
-                    //Minion
-                    if (minionsThreadList.get(0).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
-                    } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
-                    }
-                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    minionsThreadList.get(0).setUnitWidth(unitWidth);
-                    if (unitWidth < fieldWidth * 1) {
-                        unitWidth = (int) fieldWidth;
-                    } else {
+                for (UnitThread uT : minionsThreadList) {
+                    if (uT.isAlive()) {
+                        if (uT.getUnit().getDisplayname().equals("CasterMinion")) {
+                            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
+                        } else {
+                            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
+                        }
+                        unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                        
+                        if (unitWidth < fieldWidth * 1) {
+                            unitWidth = (int) fieldWidth;
+                        } else {
 
-                        for (int i = 1; i < 10; i++) {
-                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                                unitWidth = (int) (fieldWidth * i);
-                                //System.out.println("went in");
-                                break;
-                            } else {
-                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                    unitWidth = (int) (fieldWidth * (i + 1));
-                                    //System.out.println("went in else");
+                            for (int i = 1; i < 10; i++) {
+                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                                    unitWidth = (int) (fieldWidth * i);
                                     break;
+                                } else {
+                                    if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                        unitWidth = (int) (fieldWidth * (i + 1));
+                                        break;
+                                    }
                                 }
                             }
                         }
+                        uT.setUnitWidth(unitWidth);
+                        g.drawImage(image, uT.getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
+
+                        //Healthbar
+                        HealthBarX = (uT.getCurrentHealth() * 100) / uT.getMaxHealth();
+                        g.setColor(Color.GREEN);
+                        g.fillRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
+                        g.setColor(Color.BLACK);
+                        g.drawRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     }
-
-                    g.drawImage(image, minionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-                    //g.setColor(Color.magenta);
-                    //g.drawRect(minionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-
-                    //Healthbar
-                    HealthBarX = (minionsThreadList.get(0).getCurrentHealth() * 100) / minionsThreadList.get(0).getMaxHealth();
-                    g.setColor(Color.GREEN);
-                    g.fillRect(minionsThreadList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-                    g.setColor(Color.BLACK);
-                    g.drawRect(minionsThreadList.get(0).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                 }
             }
 
-//MINION THREAD 2
-            if (minionsThreadList.size() > 1) {
-                if (minionsThreadList.get(1).isAlive()) {
-                    //Minion
-                    if (minionsThreadList.get(1).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
-                    } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
-                    }
-                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    minionsThreadList.get(1).setUnitWidth(unitWidth);
-                    if (unitWidth < fieldWidth * 1) {
-                        unitWidth = (int) fieldWidth;
-                    } else {
-
-                        for (int i = 1; i < 10; i++) {
-                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                                unitWidth = (int) (fieldWidth * i);
-                                //System.out.println("went in");
-                                break;
-                            } else {
-                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                    unitWidth = (int) (fieldWidth * (i + 1));
-                                    //System.out.println("went in else");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    g.drawImage(image, minionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-                    //g.setColor(Color.magenta);
-                    //g.drawRect(minionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-
-                    //Healthbar
-                    HealthBarX = (minionsThreadList.get(1).getCurrentHealth() * 100) / minionsThreadList.get(1).getMaxHealth();
-                    g.setColor(Color.GREEN);
-                    g.fillRect(minionsThreadList.get(1).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-                    g.setColor(Color.BLACK);
-                    g.drawRect(minionsThreadList.get(1).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-                }
-            }
-
-//MINION THREAD 3
-            if (minionsThreadList.size() > 2) {
-                if (minionsThreadList.get(2).isAlive()) {
-                    //Minion
-                    if (minionsThreadList.get(2).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
-                    } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
-                    }
-                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    minionsThreadList.get(2).setUnitWidth(unitWidth);
-                    if (unitWidth < fieldWidth * 1) {
-                        unitWidth = (int) fieldWidth;
-                    } else {
-
-                        for (int i = 1; i < 10; i++) {
-                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                                unitWidth = (int) (fieldWidth * i);
-                                //System.out.println("went in");
-                                break;
-                            } else {
-                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                    unitWidth = (int) (fieldWidth * (i + 1));
-                                    //System.out.println("went in else");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    g.drawImage(image, minionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3, null);
-                    //g.setColor(Color.magenta);
-                    //g.drawRect(minionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-
-                    //Healthbar
-                    HealthBarX = (minionsThreadList.get(2).getCurrentHealth() * 100) / minionsThreadList.get(2).getMaxHealth();
-                    g.setColor(Color.GREEN);
-                    g.fillRect(minionsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-                    g.setColor(Color.BLACK);
-                    g.drawRect(minionsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-                }
-            }
-
-//ENEMY MINION THREAD 1
+//ENEMY MINION THREADS
             if (enemyMinionsThreadList.size() > 0) {
-                if (enemyMinionsThreadList.get(0).isAlive()) {
-                    //Minion
-                    if (enemyMinionsThreadList.get(0).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
-                    } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
-                    }
-                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    enemyMinionsThreadList.get(0).setUnitWidth(unitWidth);
-                    if (unitWidth < fieldWidth * 1) {
-                        unitWidth = (int) fieldWidth;
-                    } else {
-
-                        for (int i = 1; i < 10; i++) {
-                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                                unitWidth = (int) (fieldWidth * i);
-                                //System.out.println("went in");
-                                break;
-                            } else {
-                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                    unitWidth = (int) (fieldWidth * (i + 1));
-                                    //System.out.println("went in else");
+                for (UnitThread uT : enemyMinionsThreadList) {
+                    if (uT.isAlive()) {
+                        //Minion
+                        if (uT.getUnit().getDisplayname().equals("CasterMinion")) {
+                            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
+                        } else {
+                            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
+                        }
+                        unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
+                        
+                        if (unitWidth < fieldWidth * 1) {
+                            unitWidth = (int) fieldWidth;
+                        } else {
+                            for (int i = 1; i < 10; i++) {
+                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
+                                    unitWidth = (int) (fieldWidth * i);
                                     break;
+                                } else {
+                                    if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
+                                        unitWidth = (int) (fieldWidth * (i + 1));
+                                        break;
+                                    }
                                 }
                             }
                         }
+                        uT.setUnitWidth(unitWidth);
+                        g.drawImage(image, uT.getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
+
+                        //Healthbar
+                        HealthBarX = (uT.getCurrentHealth() * 100) / uT.getMaxHealth();
+                        g.setColor(Color.RED);
+                        g.fillRect((uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
+                        g.setColor(Color.BLACK);
+                        g.drawRect((uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                     }
-
-                    g.drawImage(image, enemyMinionsThreadList.get(0).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
-                    //g.setColor(Color.magenta);
-                    //g.drawRect(enemyMinionsThreadList.get(0).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-
-                    //Healthbar
-                    HealthBarX = (enemyMinionsThreadList.get(0).getCurrentHealth() * 100) / enemyMinionsThreadList.get(0).getMaxHealth();
-                    g.setColor(Color.RED);
-                    g.fillRect((enemyMinionsThreadList.get(0).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-                    g.setColor(Color.BLACK);
-                    g.drawRect((enemyMinionsThreadList.get(0).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
                 }
             }
-
-//ENEMY MINION THREAD 2
-            if (enemyMinionsThreadList.size() > 1) {
-                if (enemyMinionsThreadList.get(1).isAlive()) {
-                    //Minion
-                    if (enemyMinionsThreadList.get(1).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
-                    } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
-                    }
-                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    enemyMinionsThreadList.get(1).setUnitWidth(unitWidth);
-                    if (unitWidth < fieldWidth * 1) {
-                        unitWidth = (int) fieldWidth;
-                    } else {
-
-                        for (int i = 1; i < 10; i++) {
-                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                                unitWidth = (int) (fieldWidth * i);
-                                //System.out.println("went in");
-                                break;
-                            } else {
-                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                    unitWidth = (int) (fieldWidth * (i + 1));
-                                    //System.out.println("went in else");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    g.drawImage(image, enemyMinionsThreadList.get(1).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
-                    //g.setColor(Color.magenta);
-                    //g.drawRect(enemyMinionsThreadList.get(1).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-
-                    //Healthbar
-                    HealthBarX = (enemyMinionsThreadList.get(1).getCurrentHealth() * 100) / enemyMinionsThreadList.get(1).getMaxHealth();
-                    g.setColor(Color.RED);
-                    g.fillRect((enemyMinionsThreadList.get(1).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-                    g.setColor(Color.BLACK);
-                    g.drawRect((enemyMinionsThreadList.get(1).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-                }
-            }
-
-//ENEMY MINION THREAD 3
-            if (enemyMinionsThreadList.size() > 2) {
-                if (enemyMinionsThreadList.get(2).isAlive()) {
-                    //Minion
-                    if (enemyMinionsThreadList.get(2).getUnit().getDisplayname().equals("CasterMinion")) {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyCasterMinion.png"));
-                    } else {
-                        image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
-                    }
-                    unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    enemyMinionsThreadList.get(2).setUnitWidth(unitWidth);
-                    if (unitWidth < fieldWidth * 1) {
-                        unitWidth = (int) fieldWidth;
-                    } else {
-
-                        for (int i = 1; i < 10; i++) {
-                            //System.out.println(unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < ((fieldWidth * i + 1) - (fieldWidth / 2))" + ((fieldWidth * i + 1) - (fieldWidth / 2)));
-                            // System.out.println("ELSE: "+unitWidth + "(unitWidth) > (fieldWidth * i)" + fieldWidth * i + " && " + unitWidth + "(unitWidth) < (fieldWidth * i + 1)" + (fieldWidth * (i + 1)));
-                            if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * i + 1) - (fieldWidth / 2))) {
-                                unitWidth = (int) (fieldWidth * i);
-                                //System.out.println("went in");
-                                break;
-                            } else {
-                                if ((unitWidth > fieldWidth * i) && (unitWidth < (fieldWidth * (i + 1)))) {
-                                    unitWidth = (int) (fieldWidth * (i + 1));
-                                    //System.out.println("went in else");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    g.drawImage(image, enemyMinionsThreadList.get(2).getX() + unitWidth, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, -unitWidth, drawPanel.getHeight() / 3, null);
-                    //g.setColor(Color.magenta);
-                    //g.drawRect(enemyMinionsThreadList.get(2).getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, unitWidth, drawPanel.getHeight() / 3);
-
-                    //Healthbar
-                    HealthBarX = (enemyMinionsThreadList.get(2).getCurrentHealth() * 100) / enemyMinionsThreadList.get(2).getMaxHealth();
-                    g.setColor(Color.RED);
-                    g.fillRect((enemyMinionsThreadList.get(2).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
-                    g.setColor(Color.BLACK);
-                    g.drawRect((enemyMinionsThreadList.get(2).getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-                }
-            }
-
-//            for (int i = 0; i < (int) (drawPanel.getWidth() / fieldWidth); i++) {
-//
-//                //System.out.println("drawPanel.getWidth(): " + drawPanel.getWidth());
-//                g.drawLine((int) fieldWidth * i, 0, (int) fieldWidth * i, drawPanel.getHeight());
-//
-//            }
         } catch (IOException ex) {
             System.out.println(ex.toString());
         }
@@ -970,244 +526,6 @@ public class GameScreen extends javax.swing.JFrame {
 
     }
 
-//    class MinionThread extends Thread {
-//
-//        private int x = 0;
-//        private boolean enemy = false;
-//        private Unit unit;
-//
-//        private int currentHealth;
-//
-//        private int unitWidth = 1;
-//
-//        public MinionThread(Unit unit) {
-//            this.unit = unit;
-//            this.currentHealth = unit.getHealth();
-//        }
-//
-//        public MinionThread(Unit unit, boolean enemy) {
-//            this.unit = unit;
-//            this.enemy = enemy;
-//            this.currentHealth = unit.getHealth();
-//            x = (((int) (fieldWidth)) * (amountOfFields - 2) - (((int) (fieldWidth)) * 10));
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (currentHealth > 0) {
-//
-//                try {
-//                    //System.out.println(unit.getMovespeed());
-//                    //unit.getMovespeed()
-//                    Thread.sleep(100);
-//                } catch (InterruptedException ex) {
-//                    System.out.println(ex.toString());
-//                }
-//
-//                if (enemy) {
-//                    for (UnitThread uT : enemyUnitsThreadList) {
-//                        if (uT.getX() < this.getX()) {
-//                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread uT : unitsThreadList) {
-//                        if (uT.getX() < this.getX()) {
-//                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                doDamage(this, uT);
-//                                try {
-//                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread mT : enemyMinionsThreadList) {
-//                        if (mT.getX() < this.getX()) {
-//                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(1).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(1);
-//                        if (tT.getX() < this.getX()) {
-//                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(0).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(0);
-//                        if (tT.getX() < this.getX()) {
-//                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread mT : minionsThreadList) {
-//                        if (mT != this && mT.getX() < this.getX()) {
-//                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                doDamage(this, mT);
-//                                try {
-//                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    for (UnitThread uT : unitsThreadList) {
-//                        if (uT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread uT : enemyUnitsThreadList) {
-//                        if (uT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
-//                                doDamage(this, uT);
-//                                try {
-//                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    for (UnitThread mT : minionsThreadList) {
-//                        if (mT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(2).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(2);
-//                        if (tT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(3).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(3);
-//                        if (tT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread mT : enemyMinionsThreadList) {
-//                        if (mT != this && mT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
-//                                doDamage(this, mT);
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                //repaint();
-//                if (enemy) {
-//                    x -= fieldWidth;
-//                } else {
-//                    x += fieldWidth;
-//                }
-//                //System.out.println("Champ X: " + x);
-//            }
-//
-//            if (minionsThreadList.contains(this)) {
-//                minionsThreadList.remove(this);
-//            } else {
-//                enemyMinionsThreadList.remove(this);
-//            }
-//        }
-//
-//        public void setUnitWidth(int unitWidth) {
-//            this.unitWidth = unitWidth;
-//        }
-//
-//        public int getUnitWidth() {
-//            return unitWidth;
-//        }
-//
-//        public int getX() {
-//            return x;
-//        }
-//
-//        public Unit getUnit() {
-//            return unit;
-//        }
-//
-//        public boolean isEnemy() {
-//            return enemy;
-//        }
-//
-//        public int getCurrentHealth() {
-//            return currentHealth;
-//        }
-//
-//        public void setCurrentHealth(int health) {
-//            this.currentHealth = health;
-//        }
-//
-//        public int getMaxHealth() {
-//            return unit.getHealth();
-//        }
-//
-//        public void doDamage(MinionThread damageDealingUnit, UnitThread damageGettingUnit) {
-//            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-//            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-//        }
-//
-//        public void doDamage(MinionThread damageDealingUnit, MinionThread damageGettingUnit) {
-//            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-//            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-//        }
-//
-//    }
     class UnitThread extends Thread {
 
         private Unit unit;

@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -36,10 +37,10 @@ public class GameScreen extends javax.swing.JFrame {
     private LinkedList<Unit> turretList = new LinkedList<>();
     private LinkedList<Unit> minionList = new LinkedList<>();
     private Graphics g;
-    private LinkedList<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
-    private LinkedList<GameScreen.UnitThread> enemyUnitsThreadList = new LinkedList<>();
-    private LinkedList<GameScreen.UnitThread> minionsThreadList = new LinkedList<>();
-    private LinkedList<GameScreen.UnitThread> enemyMinionsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> unitsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> enemyUnitsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> minionsThreadList = new LinkedList<>();
+    private List<GameScreen.UnitThread> enemyMinionsThreadList = new LinkedList<>();
     private LinkedList<GameScreen.TurretThread> turretsThreadList = new LinkedList<>();
     private double fieldWidth;
     private int amountOfFields;
@@ -54,7 +55,11 @@ public class GameScreen extends javax.swing.JFrame {
     public GameScreen(String nickname, LinkedList<Unit> champions, LinkedList<String> spells, LinkedList<Unit> minions) {
         initComponents();
 
-        // List liste = Collections.synchronizedList(liste); XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        unitsThreadList = Collections.synchronizedList(unitsThreadList);
+        enemyUnitsThreadList = Collections.synchronizedList(enemyUnitsThreadList);
+        minionsThreadList = Collections.synchronizedList(minionsThreadList);
+        enemyMinionsThreadList = Collections.synchronizedList(enemyMinionsThreadList);        
+        
         //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
@@ -451,7 +456,6 @@ public class GameScreen extends javax.swing.JFrame {
 //                    g.drawRect(enemyUnitsTheardList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
 //                }
 //            }
-
 //MINION THREAD 1
             if (minionsThreadList.size() > 0) {
                 if (minionsThreadList.get(0).isAlive()) {
@@ -968,244 +972,6 @@ public class GameScreen extends javax.swing.JFrame {
 
     }
 
-//    class MinionThread extends Thread {
-//
-//        private int x = 0;
-//        private boolean enemy = false;
-//        private Unit unit;
-//
-//        private int currentHealth;
-//
-//        private int unitWidth = 1;
-//
-//        public MinionThread(Unit unit) {
-//            this.unit = unit;
-//            this.currentHealth = unit.getHealth();
-//        }
-//
-//        public MinionThread(Unit unit, boolean enemy) {
-//            this.unit = unit;
-//            this.enemy = enemy;
-//            this.currentHealth = unit.getHealth();
-//            x = (((int) (fieldWidth)) * (amountOfFields - 2) - (((int) (fieldWidth)) * 10));
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (currentHealth > 0) {
-//
-//                try {
-//                    //System.out.println(unit.getMovespeed());
-//                    //unit.getMovespeed()
-//                    Thread.sleep(100);
-//                } catch (InterruptedException ex) {
-//                    System.out.println(ex.toString());
-//                }
-//
-//                if (enemy) {
-//                    for (UnitThread uT : enemyUnitsThreadList) {
-//                        if (uT.getX() < this.getX()) {
-//                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread uT : unitsThreadList) {
-//                        if (uT.getX() < this.getX()) {
-//                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                doDamage(this, uT);
-//                                try {
-//                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread mT : enemyMinionsThreadList) {
-//                        if (mT.getX() < this.getX()) {
-//                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(1).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(1);
-//                        if (tT.getX() < this.getX()) {
-//                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(0).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(0);
-//                        if (tT.getX() < this.getX()) {
-//                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread mT : minionsThreadList) {
-//                        if (mT != this && mT.getX() < this.getX()) {
-//                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-//                                doDamage(this, mT);
-//                                try {
-//                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    for (UnitThread uT : unitsThreadList) {
-//                        if (uT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread uT : enemyUnitsThreadList) {
-//                        if (uT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
-//                                doDamage(this, uT);
-//                                try {
-//                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    for (UnitThread mT : minionsThreadList) {
-//                        if (mT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(2).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(2);
-//                        if (tT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (turretsThreadList.get(3).isAlive()) {
-//                        TurretThread tT = turretsThreadList.get(3);
-//                        if (tT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                    for (UnitThread mT : enemyMinionsThreadList) {
-//                        if (mT != this && mT.getX() > this.getX()) {
-//                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
-//                                doDamage(this, mT);
-//                                try {
-//                                    Thread.sleep(100);
-//                                } catch (InterruptedException ex) {
-//                                    System.out.println(ex.toString());
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                //repaint();
-//                if (enemy) {
-//                    x -= fieldWidth;
-//                } else {
-//                    x += fieldWidth;
-//                }
-//                //System.out.println("Champ X: " + x);
-//            }
-//
-//            if (minionsThreadList.contains(this)) {
-//                minionsThreadList.remove(this);
-//            } else {
-//                enemyMinionsThreadList.remove(this);
-//            }
-//        }
-//
-//        public void setUnitWidth(int unitWidth) {
-//            this.unitWidth = unitWidth;
-//        }
-//
-//        public int getUnitWidth() {
-//            return unitWidth;
-//        }
-//
-//        public int getX() {
-//            return x;
-//        }
-//
-//        public Unit getUnit() {
-//            return unit;
-//        }
-//
-//        public boolean isEnemy() {
-//            return enemy;
-//        }
-//
-//        public int getCurrentHealth() {
-//            return currentHealth;
-//        }
-//
-//        public void setCurrentHealth(int health) {
-//            this.currentHealth = health;
-//        }
-//
-//        public int getMaxHealth() {
-//            return unit.getHealth();
-//        }
-//
-//        public void doDamage(MinionThread damageDealingUnit, UnitThread damageGettingUnit) {
-//            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-//            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-//        }
-//
-//        public void doDamage(MinionThread damageDealingUnit, MinionThread damageGettingUnit) {
-//            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-//            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-//        }
-//
-//    }
     class UnitThread extends Thread {
 
         private Unit unit;
@@ -1496,10 +1262,6 @@ public class GameScreen extends javax.swing.JFrame {
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
-//        public void doDamage(UnitThread damageDealingUnit, MinionThread damageGettingUnit) {
-//            int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-//            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
-//        }
         public boolean checkUnitAlive() {
             return currentHealth > 0;
         }

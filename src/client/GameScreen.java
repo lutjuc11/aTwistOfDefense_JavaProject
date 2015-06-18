@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -289,8 +290,8 @@ public class GameScreen extends javax.swing.JFrame {
 //                g.drawRect(unitsThreadList.get(2).getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
 //            }
 //ENEMY THREADS
-            if (enemyUnitsTheardList.size() > 0) {
-                for (UnitThread uT : enemyUnitsTheardList) {
+            if (enemyUnitsThreadList.size() > 0) {
+                for (UnitThread uT : enemyUnitsThreadList) {
                     if (uT.isAlive()) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + uT.getUnit().getDisplayname() + ".png"));
                         unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();

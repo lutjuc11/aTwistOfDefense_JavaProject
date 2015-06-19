@@ -19,6 +19,7 @@ import java.io.IOException;
 import static java.lang.Thread.interrupted;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.logging.Level;
@@ -539,7 +540,6 @@ public class GameScreen extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
-                //System.out.println("Tower X: " + x);
             }
         }
 
@@ -601,234 +601,169 @@ public class GameScreen extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            while (currentHealth > 0) {
+            while (currentHealth > 10) {
 
                 try {
-                    //System.out.println(unit.getMovespeed());
-                    //unit.getMovespeed()
-                    Thread.sleep(100);
+                    Thread.sleep(unit.getMovespeed());
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
-
-                if (enemy) {
-                    //synchronized (enemyUnitsThreadList) {
-                    for (UnitThread uT : enemyUnitsThreadList) {
-                        if (uT != this && uT.getX() < this.getX()) {
-                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
+                try {
+                    boolean move = true;
+                    if (!enemy) {
+                        for (UnitThread uT : unitsThreadList) {
+                            if (uT != this && uT.isAlive()) {
+                                if (uT.getX() > this.getX() && this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                    move = false;
                                 }
                             }
                         }
-                        // }
-                    }
-                    //synchronized (unitsThreadList) {
-                    for (UnitThread uT : unitsThreadList) {
-                        if (uT.getX() < this.getX()) {
-                            while (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-                                if (currentHealth <= 0) {
-                                    break;
-                                }
-                                if (!uT.checkUnitAlive()) {
-                                    break;
-                                }
-                                doDamage(this, uT);
-                                try {
-                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        // }
-                    }
-                    //synchronized (enemyMinionsThreadList) {
-                    for (UnitThread mT : enemyMinionsThreadList) {
-                        if (mT.getX() < this.getX()) {
-                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        //  }
-                    }
-                    //synchronized (turretsThreadList) {
-                    if (turretsThreadList.get(1).isAlive()) {
-                        TurretThread tT = turretsThreadList.get(1);
-                        if (tT.getX() < this.getX()) {
-                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        // }
-                    }
-                    //synchronized (turretsThreadList) {
-                    if (turretsThreadList.get(0).isAlive()) {
-                        TurretThread tT = turretsThreadList.get(0);
-                        if (tT.getX() < this.getX()) {
-                            while (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        // }
-                    }
-                    //synchronized (minionsThreadList) {
-                    for (UnitThread mT : minionsThreadList) {
-                        if (mT.getX() < this.getX()) {
-                            while (mT.getX() + mT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
-                                if (!mT.checkUnitAlive()) {
-                                    break;
-                                }
-                                if (currentHealth <= 0) {
-                                    break;
-                                }
-                                doDamage(this, mT);
-                                try {
-                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        //}
-                    }
-                } else {
-                    //synchronized (unitsThreadList) {
-                    for (UnitThread uT : unitsThreadList) {
-                        if (uT != this && uT.getX() > this.getX()) {
-                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        //}
-                    }
-                    //synchronized (enemyUnitsThreadList) {
-                    for (UnitThread uT : enemyUnitsThreadList) {
-                        if (uT.getX() > this.getX()) {
-                            while (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
-                                if (currentHealth <= 0) {
-                                    break;
-                                }
-                                if (!uT.checkUnitAlive()) {
-                                    break;
-                                }
-                                doDamage(this, uT);
-                                try {
-                                    Thread.sleep((int) this.getUnit().getAttackspeed());
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        //  }
-                    }
-                    //synchronized (enemyMinionsThreadList) {
-                    for (UnitThread mT : enemyMinionsThreadList) {
-                        if (mT.getX() > this.getX()) {
-                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
-                                if (currentHealth <= 10) {
-                                    break;
-                                }
-                                if (!mT.checkUnitAlive()) {
-                                    break;
-                                }
-                                doDamage(this, mT);
-                                try {
-                                    for (int i = 1; i <= 10; i++) {
-                                        Thread.sleep((int) this.getUnit().getAttackspeed() / 10);
-
+                        for (UnitThread uT : enemyUnitsThreadList) {
+                            if (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                move = false;
+                                if (uT.getCurrentHealth() > 0) {
+                                    doDamage(uT, this);
+                                    if (currentHealth <= 0) {
+                                        break;
                                     }
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
+                                    try {
+                                        Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                    } catch (InterruptedException ex) {
+                                    }
+                                }
+                            }
+                        }
+                        for (UnitThread uT : minionsThreadList) {
+                            if (uT.getX() > this.getX() && uT != this && uT.isAlive()) {
+                                if (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                    move = false;
+                                }
+                            }
+                        }
+                        for (UnitThread uT : enemyMinionsThreadList) {
+                            if (this.getX() + ((int) fieldWidth) + unitWidth > uT.getX()) {
+                                move = false;
+                                if (uT.getCurrentHealth() > 0) {
+                                    doDamage(uT, this);
+                                    if (currentHealth <= 0) {
+                                        break;
+                                    }
+                                    try {
+                                        Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                    } catch (InterruptedException ex) {
+                                    }
+                                }
+                            }
+                        }
+                        if (turretsThreadList.get(2).isAlive()) {
+                            TurretThread tT = turretsThreadList.get(2);
+                            if (tT.getX() > this.getX()) {
+                                if (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
+                                    move = false;
+                                }
+                            }
+                        }
+                        if (turretsThreadList.get(3).isAlive()) {
+                            TurretThread tT = turretsThreadList.get(3);
+                            if (tT.getX() > this.getX()) {
+                                if (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
+                                    move = false;
+                                }
+                            }
+                        }
+                    } else {
+                        for (UnitThread uT : unitsThreadList) {
+                            if (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                move = false;
+                                if (uT.getCurrentHealth() > 0) {
+                                    doDamage(uT, this);
+                                    if (currentHealth <= 0) {
+                                        break;
+                                    }
+                                    try {
+                                        Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                    } catch (InterruptedException ex) {
+                                    }
+                                }
+                            }
+                        }
+                        for (UnitThread uT : enemyUnitsThreadList) {
+                            if (uT != this && uT.isAlive()) {
+                                if (uT.getX() < this.getX() && uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                    move = false;
+                                }
+                            }
+                        }
+                        for (UnitThread uT : minionsThreadList) {
+                            if (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                move = false;
+                                if (uT.getCurrentHealth() > 0) {
+                                    doDamage(uT, this);
+                                    if (currentHealth <= 0) {
+                                        break;
+                                    }
+                                    try {
+                                        Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                    } catch (InterruptedException ex) {
+                                    }
+                                }
+                            }
+                        }
+                        for (UnitThread uT : enemyMinionsThreadList) {
+                            if (uT != this && uT.isAlive()) {
+                                if (uT.getX() < this.getX() && uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                                    move = false;
+                                }
+                            }
+                        }
+                        if (turretsThreadList.get(1).isAlive()) {
+                            TurretThread tT = turretsThreadList.get(1);
+                            if (tT.getX() < this.getX()) {
+                                if (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
+                                    move = false;
+                                }
+                            }
+                        }
+                        if (turretsThreadList.get(0).isAlive()) {
+                            TurretThread tT = turretsThreadList.get(0);
+                            if (tT.getX() < this.getX()) {
+                                if (tT.getX() + (int) (fieldWidth * 2) > this.getX()) {
+                                    move = false;
                                 }
                             }
                         }
                     }
-                    //}
-                    // synchronized (turretsThreadList) {
-                    if (turretsThreadList.get(2).isAlive()) {
-                        TurretThread tT = turretsThreadList.get(2);
-                        if (tT.getX() > this.getX()) {
-                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        //      }
-                    }
-                    // synchronized (turretsThreadList) {
-                    if (turretsThreadList.get(3).isAlive()) {
-                        TurretThread tT = turretsThreadList.get(3);
-                        if (tT.getX() > this.getX()) {
-                            while (this.getX() + ((int) fieldWidth) + unitWidth > tT.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                        //       }
-                    }
-                    //   synchronized (minionsThreadList) {
-                    for (UnitThread mT : minionsThreadList) {
-                        if (mT.getX() > this.getX()) {
-                            while (this.getX() + ((int) fieldWidth) + unitWidth > mT.getX()) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException ex) {
-                                    System.out.println(ex.toString());
-                                }
-                            }
-                        }
-                    }
-                    //   }
-                }
 
-                //repaint();
-                if (enemy) {
-                    x -= fieldWidth;
-                } else {
-                    x += fieldWidth;
+                    if (move) {
+                        if (enemy) {
+                            x -= fieldWidth;
+                        } else {
+                            x += fieldWidth;
+                        }
+                    }
+                } catch (ConcurrentModificationException ex) {
+                    System.out.println("Exception: " + unit.getDisplayname());
                 }
-                //System.out.println("Champ X: " + x);
             }
 
             if (unitsThreadList.contains(this)) {
                 synchronized (unitsThreadList) {
+                    this.interrupt();
                     unitsThreadList.remove(this);
                 }
             } else if (enemyUnitsThreadList.contains(this)) {
                 synchronized (enemyUnitsThreadList) {
+                    this.interrupt();
                     enemyUnitsThreadList.remove(this);
                 }
             } else if (minionsThreadList.contains(this)) {
                 synchronized (minionsThreadList) {
+                    this.interrupt();
                     minionsThreadList.remove(this);
                 }
             } else {
                 synchronized (enemyMinionsThreadList) {
+                    this.interrupt();
                     enemyMinionsThreadList.remove(this);
                 }
             }

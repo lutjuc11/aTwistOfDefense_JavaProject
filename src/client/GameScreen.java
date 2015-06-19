@@ -324,6 +324,7 @@ public class GameScreen extends javax.swing.JFrame {
         if (unit.getTyp().equals("Champ")) {
             if (!enemyUnitsThreadList.contains(unit)) {
                 enemyUnitsThreadList.add(new GameScreen.UnitThread(unit, true));
+                
             }
         } else {
             if (unit.getTyp().equals("Minion")) {
@@ -333,14 +334,8 @@ public class GameScreen extends javax.swing.JFrame {
                 }
                 if (enemyMinionsThreadList.size() < 3) {
                     enemyMinionsThreadList.add(new GameScreen.UnitThread(minionList.get(index), true));
-                    //enemyMinionsThreadList.get(enemyMinionsThreadList.size() - 1).start();
+                    enemyMinionsThreadList.get(enemyMinionsThreadList.size() - 1).start();
                 }
-            }
-        }
-
-        for (UnitThread uT : enemyMinionsThreadList) {
-            if (uT.getUnit() == unit) {
-                uT.start();
             }
         }
 

@@ -105,11 +105,11 @@ public class GamingServer {
                 unitID = Integer.parseInt(splitedLine[0]);
                 displayname = splitedLine[1];
                 Health = Integer.parseInt(splitedLine[2]);
-                ad = Integer.parseInt(splitedLine[3]);
-                ap = Integer.parseInt(splitedLine[4]);
+                ad = Integer.parseInt(splitedLine[3]) * 2;
+                ap = Integer.parseInt(splitedLine[4]) * 2;
                 armor = Integer.parseInt(splitedLine[5]);
                 magicres = Integer.parseInt(splitedLine[6]);
-                attackspeed = Double.parseDouble(splitedLine[7]);
+                attackspeed = Double.parseDouble(splitedLine[7]) * 2;
                 range = Integer.parseInt(splitedLine[8]);
                 movespeed = Integer.parseInt(splitedLine[9]);
                 typ = splitedLine[10];

@@ -64,6 +64,9 @@ public class SelectScreen extends javax.swing.JFrame {
             if(unit.getTyp().equalsIgnoreCase("minion"))
             {
                 minions.add(unit);
+                System.out.println("Minion AD: "+unit.getAd());
+                System.out.println("Minion AP: "+unit.getAp());
+                System.out.println("Minion AS: "+unit.getAttackspeed());
             }
         }
         

@@ -324,7 +324,7 @@ public class GameScreen extends javax.swing.JFrame {
         if (unit.getTyp().equals("Champ")) {
             if (!enemyUnitsThreadList.contains(unit)) {
                 enemyUnitsThreadList.add(new GameScreen.UnitThread(unit, true));
-                
+
             }
         } else {
             if (unit.getTyp().equals("Minion")) {
@@ -515,7 +515,6 @@ public class GameScreen extends javax.swing.JFrame {
     }
 
     class TurretThread extends Thread {
-
         private Unit turret;
         private int x;
         private int currentHealth;
@@ -529,11 +528,70 @@ public class GameScreen extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            while (!interrupted()) {
+            while (currentHealth > 10) {
                 try {
                     Thread.sleep(2000 - (int) (turret.getAttackspeed() * 1000));
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
+                }
+                if (this.equals(turretsThreadList.get(0)) || this.equals(turretsThreadList.get(1))) {
+                    for (UnitThread uT : enemyUnitsThreadList) {
+                        if (this.getX() + ((int) fieldWidth) + turretWidth > uT.getX()) {
+                            if (uT.getCurrentHealth() > 0) {
+                                doDamage(uT, this);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                try {
+                                    Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                } catch (InterruptedException ex) {
+                                }
+                            }
+                        }
+                    }
+                    for (UnitThread uT : enemyMinionsThreadList) {
+                        if (this.getX() + ((int) fieldWidth) + turretWidth > uT.getX()) {
+                            if (uT.getCurrentHealth() > 0) {
+                                doDamage(uT, this);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                try {
+                                    Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                } catch (InterruptedException ex) {
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (UnitThread uT : unitsThreadList) {
+                        if (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                            if (uT.getCurrentHealth() > 0) {
+                                doDamage(uT, this);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                try {
+                                    Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                } catch (InterruptedException ex) {
+                                }
+                            }
+                        }
+                    }
+                    for (UnitThread uT : minionsThreadList) {
+                        if (uT.getX() + uT.getUnitWidth() + ((int) fieldWidth) > this.getX()) {
+                            if (uT.getCurrentHealth() > 0) {
+                                doDamage(uT, this);
+                                if (currentHealth <= 0) {
+                                    break;
+                                }
+                                try {
+                                    Thread.sleep((int) uT.getUnit().getAttackspeed());
+                                } catch (InterruptedException ex) {
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -568,6 +626,11 @@ public class GameScreen extends javax.swing.JFrame {
 
         public void setTurretWidth(int turretWidth) {
             this.turretWidth = turretWidth;
+        }
+
+        public void doDamage(UnitThread damageDealingUnit, TurretThread damageGettingUnit) {
+            int damage = (int) (100.0 / (100 + damageGettingUnit.getTurret().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getTurret().getMagicres())) * damageDealingUnit.getUnit().getAp());
+            damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
     }

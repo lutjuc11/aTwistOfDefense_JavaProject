@@ -58,8 +58,8 @@ public class GameScreen extends javax.swing.JFrame {
         unitsThreadList = Collections.synchronizedList(unitsThreadList);
         enemyUnitsThreadList = Collections.synchronizedList(enemyUnitsThreadList);
         minionsThreadList = Collections.synchronizedList(minionsThreadList);
-        enemyMinionsThreadList = Collections.synchronizedList(enemyMinionsThreadList);        
-        
+        enemyMinionsThreadList = Collections.synchronizedList(enemyMinionsThreadList);
+
         //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
@@ -91,8 +91,8 @@ public class GameScreen extends javax.swing.JFrame {
 
         turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) (fieldWidth * 20)));
         turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) (fieldWidth * 50)));
-        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 20)));
-        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 50)));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(0), (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 20)));
+        turretsThreadList.add(new GameScreen.TurretThread(turretList.get(1), (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 50)));
 
         if (turretsThreadList.size() == 0 || !turretsThreadList.get(0).isAlive()) {
             turretsThreadList.get(0).start();
@@ -127,25 +127,43 @@ public class GameScreen extends javax.swing.JFrame {
             g.drawImage(image, ((int) (fieldWidth)) * (amountOfFields - 3) - ((int) (fieldWidth * 10)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, null);
 
 // TOWER THREAD 1
-            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (-fieldWidth * 8), drawPanel.getHeight() / 2, null);
-// TOWER THREAD 2
-            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (-fieldWidth * 8), drawPanel.getHeight() / 2, null);
-// TOWER THREAD 3
-            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 20), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
-// TOWER THREAD 4
-            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "tower.png"));
-            g.drawImage(image, (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 50), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "towerBlue.png"));
+            g.drawImage(image, (int) (fieldWidth * 20), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
 
+// TOWER THREAD 2
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "towerBlue.png"));
+            g.drawImage(image, (int) (fieldWidth * 50), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
+
+// TOWER THREAD 3
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "towerRed.png"));
+            g.drawImage(image, (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 20) - turretsThreadList.get(2).getTurretWidth(), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
+
+// TOWER THREAD 4
+            image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "towerRed.png"));
+            g.drawImage(image, (int) ((int) (fieldWidth) * (amountOfFields - 3) - ((int) (fieldWidth)) * 50) - turretsThreadList.get(3).getTurretWidth(), drawPanel.getHeight() - drawPanel.getHeight() / 2 + 5, (int) (fieldWidth * 8), drawPanel.getHeight() / 2, null);
+
+//Healthbars
+            for (TurretThread tT : turretsThreadList) {
+                HealthBarX = (tT.getCurrentHealth() * 100) / tT.getMaxHealth();
+                if (turretsThreadList.get(0) == tT || turretsThreadList.get(1) == tT) {
+                    g.setColor(Color.GREEN);
+
+                } else {
+                    g.setColor(Color.RED);
+                }
+                g.fillRect(tT.getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 15, (40 * HealthBarX / 100), 10);
+                g.setColor(Color.BLACK);
+                g.drawRect(tT.getX(), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 15, 40, 10);
+                g.drawString(tT.getCurrentHealth() + "", (tT.getX()), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 20);
+
+            }
 // CHAMP THREADS
             int unitWidth;
             for (UnitThread uT : unitsThreadList) {
                 if (uT.isAlive()) {
                     image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + uT.getUnit().getDisplayname() + ".png"));
                     unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                    
+
                     if (unitWidth < ((int) (fieldWidth)) * 1) {
                         unitWidth = ((int) (fieldWidth));
                     } else {
@@ -171,7 +189,7 @@ public class GameScreen extends javax.swing.JFrame {
                     g.fillRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
                     g.setColor(Color.BLACK);
                     g.drawRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-                    g.drawString(uT.getCurrentHealth()+"",(uT.getX() + ((unitWidth / 2) - 20)) , drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 5);
+                    g.drawString(uT.getCurrentHealth() + "", (uT.getX() + ((unitWidth / 2) - 20)), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 5);
                 }
             }
 
@@ -181,7 +199,7 @@ public class GameScreen extends javax.swing.JFrame {
                     if (uT.isAlive()) {
                         image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + uT.getUnit().getDisplayname() + ".png"));
                         unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                        
+
                         if (unitWidth < fieldWidth * 1) {
                             unitWidth = (int) fieldWidth;
                         } else {
@@ -207,7 +225,7 @@ public class GameScreen extends javax.swing.JFrame {
                         g.fillRect((uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40 * HealthBarX / 100, 10);
                         g.setColor(Color.BLACK);
                         g.drawRect(uT.getX() + ((unitWidth / 2) - 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20, 40, 10);
-                        g.drawString(uT.getCurrentHealth()+"",(uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 5);
+                        g.drawString(uT.getCurrentHealth() + "", (uT.getX() + unitWidth) - ((unitWidth / 2) + 20), drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1 - 20 - 5);
                     }
                 }
             }
@@ -222,7 +240,7 @@ public class GameScreen extends javax.swing.JFrame {
                             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                         }
                         unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                        
+
                         if (unitWidth < fieldWidth * 1) {
                             unitWidth = (int) fieldWidth;
                         } else {
@@ -263,7 +281,7 @@ public class GameScreen extends javax.swing.JFrame {
                             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "EnemyMeeleMinion.png"));
                         }
                         unitWidth = drawPanel.getHeight() / 3 * image.getWidth() / image.getHeight();
-                        
+
                         if (unitWidth < fieldWidth * 1) {
                             unitWidth = (int) fieldWidth;
                         } else {
@@ -314,14 +332,20 @@ public class GameScreen extends javax.swing.JFrame {
                 }
                 if (enemyMinionsThreadList.size() < 3) {
                     enemyMinionsThreadList.add(new GameScreen.UnitThread(minionList.get(index), true));
-                    enemyMinionsThreadList.get(enemyMinionsThreadList.size() - 1).start();
+                    //enemyMinionsThreadList.get(enemyMinionsThreadList.size() - 1).start();
                 }
             }
         }
 
-        for (UnitThread ut : enemyUnitsThreadList) {
-            if (ut.getUnit() == unit) {
-                ut.start();
+        for (UnitThread uT : enemyMinionsThreadList) {
+            if (uT.getUnit() == unit) {
+                uT.start();
+            }
+        }
+
+        for (UnitThread uT : enemyUnitsThreadList) {
+            if (uT.getUnit() == unit) {
+                uT.start();
             }
         }
     }
@@ -498,9 +522,12 @@ public class GameScreen extends javax.swing.JFrame {
 
         private Unit turret;
         private int x;
+        private int currentHealth;
+        private int turretWidth;
 
         public TurretThread(Unit turret, int x) {
             this.turret = turret;
+            this.currentHealth = turret.getHealth();
             this.x = x;
         }
 
@@ -512,11 +539,6 @@ public class GameScreen extends javax.swing.JFrame {
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
-                for (UnitThread uT : unitsThreadList) {
-                    if (x == uT.getX() - fieldWidth) {
-                        System.out.println("TOWER deals damage to CHAMPION");
-                    }
-                }
                 //System.out.println("Tower X: " + x);
             }
         }
@@ -527,6 +549,30 @@ public class GameScreen extends javax.swing.JFrame {
 
         public int getX() {
             return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getCurrentHealth() {
+            return currentHealth;
+        }
+
+        public void setCurrentHealth(int health) {
+            this.currentHealth = health;
+        }
+
+        public int getMaxHealth() {
+            return turret.getHealth();
+        }
+
+        public int getTurretWidth() {
+            return turretWidth;
+        }
+
+        public void setTurretWidth(int turretWidth) {
+            this.turretWidth = turretWidth;
         }
 
     }

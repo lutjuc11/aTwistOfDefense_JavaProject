@@ -100,7 +100,7 @@ public class GameClient {
                                 }
 
                                 try {
-                                    Thread.sleep(500);
+                                    Thread.sleep(100);
                                 } catch (InterruptedException ex) {
                                     System.out.println(ex.toString());
                                 }

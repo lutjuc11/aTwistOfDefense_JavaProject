@@ -21,7 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
+import main.StartProject;
 
 /**
  *
@@ -35,6 +37,8 @@ public class GamingServer {
 
     private int noPlayer = 0;
     private int noPlayer2 = 0;
+
+    private int playerClose = 2;
 
     private ServerThread st;
     private HashMap<String, ObjectOutputStream> clientMap = new HashMap<>();
@@ -133,7 +137,7 @@ public class GamingServer {
         @Override
         public void run() {
             log("Server started on port: " + PORTNR);
-            while (!interrupted()) {
+            while (playerClose > 0) {
                 try {
                     Socket socket = server.accept();
                     log("Connection established with: " + socket.getRemoteSocketAddress().toString());
@@ -146,6 +150,7 @@ public class GamingServer {
             }
             try {
                 server.close();
+                System.exit(0);
             } catch (Exception ex) {
                 log("ServerException: " + ex.toString());
             }
@@ -220,10 +225,31 @@ public class GamingServer {
                                 }
                             }
                         }
+                        if (inputFromClient instanceof String) {
+                            if (((String) inputFromClient).equals("winner") || ((String) inputFromClient).equals("loser")) {
+                                log(nickname + " " + inputFromClient);
+                            } else if (((String) inputFromClient).equals("surrender")) {
+                                for (ObjectOutputStream coos : clientMap.values()) {
+                                    if (!coos.equals(oos)) {
+                                        coos.writeObject("surrender");
+                                    }
+                                }
+                            } else {
+                                for (ObjectOutputStream coos : clientMap.values()) {
+                                    if (!((String) inputFromClient).equals("###EXIT###")) {
+                                        if (!coos.equals(oos)) {
+                                            coos.writeObject(inputFromClient);
+                                        }
+                                    }
+                                }
+                                if (!((String) inputFromClient).equals("###EXIT###")) {
+                                    log(nickname + " used " + (String) inputFromClient);
+                                }
+                            }
+                        }
 
                         if (inputFromClient.equals("###EXIT###")) {
                             clientMap.remove(nickname);
-                            oos.writeObject("###GOOD#BYE###");
                             break;
                         }
                     }
@@ -240,6 +266,7 @@ public class GamingServer {
                     ois.close();
                     oos.close();
                     socket.close();
+                    playerClose--;
                 } catch (Exception ex) {
                     log("Server communication failure");
                 }

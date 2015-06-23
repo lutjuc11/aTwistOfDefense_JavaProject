@@ -15,8 +15,9 @@ import server.ServerGUI;
  * @author Juergen
  */
 public class StartProject {
-
-    public static void main(String[] args) {
+    
+    public void restart()
+    {
         //get screen size
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
@@ -42,5 +43,10 @@ public class StartProject {
         client2.setLocation(width / 2 + 10, height / 2 - 80);
         client2.setVisible(true);
         client2.setResizable(false);
+    }
+
+    public static void main(String[] args) {
+        StartProject sp = new StartProject();
+        sp.restart();
     }
 }

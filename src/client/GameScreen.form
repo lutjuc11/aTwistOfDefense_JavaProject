@@ -13,6 +13,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Surrender"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onSurrender"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -26,7 +29,7 @@
                 <Property name="text" type="java.lang.String" value="Champion1"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreateChamp1"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreateChampion"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menChampion2">
@@ -34,7 +37,7 @@
                 <Property name="text" type="java.lang.String" value="Champion2"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreaterChamp2"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreateChampion"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menChampion3">
@@ -42,7 +45,7 @@
                 <Property name="text" type="java.lang.String" value="Champion3"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreaterChamp3"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCreateChampion"/>
               </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
@@ -74,11 +77,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Spell1"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onSpell"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menSpell2">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Spell2"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onSpell"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

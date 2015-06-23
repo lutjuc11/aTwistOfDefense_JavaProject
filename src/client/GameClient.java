@@ -16,7 +16,10 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -93,10 +96,14 @@ public class GameClient {
                             EnemySpawnThread est = new EnemySpawnThread(oos, ois, gs);
                             est.start();
 
-                            while (true) {
+                            while (gs.getGameStatus().equals("running")) {
                                 if (gs.getEnemyUnit() != null) {
                                     oos.writeObject(gs.getEnemyUnit());
                                     gs.setEnemyUnitNull();
+                                }
+                                if (gs.getEnemySpell() != null) {
+                                    oos.writeObject(gs.getEnemySpell());
+                                    gs.setEnemySpellNull();
                                 }
 
                                 try {
@@ -106,6 +113,16 @@ public class GameClient {
                                 }
 
                             }
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            est.interrupt();
+                            oos.writeObject(gs.getGameStatus());
+                            JOptionPane.showMessageDialog(gs, gs.getGameStatus());
+                            logoutFromServer();
+                            this.interrupt();
                         }
 
                     }
@@ -113,7 +130,7 @@ public class GameClient {
                 } catch (SocketTimeoutException ex) {
                     //System.out.println(ex.toString());
                 } catch (IOException ex) {
-                    System.out.println(ex.toString());
+                    //System.out.println(ex.toString());
                 } catch (ClassNotFoundException ex) {
                     System.out.println(ex.toString());
                 }
@@ -140,6 +157,16 @@ public class GameClient {
                     Object serverResponse = ois.readObject();
                     if (serverResponse instanceof Unit) {
                         gs.startEnemyUnitThread((Unit) serverResponse);
+                    }
+                    if (serverResponse instanceof String) {
+                        if(((String)serverResponse).equals("surrender"))
+                        {
+                            gs.setGameStatus("The enemy has surrendered");
+                            //JOptionPane.showMessageDialog(gs, "The enemy has surrendered");
+                        }
+                        else if (!((String) serverResponse).equals("winner") && !((String) serverResponse).equals("loser") && !((String) serverResponse).equals("###EXIT###")) {
+                            gs.enemySpell((String) serverResponse);
+                        }
                     }
                 } catch (IOException ex) {
                     System.out.println(ex.toString());

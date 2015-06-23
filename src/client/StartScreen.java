@@ -421,7 +421,7 @@ public class StartScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onQuit(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onQuit
-        dispose();
+        System.exit(0);
     }//GEN-LAST:event_onQuit
 
     private void onStart(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onStart

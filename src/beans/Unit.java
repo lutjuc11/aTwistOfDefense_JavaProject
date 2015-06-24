@@ -10,7 +10,7 @@ import java.util.Objects;
 
 /**
  * 
- * @author Jürgen Luttenberger, Philipp Nauschnegg
+ * @author Philipp Nauschnegg
  */
 public class Unit implements Serializable {
 
@@ -134,6 +134,10 @@ public class Unit implements Serializable {
         return String.format("ID: %02d | Name: %-20s | Health: %4d | Ad: %3d | Ap: %3d | Armor: %3d | MagicRes: %3d | AttackSpeed: %3.2f | Range: %3d | MoveSpeed: %3d | Typ: %20s | Costs: %3d", unitID, displayname, Health, ad, ap, armor, magicres, attackspeed, range, movespeed, typ, costs);
     }
     
+    /**
+     * Method which outputs a formated string of the unit's values
+     * @return 
+     */
     public String toShowString()
     {
         return String.format("%10s - H: %4d | AD: %3d | AP: %3d | A: %3d | M: %3d | AS: %3.2f | R: %3d | MS: %3d", displayname, Health, ad, ap, armor, magicres, attackspeed, range, movespeed);

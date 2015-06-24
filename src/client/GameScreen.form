@@ -99,6 +99,8 @@
             </Property>
           </Properties>
         </Menu>
+        <Menu class="javax.swing.JMenu" name="menMessage">
+        </Menu>
       </SubComponents>
     </Menu>
   </NonVisualComponents>

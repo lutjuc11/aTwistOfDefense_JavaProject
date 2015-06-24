@@ -29,7 +29,12 @@ import javax.swing.BorderFactory;
  */
 public class GameScreen extends javax.swing.JFrame {
 
+    /**
+     * Contains all three Units, chosen in the SelectScreen.
+     * @see Unit
+     */
     private LinkedList<Unit> champList = new LinkedList<>();
+    
     private LinkedList<String> spellList = new LinkedList<>();
     private LinkedList<Unit> turretList = new LinkedList<>();
     private LinkedList<Unit> minionList = new LinkedList<>();
@@ -48,6 +53,8 @@ public class GameScreen extends javax.swing.JFrame {
     private MoneyThread mt;
     private TimerThread timt;
     int spawnTime = 0;
+    
+    private GameClient gc = new GameClient();
 
     private Unit enemyUnit = null;
 
@@ -60,7 +67,9 @@ public class GameScreen extends javax.swing.JFrame {
         enemyMinionsThreadList = Collections.synchronizedList(enemyMinionsThreadList);
         turretsThreadList = Collections.synchronizedList(turretsThreadList);
         enemyTurretsThreadList = Collections.synchronizedList(enemyTurretsThreadList);
-
+        
+        
+        
         //this.setLayout(null);
         drawPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         drawPanel.setDoubleBuffered(true);
@@ -107,13 +116,15 @@ public class GameScreen extends javax.swing.JFrame {
             enemyTurretsThreadList.get(1).start();
             enemyTurretsThreadList.get(1).setTurretWidth((int) (fieldWidth * 8));
         }
-
+        
         mt = new MoneyThread();
         mt.start();
 
         timt = new TimerThread();
         timt.start();
 
+        System.out.println("SPELL 1: "+spellList.get(0));
+        
         repaint();
     }
 
@@ -124,7 +135,6 @@ public class GameScreen extends javax.swing.JFrame {
             g = drawPanel.getGraphics();
             BufferedImage image;
             this.g = g;
-
 // NEXUS 1
             image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "nexusBlue.png"));
             g.drawImage(image, 0, drawPanel.getHeight() - drawPanel.getHeight() / 3 - 1, (int) (fieldWidth * 10), drawPanel.getHeight() / 3, drawPanel);
@@ -331,13 +341,31 @@ public class GameScreen extends javax.swing.JFrame {
             repaint();
         }
     }
-
+    
+    
+    /**
+     * Returns the last spawned unit of the enemy.
+     * @return Unit 
+     */
     public Unit getEnemyUnit() {
         return enemyUnit;
+        
     }
 
-    public void startEnemyUnitThread(Unit unit) {
-
+    /**
+     * Starts the UnitThread of the last spawned unit of the enemy.
+     * This method will add an UnitThread to enemyUnitsThreadList or enemyMinionsThreadList,
+     * depending whether the spawned Unit is a champion or a minion. It will not
+     * add the UnitThread to the list if the list already contains an UnitThread for
+     * the champion, nor will the method add an UnitThread to the enemyMinionsThreadList
+     * when this list already contains 3 elements.
+     * @param unit 
+     * @see Unit
+     * @see UnitThread
+     * @see enemyUnitsThreadList
+     * @see enemyMinionsThreadList
+     */
+    public void startEnemyUnitThread(Unit unit) {        
         if (unit.getTyp().equals("Champ")) {
             if (!enemyUnitsThreadList.contains(unit)) {
                 enemyUnitsThreadList.add(new GameScreen.UnitThread(unit, true));
@@ -354,7 +382,7 @@ public class GameScreen extends javax.swing.JFrame {
                 }
             }
         }
-
+        
         for (UnitThread uT : enemyUnitsThreadList) {
             if (uT.getUnit() == unit) {
                 uT.start();
@@ -362,6 +390,9 @@ public class GameScreen extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * sets the variable enemyUnit to null.
+     */
     public void setEnemyUnitNull() {
         enemyUnit = null;
     }
@@ -462,6 +493,11 @@ public class GameScreen extends javax.swing.JFrame {
         menSpells.setText("Spells");
 
         menSpell1.setText("Spell1");
+        menSpell1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menSpell1ActionPerformed(evt);
+            }
+        });
         menSpells.add(menSpell1);
 
         menSpell2.setText("Spell2");
@@ -513,6 +549,27 @@ public class GameScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_onCreaterCasterMinion
 
+    private void menSpell1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSpell1ActionPerformed
+        switch(menSpell1.getText()){
+            case "Heal": 
+                break;
+            case "Ignite":break;
+            case "Smite":break;
+            case "Ghost":break;
+            case "Exhaust":break;
+        }
+    }//GEN-LAST:event_menSpell1ActionPerformed
+   
+    /**
+     * Spwans a champion, based on the ActionEvent parameter.
+     * This method will start the appropriate UnitThread from the unitsTheadList, 
+     * set the variable enemyUnit to the spawned Unit and deduct money using the MoneyThread.
+     * @param evt 
+     * @see UnitThread
+     * @see Unit
+     * @see unitsTheadList
+     * @see MoneyThread
+     */
     public void spawnChampion(ActionEvent evt) {
         if (mt.getBalance() >= 500) {
             UnitThread temp = null;
@@ -527,6 +584,7 @@ public class GameScreen extends javax.swing.JFrame {
                 mt.spawnChampion();
             }
         }
+        
     }
 
     class TurretThread extends Thread {
@@ -600,6 +658,7 @@ public class GameScreen extends javax.swing.JFrame {
                     }
                 } catch (ConcurrentModificationException ex) {
                     System.out.println("Exception: " + turret.getDisplayname());
+                    
                 }
             }
             if (turretsThreadList.contains(this)) {

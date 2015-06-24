@@ -362,15 +362,15 @@ public class SelectScreen extends javax.swing.JFrame {
             String selectedSpell = ((JLabel) evt.getSource()).getName().substring(3);
             switch (selectedSpell) {
                 case "Heal":
-                    lblFocusedChampion.setText("  Heal:    Heals the first champion or minion closest to the enemy");break;
+                    lblFocusedChampion.setText("  Heal:    Heals the first unit closest to the enemy");break;
                 case "Smite":
-                    lblFocusedChampion.setText("  Smite:   Kills the closest enemy minion");break;
+                    lblFocusedChampion.setText("  Smite:   Kills the closest enemy MINION");break;
                 case "Ignite":
-                    lblFocusedChampion.setText("  Ignite:  Kills the closest enemy champion");break;
+                    lblFocusedChampion.setText("  Ignite:  Deals instant 300 damage to the closest enemy CHAMPION");break;
                 case "Ghost":
                     lblFocusedChampion.setText("  Ghost:   Boosts your troops' speed");break;
                 case "Exhaust":
-                    lblFocusedChampion.setText("  Exhaust: Reduces the closest enemy troop's speed");break;
+                    lblFocusedChampion.setText("  Exhaust: Halves the damage output of the closest enemy unit.");break;
                 default:
                     System.out.println(selectedSpell);
             }

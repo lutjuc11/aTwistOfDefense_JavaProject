@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
- * @author Juergen
+ * 
+ * @author Jürgen Luttenberger, Philipp Nauschnegg
  */
 public class Unit implements Serializable {
 

@@ -74,6 +74,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Spell1"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menSpell1ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menSpell2">
               <Properties>

@@ -556,25 +556,30 @@ public class GameScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onCreaterMeleeMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterMeleeMinion
-        if (mt.getBalance() >= 150) {
-            if (minionsThreadList.size() < 3) {
-                minionsThreadList.add(new GameScreen.UnitThread(minionList.get(0)));
-                minionsThreadList.get(minionsThreadList.size() - 1).start();
-                enemyUnit = minionsThreadList.get(minionsThreadList.size() - 1).getUnit();
-                mt.spawnMeleeMinion();
+        if (spawnt.canSpawn()) {
+            if (mt.getBalance() >= 150) {
+                if (minionsThreadList.size() < 3) {
+                    minionsThreadList.add(new GameScreen.UnitThread(minionList.get(0)));
+                    minionsThreadList.get(minionsThreadList.size() - 1).start();
+                    enemyUnit = minionsThreadList.get(minionsThreadList.size() - 1).getUnit();
+                    mt.spawnMeleeMinion();
+                }
             }
-
+            spawnt.spawning();
         }
     }//GEN-LAST:event_onCreaterMeleeMinion
 
     private void onCreaterCasterMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterCasterMinion
-        if (mt.getBalance() >= 200) {
-            if (minionsThreadList.size() < 3) {
-                minionsThreadList.add(new GameScreen.UnitThread(minionList.get(1)));
-                minionsThreadList.get(minionsThreadList.size() - 1).start();
-                enemyUnit = minionsThreadList.get(minionsThreadList.size() - 1).getUnit();
-                mt.spawnCasterMinion();
+        if (spawnt.canSpawn()) {
+            if (mt.getBalance() >= 200) {
+                if (minionsThreadList.size() < 3) {
+                    minionsThreadList.add(new GameScreen.UnitThread(minionList.get(1)));
+                    minionsThreadList.get(minionsThreadList.size() - 1).start();
+                    enemyUnit = minionsThreadList.get(minionsThreadList.size() - 1).getUnit();
+                    mt.spawnCasterMinion();
+                }
             }
+            spawnt.spawning();
         }
     }//GEN-LAST:event_onCreaterCasterMinion
 

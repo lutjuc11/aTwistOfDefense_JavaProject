@@ -11,7 +11,6 @@ import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.List;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,11 +52,13 @@ public class GameScreen extends javax.swing.JFrame {
 
     private MoneyThread mt;
     private TimerThread timt;
-    int spawnTime = 0;
-    
-    private GameClient gc = new GameClient();
+    private SpawnTimerThread spawnt;
+    private SpellTimerThread spellt;
 
     private Unit enemyUnit = null;
+    private String enemySpell = null;
+
+    private String game = "running";
 
     public GameScreen(String nickname, LinkedList<Unit> champions, LinkedList<String> spells, LinkedList<Unit> minions) {
         initComponents();
@@ -81,7 +83,9 @@ public class GameScreen extends javax.swing.JFrame {
         menChampion3.setText(champions.get(2).getDisplayname());
         menChampion3.setActionCommand(menChampion3.getText());
         menSpell1.setText(spells.get(0));
+        menSpell1.setActionCommand(spells.get(0));
         menSpell2.setText(spells.get(1));
+        menSpell2.setActionCommand(spells.get(1));
         champList = champions;
         spellList = spells;
         minionList = minions;
@@ -122,6 +126,12 @@ public class GameScreen extends javax.swing.JFrame {
 
         timt = new TimerThread();
         timt.start();
+
+        spawnt = new SpawnTimerThread();
+        spawnt.start();
+
+        spellt = new SpellTimerThread();
+        spellt.start();
 
         System.out.println("SPELL 1: "+spellList.get(0));
         
@@ -352,20 +362,12 @@ public class GameScreen extends javax.swing.JFrame {
         
     }
 
-    /**
-     * Starts the UnitThread of the last spawned unit of the enemy.
-     * This method will add an UnitThread to enemyUnitsThreadList or enemyMinionsThreadList,
-     * depending whether the spawned Unit is a champion or a minion. It will not
-     * add the UnitThread to the list if the list already contains an UnitThread for
-     * the champion, nor will the method add an UnitThread to the enemyMinionsThreadList
-     * when this list already contains 3 elements.
-     * @param unit 
-     * @see Unit
-     * @see UnitThread
-     * @see enemyUnitsThreadList
-     * @see enemyMinionsThreadList
-     */
-    public void startEnemyUnitThread(Unit unit) {        
+    public String getEnemySpell() {
+        return enemySpell;
+    }
+
+    public void startEnemyUnitThread(Unit unit) {
+
         if (unit.getTyp().equals("Champ")) {
             if (!enemyUnitsThreadList.contains(unit)) {
                 enemyUnitsThreadList.add(new GameScreen.UnitThread(unit, true));
@@ -390,11 +392,40 @@ public class GameScreen extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * sets the variable enemyUnit to null.
-     */
+    public void enemySpell(String spell) {
+        switch (spell) {
+            case "Heal":
+                spellHeal(true);
+                break;
+            case "Exhaust":
+                spellExhaust(true);
+                break;
+            case "Ignite":
+                spellIgnite(true);
+                break;
+            case "Smite":
+                spellSmite(true);
+                break;
+            case "Ghost":
+                spellGhost(true);
+                break;
+        }
+    }
+
+    public void setEnemySpellNull() {
+        enemySpell = null;
+    }
+
     public void setEnemyUnitNull() {
         enemyUnit = null;
+    }
+
+    public String getGameStatus() {
+        return game;
+    }
+
+    public void setGameStatus(String status) {
+        game = status;
     }
 
     /**
@@ -441,6 +472,11 @@ public class GameScreen extends javax.swing.JFrame {
         menPlayer.setText("Player");
 
         menSurrender.setText("Surrender");
+        menSurrender.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onSurrender(evt);
+            }
+        });
         menPlayer.add(menSurrender);
 
         jMenuBar1.add(menPlayer);
@@ -450,7 +486,7 @@ public class GameScreen extends javax.swing.JFrame {
         menChampion1.setText("Champion1");
         menChampion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onCreateChamp1(evt);
+                onCreateChampion(evt);
             }
         });
         menTroops.add(menChampion1);
@@ -458,7 +494,7 @@ public class GameScreen extends javax.swing.JFrame {
         menChampion2.setText("Champion2");
         menChampion2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onCreaterChamp2(evt);
+                onCreateChampion(evt);
             }
         });
         menTroops.add(menChampion2);
@@ -466,7 +502,7 @@ public class GameScreen extends javax.swing.JFrame {
         menChampion3.setText("Champion3");
         menChampion3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onCreaterChamp3(evt);
+                onCreateChampion(evt);
             }
         });
         menTroops.add(menChampion3);
@@ -495,12 +531,17 @@ public class GameScreen extends javax.swing.JFrame {
         menSpell1.setText("Spell1");
         menSpell1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menSpell1ActionPerformed(evt);
+                onSpell(evt);
             }
         });
         menSpells.add(menSpell1);
 
         menSpell2.setText("Spell2");
+        menSpell2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onSpell(evt);
+            }
+        });
         menSpells.add(menSpell2);
 
         jMenuBar1.add(menSpells);
@@ -513,18 +554,6 @@ public class GameScreen extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void onCreateChamp1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChamp1
-        spawnChampion(evt);
-    }//GEN-LAST:event_onCreateChamp1
-
-    private void onCreaterChamp2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp2
-        spawnChampion(evt);
-    }//GEN-LAST:event_onCreaterChamp2
-
-    private void onCreaterChamp3(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterChamp3
-        spawnChampion(evt);
-    }//GEN-LAST:event_onCreaterChamp3
 
     private void onCreaterMeleeMinion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreaterMeleeMinion
         if (mt.getBalance() >= 150) {
@@ -549,39 +578,132 @@ public class GameScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_onCreaterCasterMinion
 
-    private void menSpell1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menSpell1ActionPerformed
-        switch(menSpell1.getText()){
-            case "Heal": 
-                break;
-            case "Ignite":break;
-            case "Smite":break;
-            case "Ghost":break;
-            case "Exhaust":break;
+    private void onSpell(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSpell
+        if (spellt.canCast()) {
+            String tempSpell = evt.getActionCommand();
+            enemySpell = tempSpell;
+            switch (tempSpell) {
+                case "Heal":
+                    spellHeal(false);
+                    break;
+                case "Exhaust":
+                    spellExhaust(false);
+                    break;
+                case "Ignite":
+                    spellIgnite(false);
+                    break;
+                case "Smite":
+                    spellSmite(false);
+                    break;
+                case "Ghost":
+                    spellGhost(false);
+                    break;
+                default:
+                    System.out.println("error in config");
+            }
+            spellt.spelling();
         }
-    }//GEN-LAST:event_menSpell1ActionPerformed
-   
-    /**
-     * Spwans a champion, based on the ActionEvent parameter.
-     * This method will start the appropriate UnitThread from the unitsTheadList, 
-     * set the variable enemyUnit to the spawned Unit and deduct money using the MoneyThread.
-     * @param evt 
-     * @see UnitThread
-     * @see Unit
-     * @see unitsTheadList
-     * @see MoneyThread
-     */
-    public void spawnChampion(ActionEvent evt) {
-        if (mt.getBalance() >= 500) {
-            UnitThread temp = null;
-            for (UnitThread uT : unitsThreadList) {
-                if (uT.getUnit().getDisplayname().equals(evt.getActionCommand())) {
-                    temp = uT;
+    }//GEN-LAST:event_onSpell
+
+    private void onCreateChampion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChampion
+        if (spawnt.canSpawn()) {
+            if (mt.getBalance() >= 500) {
+                UnitThread temp = null;
+                for (UnitThread uT : unitsThreadList) {
+                    if (uT.getUnit().getDisplayname().equals(evt.getActionCommand())) {
+                        temp = uT;
+                    }
+                }
+                if (temp == null || !temp.isAlive()) {
+                    temp.start();
+                    enemyUnit = temp.getUnit();
+                    mt.spawnChampion();
                 }
             }
-            if (temp == null || !temp.isAlive()) {
-                temp.start();
-                enemyUnit = temp.getUnit();
-                mt.spawnChampion();
+            spawnt.spawning();
+        }
+    }//GEN-LAST:event_onCreateChampion
+
+    private void onSurrender(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSurrender
+        game = "surrender";
+    }//GEN-LAST:event_onSurrender
+
+    public void spellHeal(boolean enemy) {
+        if (!enemy) {
+            for (UnitThread uT : unitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentHealth((uT.getCurrentHealth() + uT.getMaxHealth() / 2) > uT.getMaxHealth() ? uT.getMaxHealth() : uT.getCurrentHealth() + uT.getMaxHealth() / 2);
+                }
+            }
+        } else {
+            for (UnitThread uT : enemyUnitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentHealth((uT.getCurrentHealth() + uT.getMaxHealth() / 2) > uT.getMaxHealth() ? uT.getMaxHealth() : uT.getCurrentHealth() + uT.getMaxHealth() / 2);
+                }
+            }
+        }
+    }
+
+    public void spellExhaust(boolean enemy) {
+        if (!enemy) {
+            for (UnitThread uT : enemyUnitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentSpeed(uT.getCurrentSpeed() * 4);
+                }
+            }
+        } else {
+            for (UnitThread uT : unitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentSpeed(uT.getCurrentSpeed() * 4);
+                }
+            }
+        }
+    }
+
+    public void spellIgnite(boolean enemy) {
+        if (!enemy) {
+            for (UnitThread uT : enemyUnitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentHealth(uT.getCurrentHealth() - uT.getMaxHealth() / 2);
+                }
+            }
+        } else {
+            for (UnitThread uT : unitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentHealth(uT.getCurrentHealth() - uT.getMaxHealth() / 2);
+                }
+            }
+        }
+    }
+
+    public void spellSmite(boolean enemy) {
+        if (!enemy) {
+            for (UnitThread uT : enemyMinionsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentHealth(uT.getCurrentHealth() - uT.getMaxHealth() / 2);
+                }
+            }
+        } else {
+            for (UnitThread uT : minionsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentHealth(uT.getCurrentHealth() - uT.getMaxHealth() / 2);
+                }
+            }
+        }
+    }
+
+    public void spellGhost(boolean enemy) {
+        if (!enemy) {
+            for (UnitThread uT : unitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentSpeed(uT.getCurrentSpeed() / 4);
+                }
+            }
+        } else {
+            for (UnitThread uT : enemyUnitsThreadList) {
+                if (uT.isAlive()) {
+                    uT.setCurrentSpeed(uT.getCurrentSpeed() / 4);
+                }
             }
         }
         
@@ -720,17 +842,20 @@ public class GameScreen extends javax.swing.JFrame {
         private boolean enemy = false;
 
         private int currentHealth;
+        private int currentSpeed;
 
-        private int unitWidth = 1;
+        private int unitWidth = ((int) fieldWidth) * 8;
 
         public UnitThread(Unit unit) {
             this.unit = unit;
             this.currentHealth = unit.getHealth();
+            this.currentSpeed = unit.getMovespeed();
         }
 
         public UnitThread(Unit unit, boolean enemy) {
             this.unit = unit;
             this.currentHealth = unit.getHealth();
+            this.currentSpeed = unit.getMovespeed();
             this.enemy = enemy;
             x = (((int) (fieldWidth)) * (amountOfFields - 2) - (((int) (fieldWidth)) * 10));
         }
@@ -739,7 +864,7 @@ public class GameScreen extends javax.swing.JFrame {
         public void run() {
             while (currentHealth > 0) {
                 try {
-                    Thread.sleep(unit.getMovespeed());
+                    Thread.sleep(currentSpeed);
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
@@ -747,7 +872,7 @@ public class GameScreen extends javax.swing.JFrame {
                     boolean move = true;
                     if (!enemy) {
                         if (x >= ((int) (fieldWidth)) * (amountOfFields - 3) - ((int) (fieldWidth * 10))) {
-                            System.out.println(menPlayer.getText() + " WIIIIINNNNNNNNNN");
+                            game = "winner";
                         }
                         for (UnitThread uT : unitsThreadList) {
                             if (uT != this && uT.isAlive()) {
@@ -801,7 +926,7 @@ public class GameScreen extends javax.swing.JFrame {
                         }
                     } else {
                         if (x <= ((int) (fieldWidth * 10))) {
-                            System.out.println(menPlayer.getText() + " LOOOOOSEEEEEEEEEEEEEEEEe");
+                            game = "loser";
                         }
                         for (UnitThread uT : unitsThreadList) {
                             if (uT.getX() + uT.getUnitWidth() >= this.getX() - unit.getRange()) {
@@ -919,6 +1044,14 @@ public class GameScreen extends javax.swing.JFrame {
             return unit.getHealth();
         }
 
+        public void setCurrentSpeed(int speed) {
+            currentSpeed = speed;
+        }
+
+        public int getCurrentSpeed() {
+            return currentSpeed;
+        }
+
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {
             int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
@@ -983,11 +1116,74 @@ public class GameScreen extends javax.swing.JFrame {
 
     }
 
-    class TimerThread extends Thread {
+    class SpawnTimerThread extends Thread {
+
+        private boolean spawn = true;
 
         @Override
         public void run() {
             while (!interrupted()) {
+                if (spawn) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                    }
+                } else {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ex) {
+                    }
+                    spawn = true;
+                }
+            }
+        }
+
+        public void spawning() {
+            spawn = false;
+        }
+
+        public boolean canSpawn() {
+            return spawn;
+        }
+
+    }
+
+    class SpellTimerThread extends Thread {
+
+        private boolean cast = true;
+
+        @Override
+        public void run() {
+            while (!interrupted()) {
+                if (cast) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                    }
+                } else {
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException ex) {
+                    }
+                    cast = true;
+                }
+            }
+        }
+
+        public void spelling() {
+            cast = false;
+        }
+
+        public boolean canCast() {
+            return cast;
+        }
+    }
+
+    class TimerThread extends Thread {
+
+        @Override
+        public void run() {
+            while (game.equals("running")) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {

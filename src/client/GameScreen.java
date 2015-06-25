@@ -805,21 +805,21 @@ public class GameScreen extends javax.swing.JFrame {
     private void onCreateChampion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChampion
         menMessage.setText("");
         if (spawnt.canSpawn()) {
-            if (mt.getBalance() >= 500) {
-                UnitThread temp = null;
-                for (UnitThread uT : unitsThreadList) {
-                    if (uT.getUnit().getDisplayname().equals(evt.getActionCommand())) {
-                        temp = uT;
-                    }
+            UnitThread temp = null;
+            for (UnitThread uT : unitsThreadList) {
+                if (uT.getUnit().getDisplayname().equals(evt.getActionCommand())) {
+                    temp = uT;
                 }
+            }
+            if (mt.getBalance() >= temp.getUnit().getCosts()) {
                 if (temp == null || !temp.isAlive()) {
                     temp.start();
                     enemyUnit = temp.getUnit();
-                    mt.spawnChampion();
+                    mt.spawnChampion(temp.getUnit());
                 }
                 spawnt.spawning();
             } else {
-                menMessage.setText("You don't have enough money to spawn another champion");
+                menMessage.setText("You don't have enough money to spawn another champion! " + temp.getUnit().getDisplayname() + " costs " + temp.getUnit().getCosts());
             }
         } else {
             menMessage.setText("You cannot spawn another champion within the next few seconds");
@@ -1559,8 +1559,8 @@ public class GameScreen extends javax.swing.JFrame {
         /**
          * removes the amount of money, which spawning a champion costs
          */
-        public void spawnChampion() {
-            money -= 500;
+        public void spawnChampion(Unit unit) {
+            money -= unit.getCosts();
             MoneyBar.setText("" + money);
         }
 

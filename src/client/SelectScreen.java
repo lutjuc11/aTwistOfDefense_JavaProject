@@ -31,20 +31,23 @@ public class SelectScreen extends javax.swing.JFrame {
      */
     private LinkedList<Unit> units;
     /**
-     * Contains the two different types of minios (meele, ranged) in form of
-     * a Unit.
+     * Contains the two different types of minios (meele, ranged) in form of a
+     * Unit.
+     *
      * @see Unit
      */
     private LinkedList<Unit> minions = new LinkedList<>();
     /**
-     * Contains all playable Units, excluding minions. 
+     * Contains all playable Units, excluding minions.
+     *
      * @see Unit
      */
     private LinkedList<JLabel> champions = new LinkedList<>();
- 
+
     private LinkedList<Unit> chosenUnits = new LinkedList<>();
     /**
      * This list is used to store the two spells the player chooses.
+     *
      * @see Unit
      */
     private LinkedList<String> chosenSpells = new LinkedList<>();
@@ -75,18 +78,17 @@ public class SelectScreen extends javax.swing.JFrame {
         lblSpell1.setBorder(BorderFactory.createLineBorder(Color.black));
         lblSpell2.setSize(pnChosenSpells.getHeight() / 2, pnChosenSpells.getHeight() / 2);
         lblSpell2.setBorder(BorderFactory.createLineBorder(Color.black));
-        
+
         this.units = units;
         for (Unit unit : units) {
-            if(unit.getTyp().equalsIgnoreCase("minion"))
-            {
+            if (unit.getTyp().equalsIgnoreCase("minion")) {
                 minions.add(unit);
-                System.out.println("Minion AD: "+unit.getAd());
-                System.out.println("Minion AP: "+unit.getAp());
-                System.out.println("Minion AS: "+unit.getAttackspeed());
+                System.out.println("Minion AD: " + unit.getAd());
+                System.out.println("Minion AP: " + unit.getAp());
+                System.out.println("Minion AS: " + unit.getAttackspeed());
             }
         }
-        
+
         JLabel lblChamp;
         for (Unit unit : units) {
             if (unit.getTyp().equals("Champ")) {
@@ -129,9 +131,10 @@ public class SelectScreen extends javax.swing.JFrame {
     }
 
     /**
-     * This method will add a Unit to the chosenUnits List, using the name
-     * of the Source of the parameter evt.
-     * @param evt 
+     * This method will add a Unit to the chosenUnits List, using the name of
+     * the Source of the parameter evt.
+     *
+     * @param evt
      * @see Unit
      */
     public void onMouseClick(MouseEvent evt) {
@@ -153,6 +156,7 @@ public class SelectScreen extends javax.swing.JFrame {
 
     /**
      * This method will add a random Unit to the chosenUnits List.
+     *
      * @see Unit
      * @see Random
      */
@@ -176,8 +180,7 @@ public class SelectScreen extends javax.swing.JFrame {
     }
 
     @Override
-    public void paint(Graphics g
-    ) {
+    public void paint(Graphics g) {
         super.paint(g);
         try {
             if (!champions.isEmpty()) {
@@ -205,7 +208,7 @@ public class SelectScreen extends javax.swing.JFrame {
                     g.drawImage(image, lblChamp3.getWidth() / 2 - lblChamp3.getHeight() * image.getWidth() / image.getHeight() / 2, 0, lblChamp3.getHeight() * image.getWidth() / image.getHeight(), lblChamp3.getHeight(), null);
                 }
             }
-            
+
             if (!chosenSpells.isEmpty()) {
                 if (chosenSpells.size() >= 1) {
                     g = lblSpell1.getGraphics();
@@ -218,7 +221,7 @@ public class SelectScreen extends javax.swing.JFrame {
                     g.drawImage(image, 3, 3, lblSpell2.getWidth() - 6, lblSpell2.getHeight() - 6, null);
                 }
             }
-            
+
             g = lblExhaust.getGraphics();
             BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "Exhaust.png"));
             g.drawImage(image, 3, 3, lblExhaust.getWidth() - 6, lblExhaust.getHeight() - 6, null);
@@ -245,27 +248,28 @@ public class SelectScreen extends javax.swing.JFrame {
 
     /**
      * getter method to get the chosen units.
-     * @return 
+     *
+     * @return
      */
     public LinkedList<Unit> getChosenChampions() {
         return chosenUnits;
     }
-    
+
     /**
      * getter method to get the chosen spells.
-     * @return 
+     *
+     * @return
      */
-    public LinkedList<String> getChosenSpells()
-    {
+    public LinkedList<String> getChosenSpells() {
         return chosenSpells;
     }
-    
+
     /**
      * getter method to get the list, which contains the minions.
-     * @return 
+     *
+     * @return
      */
-    public LinkedList<Unit> getMinions()
-    {
+    public LinkedList<Unit> getMinions() {
         return minions;
     }
 
@@ -402,15 +406,20 @@ public class SelectScreen extends javax.swing.JFrame {
             String selectedSpell = ((JLabel) evt.getSource()).getName().substring(3);
             switch (selectedSpell) {
                 case "Heal":
-                    lblFocusedChampion.setText("  Heal:    Heals the first unit closest to the enemy");break;
+                    lblFocusedChampion.setText("  Heal:    Heals the first unit closest to the enemy");
+                    break;
                 case "Smite":
-                    lblFocusedChampion.setText("  Smite:   Kills the closest enemy MINION");break;
+                    lblFocusedChampion.setText("  Smite:   Kills the closest enemy MINION");
+                    break;
                 case "Ignite":
-                    lblFocusedChampion.setText("  Ignite:  Deals instant 300 damage to the closest enemy CHAMPION");break;
+                    lblFocusedChampion.setText("  Ignite:  Deals instant 300 damage to the closest enemy CHAMPION");
+                    break;
                 case "Ghost":
-                    lblFocusedChampion.setText("  Ghost:   Boosts your troops' speed");break;
+                    lblFocusedChampion.setText("  Ghost:   Boosts your troops' speed");
+                    break;
                 case "Exhaust":
-                    lblFocusedChampion.setText("  Exhaust: Halves the damage output of the closest enemy unit.");break;
+                    lblFocusedChampion.setText("  Exhaust: Halves the damage output of the closest enemy unit.");
+                    break;
                 default:
                     System.out.println(selectedSpell);
             }

@@ -805,17 +805,17 @@ public class GameScreen extends javax.swing.JFrame {
     private void onCreateChampion(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateChampion
         menMessage.setText("");
         if (spawnt.canSpawn()) {
-            if (mt.getBalance() >= 500) {
-                UnitThread temp = null;
-                for (UnitThread uT : unitsThreadList) {
-                    if (uT.getUnit().getDisplayname().equals(evt.getActionCommand())) {
-                        temp = uT;
-                    }
+            UnitThread temp = null;
+            for (UnitThread uT : unitsThreadList) {
+                if (uT.getUnit().getDisplayname().equals(evt.getActionCommand())) {
+                    temp = uT;
                 }
+            }
+            if (mt.getBalance() >= temp.getUnit().getCosts()) {
                 if (temp == null || !temp.isAlive()) {
                     temp.start();
                     enemyUnit = temp.getUnit();
-                    mt.spawnChampion();
+                    mt.spawnChampion(temp.getUnit());
                 }
                 spawnt.spawning();
             } else {
@@ -1547,8 +1547,8 @@ public class GameScreen extends javax.swing.JFrame {
         /**
          * removes the amount of money, which spawning a champion costs
          */
-        public void spawnChampion() {
-            money -= 500;
+        public void spawnChampion(Unit unit) {
+            money -= unit.getCosts();
             MoneyBar.setText("" + money);
         }
 
@@ -1606,7 +1606,8 @@ public class GameScreen extends javax.swing.JFrame {
         private boolean spawn = true;
 
         /**
-         * overwritten run method, which constantly looks whether a unit has been spawned and sets the spawn variable regarding its state
+         * overwritten run method, which constantly looks whether a unit has
+         * been spawned and sets the spawn variable regarding its state
          */
         @Override
         public void run() {
@@ -1627,8 +1628,8 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         /**
-         * method is called when a unit has been spawned
-         * it disables the player to spawn new units
+         * method is called when a unit has been spawned it disables the player
+         * to spawn new units
          */
         public void spawning() {
             spawn = false;
@@ -1636,7 +1637,8 @@ public class GameScreen extends javax.swing.JFrame {
 
         /**
          * method returns whether you can spawn a new unit or not
-         * @return 
+         *
+         * @return
          */
         public boolean canSpawn() {
             return spawn;
@@ -1655,7 +1657,8 @@ public class GameScreen extends javax.swing.JFrame {
         private boolean cast = true;
 
         /**
-         * overwritten run method, which constantly looks whether a spell has been cast and sets the cast variable regarding its state
+         * overwritten run method, which constantly looks whether a spell has
+         * been cast and sets the cast variable regarding its state
          */
         @Override
         public void run() {
@@ -1676,8 +1679,8 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         /**
-         * method is called when a spell has been cast
-         * it disables the player to cast new spells
+         * method is called when a spell has been cast it disables the player to
+         * cast new spells
          */
         public void spelling() {
             cast = false;
@@ -1685,7 +1688,8 @@ public class GameScreen extends javax.swing.JFrame {
 
         /**
          * method returns whether you can cast a new spell or not
-         * @return 
+         *
+         * @return
          */
         public boolean canCast() {
             return cast;
@@ -1698,7 +1702,8 @@ public class GameScreen extends javax.swing.JFrame {
     class TimerThread extends Thread {
 
         /**
-         * overwritten run method, which only stops when the game isn't running anymore
+         * overwritten run method, which only stops when the game isn't running
+         * anymore
          */
         @Override
         public void run() {

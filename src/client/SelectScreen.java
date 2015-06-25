@@ -84,9 +84,6 @@ public class SelectScreen extends javax.swing.JFrame {
         for (Unit unit : units) {
             if (unit.getTyp().equalsIgnoreCase("minion")) {
                 minions.add(unit);
-                System.out.println("Minion AD: " + unit.getAd());
-                System.out.println("Minion AP: " + unit.getAp());
-                System.out.println("Minion AS: " + unit.getAttackspeed());
             }
         }
 
@@ -407,19 +404,19 @@ public class SelectScreen extends javax.swing.JFrame {
             String selectedSpell = ((JLabel) evt.getSource()).getName().substring(3);
             switch (selectedSpell) {
                 case "Heal":
-                    lblFocusedChampion.setText("  Heal:    Heals the first unit closest to the enemy");
+                    lblFocusedChampion.setText("  Heal:    Heals your champions by half of their maximal health");
                     break;
                 case "Smite":
-                    lblFocusedChampion.setText("  Smite:   Kills the closest enemy MINION");
+                    lblFocusedChampion.setText("  Smite:   Deals 50% of the minion's maximal health to all minions");
                     break;
                 case "Ignite":
-                    lblFocusedChampion.setText("  Ignite:  Deals instant 300 damage to the closest enemy CHAMPION");
+                    lblFocusedChampion.setText("  Ignite:  Deals 50% of the champions's maximal health to all champions");
                     break;
                 case "Ghost":
                     lblFocusedChampion.setText("  Ghost:   Boosts your troops' speed");
                     break;
                 case "Exhaust":
-                    lblFocusedChampion.setText("  Exhaust: Halves the damage output of the closest enemy unit.");
+                    lblFocusedChampion.setText("  Exhaust: Slows down the enemy troops' speed");
                     break;
                 default:
                     System.out.println(selectedSpell);

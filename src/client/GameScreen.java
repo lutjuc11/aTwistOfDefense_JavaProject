@@ -819,7 +819,7 @@ public class GameScreen extends javax.swing.JFrame {
                 }
                 spawnt.spawning();
             } else {
-                menMessage.setText("You don't have enough money to spawn another champion");
+                menMessage.setText("You don't have enough money to spawn another champion! " + temp.getUnit().getDisplayname() + " costs " + temp.getUnit().getCosts());
             }
         } else {
             menMessage.setText("You cannot spawn another champion within the next few seconds");

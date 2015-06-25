@@ -23,8 +23,9 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 
 /**
- *
  * @author Jürgen Luttenberger
+ * 15.05.2015
+ * aTwistOfDefense_JavaProject
  */
 public class GameScreen extends javax.swing.JFrame {
 

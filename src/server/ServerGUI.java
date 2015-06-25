@@ -9,8 +9,9 @@ package server;
 import java.io.IOException;
 
 /**
- *
- * @author Juergen
+ * @author Jürgen Luttenberger
+ * 15.05.2015
+ * aTwistOfDefense_JavaProject
  */
 public class ServerGUI extends javax.swing.JFrame {
 

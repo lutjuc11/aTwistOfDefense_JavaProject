@@ -40,6 +40,9 @@ public class GamingServer {
     private ServerThread st;
     private HashMap<String, ObjectOutputStream> clientMap = new HashMap<>();
 
+    /**
+     * Contains all playable Units and Turrets, read from a CSV file
+     */
     private LinkedList<Unit> units = new LinkedList<>();
 
     private JTextComponent logArea;
@@ -78,6 +81,10 @@ public class GamingServer {
         }
     }
 
+    /**
+     * This method will output logging texts into the logArea.
+     * @param logText 
+     */
     private synchronized void log(String logText) {
         logText = sdf.format(new Date()) + " " + logText;
         if (logArea == null) {
@@ -89,6 +96,11 @@ public class GamingServer {
         }
     }
 
+    /**
+     * This method reads the CSV file, containing all playable Units and Turrets
+     * and then add them into the units list.
+     * @see Unit
+     */
     public void readCsv() {
         FileReader fr = null;
         try {

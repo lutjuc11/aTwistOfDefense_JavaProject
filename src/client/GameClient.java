@@ -138,6 +138,11 @@ public class GameClient {
         }
     }
 
+    /**
+     * Listens, if the server's response is an Unit. This Thread will then start
+     * the EnemyUnitThread of the client.
+     * @see client.GameScreen.UnitThread
+     */
     class EnemySpawnThread extends Thread {
 
         private ObjectOutputStream oos;
@@ -148,6 +153,7 @@ public class GameClient {
             this.oos = oos;
             this.ois = ois;
             this.gs = gs;
+            
         }
 
         @Override

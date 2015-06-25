@@ -26,10 +26,27 @@ import javax.swing.JOptionPane;
  */
 public class SelectScreen extends javax.swing.JFrame {
 
+    /**
+     * Contains all playable Units in the game, read from a CSV file.
+     */
     private LinkedList<Unit> units;
+    /**
+     * Contains the two different types of minios (meele, ranged) in form of
+     * a Unit.
+     * @see Unit
+     */
     private LinkedList<Unit> minions = new LinkedList<>();
+    /**
+     * Contains all playable Units, excluding minions. 
+     * @see Unit
+     */
     private LinkedList<JLabel> champions = new LinkedList<>();
+ 
     private LinkedList<Unit> chosenUnits = new LinkedList<>();
+    /**
+     * This list is used to store the two spells the player chooses.
+     * @see Unit
+     */
     private LinkedList<String> chosenSpells = new LinkedList<>();
 
     /**
@@ -58,7 +75,7 @@ public class SelectScreen extends javax.swing.JFrame {
         lblSpell1.setBorder(BorderFactory.createLineBorder(Color.black));
         lblSpell2.setSize(pnChosenSpells.getHeight() / 2, pnChosenSpells.getHeight() / 2);
         lblSpell2.setBorder(BorderFactory.createLineBorder(Color.black));
-
+        
         this.units = units;
         for (Unit unit : units) {
             if(unit.getTyp().equalsIgnoreCase("minion"))
@@ -111,6 +128,12 @@ public class SelectScreen extends javax.swing.JFrame {
         repaint();
     }
 
+    /**
+     * This method will add a Unit to the chosenUnits List, using the name
+     * of the Source of the parameter evt.
+     * @param evt 
+     * @see Unit
+     */
     public void onMouseClick(MouseEvent evt) {
         String selectedChampion = ((JLabel) evt.getSource()).getName();
         Unit selectedUnit = null;
@@ -128,6 +151,11 @@ public class SelectScreen extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * This method will add a random Unit to the chosenUnits List.
+     * @see Unit
+     * @see Random
+     */
     public void onRandomMouseClick() {
         boolean goAgain = true;
         while (goAgain) {
@@ -215,15 +243,27 @@ public class SelectScreen extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * getter method to get the chosen units.
+     * @return 
+     */
     public LinkedList<Unit> getChosenChampions() {
         return chosenUnits;
     }
     
+    /**
+     * getter method to get the chosen spells.
+     * @return 
+     */
     public LinkedList<String> getChosenSpells()
     {
         return chosenSpells;
     }
     
+    /**
+     * getter method to get the list, which contains the minions.
+     * @return 
+     */
     public LinkedList<Unit> getMinions()
     {
         return minions;

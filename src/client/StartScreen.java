@@ -12,8 +12,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author Juergen
+ * @author Jürgen Luttenberger
+ * 15.05.2015
+ * aTwistOfDefense_JavaProject
  */
 public class StartScreen extends javax.swing.JFrame {
 

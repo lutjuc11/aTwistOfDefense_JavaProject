@@ -14,8 +14,9 @@ import java.net.UnknownHostException;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author Juergen
+ * @author Jürgen Luttenberger
+ * 15.05.2015
+ * aTwistOfDefense_JavaProject
  */
 public class ConnectScreen extends javax.swing.JFrame {
 

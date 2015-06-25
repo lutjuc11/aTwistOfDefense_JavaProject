@@ -21,8 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Juergen
+ * @author Jürgen Luttenberger
+ * 15.05.2015
+ * aTwistOfDefense_JavaProject
  */
 public class SelectScreen extends javax.swing.JFrame {
 

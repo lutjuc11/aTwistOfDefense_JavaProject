@@ -1487,18 +1487,18 @@ public class GameScreen extends javax.swing.JFrame {
          */
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {
             int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
-            if (damageDealingUnit.getUnit().getDisplayname().toLowerCase().equals("masteryi")) {
-                switch (damageGettingUnit.getUnit().getDisplayname().toLowerCase()) {
-                    case "alistar":
-                        damage *= 2;break;
-                    case "renekton":
-                        damage *= 2;break;
-                    case "singed":
-                        damage *= 2;break;
-                    case "thresh":
-                        damage *= 2;break;
-                }
-            }
+//            if (damageDealingUnit.getUnit().getDisplayname().toLowerCase().equals("masteryi")) {
+//                switch (damageGettingUnit.getUnit().getDisplayname().toLowerCase()) {
+//                    case "alistar":
+//                        damage *= 2;break;
+//                    case "renekton":
+//                        damage *= 2;break;
+//                    case "singed":
+//                        damage *= 2;break;
+//                    case "thresh":
+//                        damage *= 2;break;
+//                }
+//            }
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 

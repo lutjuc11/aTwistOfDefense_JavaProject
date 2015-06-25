@@ -59,6 +59,9 @@ public class GamingServer {
         readCsv();
     }
 
+    /**
+     * This method will start the ServerThread and therefore the server
+     */
     public void startServer() {
         if (st == null || !st.isAlive()) {
             st = new ServerThread();
@@ -136,7 +139,10 @@ public class GamingServer {
             log(ex.toString());
         }
     }
-
+    
+    /**
+     * With this thread the Server is running
+     */
     class ServerThread extends Thread {
 
         public ServerThread() {
@@ -168,6 +174,10 @@ public class GamingServer {
 
     }
 
+    /**
+     * This Thread communicates with the clients and listens if they send
+     * something.
+     */
     class ClientCommunicationThread extends Thread {
 
         private Socket socket;

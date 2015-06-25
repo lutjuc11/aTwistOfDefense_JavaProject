@@ -37,6 +37,15 @@ public class GameClient {
 
     private int player = 0;
 
+    /**
+     * This method will connect the client to the server.
+     * @param nickname
+     * @param addr
+     * @param portnr
+     * @param connectScreen
+     * @param player
+     * @throws IOException 
+     */
     public void connectToServer(String nickname, InetAddress addr, int portnr, JFrame connectScreen, int player) throws IOException {
         socket = new Socket(addr, portnr);
         //socket.setSoTimeout(500);
@@ -52,6 +61,10 @@ public class GameClient {
         it.start();
     }
 
+    /**
+     * This method will close the connection from the client to the server.
+     * @throws IOException 
+     */
     public void logoutFromServer() throws IOException {
         oos.writeObject("###EXIT###");
         it.interrupt();
@@ -60,6 +73,10 @@ public class GameClient {
         socket.close();
     }
 
+    /**
+     * This Thread is used to build a communication between the client and the
+     * server and GameScreen
+     */
     class InputThread extends Thread {
 
         @Override

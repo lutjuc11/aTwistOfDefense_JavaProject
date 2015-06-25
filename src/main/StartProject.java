@@ -16,6 +16,10 @@ import server.ServerGUI;
  */
 public class StartProject {
     
+    /**
+     * This method will restart the application after one player won. It will
+     * return all clients to the StartScreen.
+     */
     public void restart()
     {
         //get screen size

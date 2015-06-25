@@ -200,8 +200,8 @@ public class GameScreen extends javax.swing.JFrame {
         champList = champions;
         spellList = spells;
         minionList = minions;
-        turretList.add(new Unit(24, "OuterTurret", 75, 50, 0, 300, 300, 1.00, 110, 0, "Turret", 0));
-        turretList.add(new Unit(25, "InnerTurret", 100, 75, 0, 200, 200, 1.00, 110, 0, "Turret", 0));
+        turretList.add(new Unit(24, "OuterTurret", 200, 100, 0, 150, 100, 1000, 150, 0, "Turret", 0));
+        turretList.add(new Unit(25, "InnerTurret", 300, 150, 0, 300, 200, 1000, 100, 0, "Turret", 0));
         unitsThreadList.add(new GameScreen.UnitThread(champList.get(0)));
         unitsThreadList.add(new GameScreen.UnitThread(champList.get(1)));
         unitsThreadList.add(new GameScreen.UnitThread(champList.get(2)));
@@ -992,7 +992,7 @@ public class GameScreen extends javax.swing.JFrame {
         public void run() {
             while (currentHealth > 10) {
                 try {
-                    Thread.sleep(2000 - (int) (turret.getAttackspeed() * 1000));
+                    Thread.sleep((int) turret.getAttackspeed());
                 } catch (InterruptedException ex) {
                     System.out.println(ex.toString());
                 }
@@ -1487,6 +1487,18 @@ public class GameScreen extends javax.swing.JFrame {
          */
         public void doDamage(UnitThread damageDealingUnit, UnitThread damageGettingUnit) {
             int damage = (int) (100.0 / (100 + damageGettingUnit.getUnit().getArmor()) * damageDealingUnit.getUnit().getAd()) + (int) ((100.0 / (100 + damageGettingUnit.getUnit().getMagicres())) * damageDealingUnit.getUnit().getAp());
+            if (damageDealingUnit.getUnit().getDisplayname().toLowerCase().equals("masteryi")) {
+                switch (damageGettingUnit.getUnit().getDisplayname().toLowerCase()) {
+                    case "alistar":
+                        damage *= 2;break;
+                    case "renekton":
+                        damage *= 2;break;
+                    case "singed":
+                        damage *= 2;break;
+                    case "thresh":
+                        damage *= 2;break;
+                }
+            }
             damageGettingUnit.setCurrentHealth(damageGettingUnit.getCurrentHealth() - damage);
         }
 
@@ -1606,7 +1618,8 @@ public class GameScreen extends javax.swing.JFrame {
         private boolean spawn = true;
 
         /**
-         * overwritten run method, which constantly looks whether a unit has been spawned and sets the spawn variable regarding its state
+         * overwritten run method, which constantly looks whether a unit has
+         * been spawned and sets the spawn variable regarding its state
          */
         @Override
         public void run() {
@@ -1627,8 +1640,8 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         /**
-         * method is called when a unit has been spawned
-         * it disables the player to spawn new units
+         * method is called when a unit has been spawned it disables the player
+         * to spawn new units
          */
         public void spawning() {
             spawn = false;
@@ -1636,7 +1649,8 @@ public class GameScreen extends javax.swing.JFrame {
 
         /**
          * method returns whether you can spawn a new unit or not
-         * @return 
+         *
+         * @return
          */
         public boolean canSpawn() {
             return spawn;
@@ -1655,7 +1669,8 @@ public class GameScreen extends javax.swing.JFrame {
         private boolean cast = true;
 
         /**
-         * overwritten run method, which constantly looks whether a spell has been cast and sets the cast variable regarding its state
+         * overwritten run method, which constantly looks whether a spell has
+         * been cast and sets the cast variable regarding its state
          */
         @Override
         public void run() {
@@ -1676,8 +1691,8 @@ public class GameScreen extends javax.swing.JFrame {
         }
 
         /**
-         * method is called when a spell has been cast
-         * it disables the player to cast new spells
+         * method is called when a spell has been cast it disables the player to
+         * cast new spells
          */
         public void spelling() {
             cast = false;
@@ -1685,7 +1700,8 @@ public class GameScreen extends javax.swing.JFrame {
 
         /**
          * method returns whether you can cast a new spell or not
-         * @return 
+         *
+         * @return
          */
         public boolean canCast() {
             return cast;
@@ -1698,7 +1714,8 @@ public class GameScreen extends javax.swing.JFrame {
     class TimerThread extends Thread {
 
         /**
-         * overwritten run method, which only stops when the game isn't running anymore
+         * overwritten run method, which only stops when the game isn't running
+         * anymore
          */
         @Override
         public void run() {
